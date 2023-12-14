@@ -9,4 +9,4 @@ there will be a new page for subdomains 2 (will be updated every month)
 I will be releasing the website with 50 games and will add from there
 <hr>
 <h1>Apps</h1>
-New Proxys and unblockers New partners and even movie websites
+New Proxys and unblockers New partners and even movie websites fdsd
