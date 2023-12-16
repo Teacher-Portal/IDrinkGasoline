@@ -578,6 +578,54 @@ if (game === 'henery5') {
     document.getElementById("a").innerHTML = "Too many games bwomp";
     document.getElementById("b").innerHTML = "Controls <br> Point n click";
 }
+
+if (game === 'stickmerge') {
+    const iframe = document.getElementById("myIframe")
+    iframe.src = "games/stick-merge/index.html"
+    iframe.style ="background-color: white;"
+    document.getElementById("a").innerHTML = "Too many games bwomp";
+    document.getElementById("b").innerHTML = "Controls <br> Point n click";
+}
+
+if (game === 'funnyshooter2') {
+    const iframe = document.getElementById("myIframe")
+    iframe.src = "games/funnyshooter2/index.html"
+    iframe.style ="background-color: white;"
+    document.getElementById("a").innerHTML = "May have to refresh every level cause game is a lil broken";
+    document.getElementById("b").innerHTML = "Controls <br> Move: Wasd <br> Shoot: M1 <br> Aim: M2";
+}
+
+if (game === 'badicecream1') {
+    const iframe = document.getElementById("myIframe")
+    iframe.src = "games/bad-ice-cream/index.html"
+    iframe.style ="background-color: white;"
+    document.getElementById("a").innerHTML = "This game pretty cool";
+    document.getElementById("b").innerHTML = "Controls <br> Move: Wasd/Arrow Keys";
+}
+
+if (game === 'badicecream2') {
+    const iframe = document.getElementById("myIframe")
+    iframe.src = "games/bad-ice-cream-2/index.html"
+    iframe.style ="background-color: white;"
+    document.getElementById("a").innerHTML = "This game pretty cool";
+    document.getElementById("b").innerHTML = "Controls <br> Move: Wasd/Arrow Keys";
+}
+
+if (game === 'badicecream3') {
+    const iframe = document.getElementById("myIframe")
+    iframe.src = "games/bad-ice-cream-3/index.html"
+    iframe.style ="background-color: white;"
+    document.getElementById("a").innerHTML = "This game pretty cool";
+    document.getElementById("b").innerHTML = "Controls <br> Move: Wasd/Arrow Keys";
+}
+
+if (game === 'bitlife') {
+    const iframe = document.getElementById("myIframe")
+    iframe.src = "games/bitlife/index.html"
+    iframe.style ="background-color: white;"
+    document.getElementById("a").innerHTML = "Just live";
+    document.getElementById("b").innerHTML = "Controls <br> click n point";
+}
  
  
  

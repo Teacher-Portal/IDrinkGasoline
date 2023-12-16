@@ -15,4 +15,3 @@ document.addEventListener('keydown', function(event) {
     }
 });
 
-//thanks chat gpt
