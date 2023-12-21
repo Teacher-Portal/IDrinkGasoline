@@ -456,7 +456,7 @@ if (game === 'links') {
     iframe.src = "https://docs.google.com/document/d/1Sszv7iYclfzTVSDDOqCTnQFHZAaSxGEM908yG-IHMs4/edit?usp=sharing"
     iframe.style ="background-color: white;"
     document.getElementById("a").innerHTML = "All of our links (some may be blocked if so try next link)";
-    document.getElementById("b").innerHTML = "Finn was here!!!";
+    document.getElementById("b").innerHTML = "Grin was here!!!";
 }
 
 if (game === '10minutestilldawn') {
