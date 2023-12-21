@@ -627,6 +627,69 @@ if (game === 'bitlife') {
     document.getElementById("b").innerHTML = "Controls <br> click n point";
 }
  
+if (game === 'basketrandom') {
+    const iframe = document.getElementById("myIframe")
+    iframe.src = "games/basket-random/index.html"
+    iframe.style ="background-color: white;"
+    document.getElementById("a").innerHTML = "Theres only one key 💀";
+    document.getElementById("b").innerHTML = "Controls <br> Move: W/↑";
+}
+
+if (game === 'legoshooter3d') {
+    const iframe = document.getElementById("myIframe")
+    iframe.src = "games/legoshooter/index.html"
+    iframe.style ="background-color: white;"
+    document.getElementById("a").innerHTML = "Shoot the legos";
+    document.getElementById("b").innerHTML = "Controls <br> Move: WASD <br> Reload: R <br> Heal: F <br> Noclip: N <br> Godmode: U <br> Shoot: M1 <br> Spawn character: M2 <br> Weapons: 1-6 <br> Katana: E <br> Leg Kick: Q";
+}
+
+if (game === 'agesofconflict') {
+    const iframe = document.getElementById("myIframe")
+    iframe.src = "games/agesofconflict/index.html"
+    iframe.style ="background-color: white;"
+    document.getElementById("a").innerHTML = "Suprising fun games";
+    document.getElementById("b").innerHTML = "Controls <br> Click n point";
+}
+
+if (game === 'greybox') {
+    const iframe = document.getElementById("myIframe")
+    iframe.src = "games/greyboxtesting/index.html"
+    iframe.style ="background-color: white;"
+    document.getElementById("a").innerHTML = "Whys it called grey box testing if the box is red";
+    document.getElementById("b").innerHTML = "Controls <br> Move: wasd <br> Pause: e <br> pick up/drop: M1";
+}
+
+if (game === 'pokemonfirered') {
+    const iframe = document.getElementById("myIframe")
+    iframe.src = "games/pokemonfirered/index.html"
+    iframe.style ="background-color: white;"
+    document.getElementById("a").innerHTML = "Make sure to download a save state";
+    document.getElementById("b").innerHTML = "Controls <br> Press the controls button on the bottom";
+}
+
+if (game === 'ocarinaoftime') {
+    const iframe = document.getElementById("myIframe")
+    iframe.src = "games/ocarinaoftime/index.html"
+    iframe.style ="background-color: white;"
+    document.getElementById("a").innerHTML = "Make sure to download a save state";
+    document.getElementById("b").innerHTML = "Controls <br> Press the controls button on the bottom";
+}
+
+if (game === 'sm64') {
+    const iframe = document.getElementById("myIframe")
+    iframe.src = "games/sm64/index.html"
+    iframe.style ="background-color: white;"
+    document.getElementById("a").innerHTML = "Make sure to download a save state";
+    document.getElementById("b").innerHTML = "Controls <br> Press the controls button on the bottom";
+}
+
+if (game === 'doom') {
+    const iframe = document.getElementById("myIframe")
+    iframe.src = "games/doom/index.html"
+    iframe.style ="background-color: white;"
+    document.getElementById("a").innerHTML = "Make sure to download a save state";
+    document.getElementById("b").innerHTML = "Controls <br> Press the controls button on the bottom";
+}
  
  
  

@@ -14,4 +14,4 @@ function about_blank(){
     newWindow.document.body.appendChild(iframe);
 }
 
-//fsdsdfsdf
+//thanks syce

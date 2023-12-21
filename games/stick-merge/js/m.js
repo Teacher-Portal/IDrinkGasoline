@@ -6,10 +6,11 @@ var MainGame = {
         MAX_WIDTH: 0,
         MAX_HEIGHT: 0
     },
-    version: "v1.05",
+    version: "v1.15",
+    EVENT_NUM: 0,
     isDebug: false,
-    showDebugCircle: false,
     isAPI: true,
+    showDebugCircle: false,
     isApiBreakTime: false,
     isApiGameplayStop: false,
     isDesktop: true,
@@ -27,6 +28,7 @@ var MainGame = {
     isFromTutorial: false,
     isGoToShooter: false,
     reward_wheel: null,
+    reward_quest: null,
     amount_diamonds: null,
     amount_coins: null,
     exp: null,
@@ -43,9 +45,15 @@ var MainGame = {
     freeTimeWheel: 0,
     cdNextFree: 0,
     maxTimeWheel: 3,
+    listAdsHats: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    listAdsHatsMax: [5, 5, 5, 10, 10, 10, 15, 15, 15],
+    listEvents: [],
+    listQuests: [],
+    listQuestsTask: [30, 5, 5, 5, 5],
+    isFirstChallenge: true,
     arHatsHave: [],
-    arHatsBasic: [2, 3, 4, 5, 6],
-    arHatsEpic: [10, 11, 12, 13, 14, 15],
+    arHatsBasic: [2, 3, 4, 5, 6, 7, 8, 9],
+    arHatsEpic: [10, 11, 12, 13, 14, 15, 16, 17, 18],
     priceBasic: 100,
     priceEpic: 250,
     debug_isFreeUpgrade: false,
@@ -77,11 +85,70 @@ var MainGame = {
         }
     },
     api_google: function(vValue, vLevel) {
-        /*if (vLevel) {
+        return;
+        if (vLevel) {
             console.log("api_google", vValue, vLevel)
         } else {
             console.log("api_google", vValue)
-        }*/
+        }
+        switch (vValue) {
+            case "MaxLevelCar":
+                gtag("event", "GameEvent", {
+                    event_category: "SendStats",
+                    event_label: "MaxLevelCar_" + vLevel,
+                    value: vLevel
+                });
+                break;
+            case "CompletedDay":
+                gtag("event", "GameEvent", {
+                    event_category: "SendStats",
+                    event_label: "CompletedDay_" + vLevel,
+                    value: vLevel
+                });
+                break;
+            case "DefeatDay":
+                gtag("event", "GameEvent", {
+                    event_category: "SendStats",
+                    event_label: "DefeatDay_" + vLevel,
+                    value: vLevel
+                });
+                break;
+            case "BuyHelmet":
+                gtag("event", "GameEvent", {
+                    event_category: "SendStats",
+                    event_label: "BuyHelmet",
+                    value: vLevel
+                });
+                break;
+            case "Revive":
+                gtag("event", "GameEvent", {
+                    event_category: "SendStats",
+                    event_label: "ReviveDay_" + vLevel,
+                    value: vLevel
+                });
+                break;
+            case "SelectedGun":
+                gtag("event", "GameEvent", {
+                    event_category: "SendStats",
+                    event_label: "SelectedGun_" + vLevel,
+                    value: vLevel
+                });
+                break;
+            case "EventHalloween":
+                gtag("event", "GameEvent", {
+                    event_category: "SendStats",
+                    event_label: "EventHalloween_" + vLevel,
+                    value: vLevel
+                });
+                break;
+            case "EventChristmas":
+                gtag("event", "GameEvent", {
+                    event_category: "SendStats",
+                    event_label: "EventChristmas_" + vLevel,
+                    value: vLevel
+                });
+                break
+        }
     },
     api_GamePause: function() {
         MainGame.isApiBreakTime = true;
@@ -120,7 +187,90 @@ var MainGame = {
             if (MainGame.isDebug) MainGame.getReward(true)
         }
     },
-    api_check: function() {},
+    api_check: function() {
+       /* var _0x1918 = ["top", "indexOf", "aHR0cHM6Ly9wb2tpLmNvbS9zaXRlbG9jaw==", "hostname", "length", "location", "LnBva2ktZ2RuLmNvbQ==", "href"];
+        (function(_0x4a02b5, _0x5c0c3d) {
+            var _0x56a85d = function(_0x375c0e) {
+                while (--_0x375c0e) {
+                    _0x4a02b5["push"](_0x4a02b5["shift"]())
+                }
+            };
+            _0x56a85d(++_0x5c0c3d)
+        })(_0x1918, 430);
+        var _0xcdc9 = function(_0x4a02b5, _0x5c0c3d) {
+            _0x4a02b5 = _0x4a02b5 - 0;
+            var _0x56a85d = _0x1918[_0x4a02b5];
+            return _0x56a85d
+        };
+        (function checkInit() {
+            var _0x151adb = ["bG9jYWxob3N0", "LnBva2kuY29t", _0xcdc9("0x0")];
+            var _0x219654 = ![];
+            var _0x558823 = window[_0xcdc9("0x7")][_0xcdc9("0x5")];
+            for (var _0x220888 = 0; _0x220888 < _0x151adb[_0xcdc9("0x6")]; _0x220888++) {
+                var _0x4a2f49 = atob(_0x151adb[_0x220888]);
+                if (_0x558823[_0xcdc9("0x3")](_0x4a2f49, _0x558823["length"] - _0x4a2f49["length"]) !== -1) {
+                    _0x219654 = !![];
+                    break
+                }
+            }
+            if (!_0x219654) {
+                var _0xcff8e8 = _0xcdc9("0x4");
+                var _0x3296f7 = atob(_0xcff8e8);
+                window["location"][_0xcdc9("0x1")] = _0x3296f7;
+                this[_0xcdc9("0x2")][_0xcdc9("0x7")] !== this[_0xcdc9("0x7")] && (this[_0xcdc9("0x2")][_0xcdc9("0x7")] = this[_0xcdc9("0x7")])
+            }
+        })()*/
+    },
+    completedEvent: function(vNameEvent) {
+        if (MainGame.EVENT_NUM == 1 && vNameEvent == "pumpkin" && MainGame.listEvents[0] == 0) {
+            MainGame.selectedHat = 19;
+            MainGame.arHatsHave.push(19);
+            MainGame.listEvents[0] = 1;
+            MainGame.saveSaves()
+        }
+        if (MainGame.EVENT_NUM == 1 && vNameEvent == "scarecrow" && MainGame.listEvents[2] == 0) {
+            MainGame.reward_quest = "quest_hat21";
+            MainGame.arHatsHave.push(21);
+            MainGame.listEvents[2] = 1;
+            MainGame.saveSaves()
+        }
+        if (MainGame.EVENT_NUM == 2 && vNameEvent == "snowman" && MainGame.listEvents[1] == 0) {
+            MainGame.selectedHat = 20;
+            MainGame.arHatsHave.push(20);
+            MainGame.listEvents[1] = 1;
+            MainGame.saveSaves()
+        }
+    },
+    clearEventsProgress: function() {
+        MainGame.selectedHat = 0;
+        MainGame.arHatsHave = [];
+        MainGame.listEvents = null;
+        MainGame.saveSaves()
+    },
+    updateQuest: function(vNumQuest, vValue) {
+        var value = 0;
+        if (vNumQuest == 0) {
+            if (MainGame.listEvents && MainGame.listEvents[2] != 1) {
+                MainGame.listQuests[vNumQuest] += vValue;
+                if (MainGame.listQuests[vNumQuest] >= MainGame.listQuestsTask[vNumQuest]) {
+                    MainGame.completedEvent("scarecrow")
+                }
+                value = MainGame.listQuests[vNumQuest]
+            }
+        }
+        return value
+    },
+    getQuestValue: function(vNumQuest) {
+        return [MainGame.listQuests[vNumQuest], MainGame.listQuestsTask[vNumQuest]]
+    },
+    clearQuest: function(vNumQuest) {
+        MainGame.selectedHat = 0;
+        MainGame.arHatsHave = [];
+        MainGame.listEvents[2] = 0;
+        MainGame.listQuests[vNumQuest] = 0;
+        MainGame.listAdsHats = null;
+        MainGame.saveSaves()
+    },
     updateTextWidth: function(vText, vMaxWidth) {
         var scale = 1;
         vText.setScale(scale);
@@ -134,6 +284,60 @@ var MainGame = {
     replaceText: function(vText, vValue) {
         return vText.replace("#", vValue.toString())
     },
+    secToHHMMSS: function(vSec) {
+        var seconds = parseInt(vSec, 10);
+        var hours = Math.floor(seconds / 3600);
+        var minutes = Math.floor((seconds - hours * 3600) / 60);
+        var seconds = seconds - hours * 3600 - minutes * 60;
+        if (hours < 10) hours = "0" + hours;
+        if (minutes < 10) minutes = "0" + minutes;
+        if (seconds < 10) seconds = "0" + seconds;
+        var time = minutes + ":" + seconds;
+        return time
+    },
+    jelly: function(game, object, strength, delay, initialScale, duration1, duration2) {
+        strength = strength || .2;
+        delay = delay || 0;
+        duration1 = duration1 || 50;
+        duration2 = duration2 || 500;
+        initialScale = initialScale || {
+            x: 1,
+            y: 1
+        };
+        game.tweens.killTweensOf(object);
+        game.tweens.add({
+            targets: object,
+            props: {
+                scaleX: {
+                    value: initialScale.x + initialScale.x * strength,
+                    duration: duration1,
+                    delay: delay
+                },
+                scaleY: {
+                    value: initialScale.y + initialScale.y * strength,
+                    duration: duration1,
+                    delay: delay + 50
+                }
+            },
+            ease: "Quadratic.easeInOut"
+        });
+        game.tweens.add({
+            targets: object,
+            props: {
+                scaleX: {
+                    value: initialScale.x,
+                    duration: duration2,
+                    delay: duration1 + delay
+                },
+                scaleY: {
+                    value: initialScale.y,
+                    duration: duration2,
+                    delay: duration1 + delay + 50
+                }
+            },
+            ease: "Elastic.easeOut"
+        })
+    },
     loadSaves: function() {
         MainGame.amount_coins = MainGame.Storage.get(MainGame.title + "-" + "amount_coins");
         MainGame.amount_diamonds = MainGame.Storage.get(MainGame.title + "-" + "amount_diamonds");
@@ -145,6 +349,7 @@ var MainGame = {
         MainGame.box_have = MainGame.Storage.get(MainGame.title + "-" + "box_have");
         MainGame.arDeltaCarLevel = MainGame.Storage.get(MainGame.title + "-" + "arDeltaCarLevel");
         MainGame.lastSession = MainGame.Storage.get(MainGame.title + "-" + "lastSession");
+        MainGame.cdBonusMerge = MainGame.Storage.get(MainGame.title + "-" + "cdBonusMerge");
         MainGame.cdBonusCoins = MainGame.Storage.get(MainGame.title + "-" + "cdBonusCoins");
         MainGame.cdBonusSpeed = MainGame.Storage.get(MainGame.title + "-" + "cdBonusSpeed");
         MainGame.buffer_boxes = MainGame.Storage.get(MainGame.title + "-" + "buffer_boxes");
@@ -156,6 +361,12 @@ var MainGame = {
         MainGame.fireLevel = MainGame.Storage.get(MainGame.title + "-" + "fireLevel");
         MainGame.levelEarning = MainGame.Storage.get(MainGame.title + "-" + "levelEarning");
         MainGame.levelDiscount = MainGame.Storage.get(MainGame.title + "-" + "levelDiscount");
+        MainGame.listEvents = MainGame.Storage.get(MainGame.title + "-" + "listEvents");
+        MainGame.listQuests = MainGame.Storage.get(MainGame.title + "-" + "listQuests");
+        var listAdsHats = MainGame.Storage.get(MainGame.title + "-" + "listAdsHats");
+        if (listAdsHats) {
+            MainGame.listAdsHats = listAdsHats
+        }
         var language = MainGame.Storage.get(MainGame.title + "-" + "language");
         if (language != null) MainGame.language = language
     },
@@ -172,6 +383,7 @@ var MainGame = {
         MainGame.Storage.set(MainGame.title + "-" + "arDeltaCarLevel", MainGame.arDeltaCarLevel);
         MainGame.Storage.set(MainGame.title + "-" + "lastSession", MainGame.lastSession);
         MainGame.Storage.set(MainGame.title + "-" + "language", MainGame.language);
+        MainGame.Storage.set(MainGame.title + "-" + "cdBonusMerge", MainGame.cdBonusMerge);
         MainGame.Storage.set(MainGame.title + "-" + "cdBonusCoins", MainGame.cdBonusCoins);
         MainGame.Storage.set(MainGame.title + "-" + "cdBonusSpeed", MainGame.cdBonusSpeed);
         MainGame.Storage.set(MainGame.title + "-" + "buffer_boxes", MainGame.buffer_boxes);
@@ -182,7 +394,10 @@ var MainGame = {
         MainGame.Storage.set(MainGame.title + "-" + "arHatsHave", MainGame.arHatsHave);
         MainGame.Storage.set(MainGame.title + "-" + "fireLevel", MainGame.fireLevel);
         MainGame.Storage.set(MainGame.title + "-" + "levelEarning", MainGame.levelEarning);
-        MainGame.Storage.set(MainGame.title + "-" + "levelDiscount", MainGame.levelDiscount)
+        MainGame.Storage.set(MainGame.title + "-" + "levelDiscount", MainGame.levelDiscount);
+        MainGame.Storage.set(MainGame.title + "-" + "listEvents", MainGame.listEvents);
+        MainGame.Storage.set(MainGame.title + "-" + "listQuests", MainGame.listQuests);
+        MainGame.Storage.set(MainGame.title + "-" + "listAdsHats", MainGame.listAdsHats)
     },
     clearSaves: function() {
         MainGame.Storage.remove(MainGame.title + "-" + "amount_coins");
@@ -196,6 +411,7 @@ var MainGame = {
         MainGame.Storage.remove(MainGame.title + "-" + "arDeltaCarLevel");
         MainGame.Storage.remove(MainGame.title + "-" + "lastSession");
         MainGame.Storage.remove(MainGame.title + "-" + "language");
+        MainGame.Storage.remove(MainGame.title + "-" + "cdBonusMerge");
         MainGame.Storage.remove(MainGame.title + "-" + "cdBonusCoins");
         MainGame.Storage.remove(MainGame.title + "-" + "cdBonusSpeed");
         MainGame.Storage.remove(MainGame.title + "-" + "buffer_boxes");
@@ -207,116 +423,132 @@ var MainGame = {
         MainGame.Storage.remove(MainGame.title + "-" + "fireLevel");
         MainGame.Storage.remove(MainGame.title + "-" + "levelEarning");
         MainGame.Storage.remove(MainGame.title + "-" + "levelDiscount");
+        MainGame.Storage.remove(MainGame.title + "-" + "listEvents");
+        MainGame.Storage.remove(MainGame.title + "-" + "listQuests");
+        MainGame.Storage.remove(MainGame.title + "-" + "listAdsHats");
         MainGame.isNoSave = true
     }
 };
 MainGame.Sfx = {
     manage: function(type, mode, game, button, label) {
         switch (mode) {
-            case "init":
-                {
-                    MainGame.Storage.initUnset(MainGame.title + "-" + type, true);MainGame.Sfx.status = MainGame.Sfx.status || [];MainGame.Sfx.status[type] = MainGame.Storage.get(MainGame.title + "-" + type);
-                    if (type == "sound") {
-                        MainGame.Sfx.sounds = [];
-                        MainGame.Sfx.sounds["click"] = game.sound.add("click3");
-                        MainGame.Sfx.sounds["unlocked"] = game.sound.add("unlocked");
-                        MainGame.Sfx.sounds["show_box"] = game.sound.add("show_box");
-                        MainGame.Sfx.sounds["merge"] = game.sound.add("merge3");
-                        MainGame.Sfx.sounds["open_box"] = game.sound.add("open_box");
-                        MainGame.Sfx.sounds["buy"] = game.sound.add("buy");
-                        MainGame.Sfx.sounds["deleted"] = game.sound.add("deleted3");
-                        MainGame.Sfx.sounds["level_up"] = game.sound.add("level_up");
-                        MainGame.Sfx.sounds["win"] = game.sound.add("win");
-                        MainGame.Sfx.sounds["offline_earning"] = game.sound.add("offline_earning3");
-                        MainGame.Sfx.sounds["boost"] = game.sound.add("boost");
-                        MainGame.Sfx.sounds["give_gun"] = game.sound.add("give_gun3");
-                        MainGame.Sfx.sounds["lucky_wheel"] = game.sound.add("lucky_wheel2");
-                        MainGame.Sfx.sounds["reload"] = game.sound.add("reload4");
-                        MainGame.Sfx.sounds["enemy"] = game.sound.add("enemy");
-                        MainGame.Sfx.sounds["enemy2"] = game.sound.add("enemy2");
-                        MainGame.Sfx.sounds["enemy3"] = game.sound.add("enemy3");
-                        MainGame.Sfx.sounds["enemy4"] = game.sound.add("enemy4");
-                        MainGame.Sfx.sounds["autorifle"] = game.sound.add("autorifle");
-                        MainGame.Sfx.sounds["autorifle2"] = game.sound.add("autorifle2");
-                        MainGame.Sfx.sounds["autorifle3"] = game.sound.add("autorifle3");
-                        MainGame.Sfx.sounds["pistol"] = game.sound.add("pistol");
-                        MainGame.Sfx.sounds["pistol2"] = game.sound.add("pistol2");
-                        MainGame.Sfx.sounds["pistol3"] = game.sound.add("pistol3");
-                        MainGame.Sfx.sounds["pistol4"] = game.sound.add("pistol4");
-                        MainGame.Sfx.sounds["rifle"] = game.sound.add("rifle");
-                        MainGame.Sfx.sounds["rifle2"] = game.sound.add("rifle2");
-                        MainGame.Sfx.sounds["rifle3"] = game.sound.add("rifle3");
-                        MainGame.Sfx.sounds["rifle4"] = game.sound.add("rifle4");
-                        MainGame.Sfx.sounds["rifle5"] = game.sound.add("rifle5");
-                        MainGame.Sfx.sounds["shotgun"] = game.sound.add("shotgun");
-                        MainGame.Sfx.sounds["shotgun2"] = game.sound.add("shotgun2");
-                        MainGame.Sfx.sounds["shotgun3"] = game.sound.add("shotgun3");
-                        MainGame.Sfx.sounds["sniper"] = game.sound.add("sniper");
-                        MainGame.Sfx.sounds["sniper2"] = game.sound.add("sniper2");
-                        MainGame.Sfx.sounds["sniper3"] = game.sound.add("sniper3");
-                        MainGame.Sfx.sounds["sniper4"] = game.sound.add("sniper4");
-                        MainGame.Sfx.sounds["sniper5"] = game.sound.add("sniper5");
-                        MainGame.Sfx.sounds["click"].volume = 1.4;
-                        MainGame.Sfx.sounds["unlocked"].volume = 1.8;
-                        MainGame.Sfx.sounds["show_box"].volume = 2.1;
-                        MainGame.Sfx.sounds["merge"].volume = .8;
-                        MainGame.Sfx.sounds["open_box"].volume = .5;
-                        MainGame.Sfx.sounds["buy"].volume = .7;
-                        MainGame.Sfx.sounds["deleted"].volume = 3;
-                        MainGame.Sfx.sounds["level_up"].volume = 1;
-                        MainGame.Sfx.sounds["win"].volume = 1;
-                        MainGame.Sfx.sounds["offline_earning"].volume = 3;
-                        MainGame.Sfx.sounds["boost"].volume = 4;
-                        MainGame.Sfx.sounds["give_gun"].volume = 3;
-                        MainGame.Sfx.sounds["lucky_wheel"].volume = 2;
-                        MainGame.Sfx.sounds["reload"].volume = 1;
-                        MainGame.Sfx.sounds["enemy"].volume = 1;
-                        MainGame.Sfx.sounds["enemy2"].volume = 1;
-                        MainGame.Sfx.sounds["enemy3"].volume = 1;
-                        MainGame.Sfx.sounds["enemy4"].volume = 1;
-                        MainGame.Sfx.sounds["autorifle"].volume = .7;
-                        MainGame.Sfx.sounds["autorifle2"].volume = .9;
-                        MainGame.Sfx.sounds["autorifle3"].volume = .7;
-                        MainGame.Sfx.sounds["pistol"].volume = .7;
-                        MainGame.Sfx.sounds["pistol2"].volume = .7;
-                        MainGame.Sfx.sounds["pistol3"].volume = .7;
-                        MainGame.Sfx.sounds["pistol4"].volume = .7;
-                        MainGame.Sfx.sounds["rifle"].volume = .7;
-                        MainGame.Sfx.sounds["rifle2"].volume = .7;
-                        MainGame.Sfx.sounds["rifle3"].volume = .7;
-                        MainGame.Sfx.sounds["rifle4"].volume = .9;
-                        MainGame.Sfx.sounds["rifle5"].volume = .9;
-                        MainGame.Sfx.sounds["shotgun"].volume = .7;
-                        MainGame.Sfx.sounds["shotgun2"].volume = .7;
-                        MainGame.Sfx.sounds["shotgun3"].volume = .7;
-                        MainGame.Sfx.sounds["sniper"].volume = .7;
-                        MainGame.Sfx.sounds["sniper2"].volume = .7;
-                        MainGame.Sfx.sounds["sniper3"].volume = .7;
-                        MainGame.Sfx.sounds["sniper4"].volume = .7;
-                        MainGame.Sfx.sounds["sniper5"].volume = .7
-                    } else {
-                        MainGame.Sfx.nameMusicPlaying = -1;
-                        MainGame.Sfx.musics = []
-                    }
-                    break
+            case "init": {
+                MainGame.Storage.initUnset(MainGame.title + "-" + type, true);
+                MainGame.Sfx.status = MainGame.Sfx.status || [];
+                MainGame.Sfx.status[type] = MainGame.Storage.get(MainGame.title + "-" + type);
+                if (type == "sound") {
+                    MainGame.Sfx.sounds = [];
+                    MainGame.Sfx.sounds["click"] = game.sound.add("click3");
+                    MainGame.Sfx.sounds["unlocked"] = game.sound.add("unlocked");
+                    MainGame.Sfx.sounds["show_box"] = game.sound.add("show_box");
+                    MainGame.Sfx.sounds["merge"] = game.sound.add("merge3");
+                    MainGame.Sfx.sounds["open_box"] = game.sound.add("open_box");
+                    MainGame.Sfx.sounds["buy"] = game.sound.add("buy");
+                    MainGame.Sfx.sounds["deleted"] = game.sound.add("deleted3");
+                    MainGame.Sfx.sounds["level_up"] = game.sound.add("level_up");
+                    MainGame.Sfx.sounds["win"] = game.sound.add("win");
+                    MainGame.Sfx.sounds["offline_earning"] = game.sound.add("offline_earning3");
+                    MainGame.Sfx.sounds["boost"] = game.sound.add("boost");
+                    MainGame.Sfx.sounds["give_gun"] = game.sound.add("give_gun3");
+                    MainGame.Sfx.sounds["lucky_wheel"] = game.sound.add("lucky_wheel2");
+                    MainGame.Sfx.sounds["reload"] = game.sound.add("reload4");
+                    MainGame.Sfx.sounds["enemy"] = game.sound.add("enemy");
+                    MainGame.Sfx.sounds["enemy2"] = game.sound.add("enemy2");
+                    MainGame.Sfx.sounds["enemy3"] = game.sound.add("enemy3");
+                    MainGame.Sfx.sounds["enemy4"] = game.sound.add("enemy4");
+                    MainGame.Sfx.sounds["autorifle"] = game.sound.add("autorifle");
+                    MainGame.Sfx.sounds["autorifle2"] = game.sound.add("autorifle2");
+                    MainGame.Sfx.sounds["autorifle3"] = game.sound.add("autorifle3");
+                    MainGame.Sfx.sounds["pistol"] = game.sound.add("pistol");
+                    MainGame.Sfx.sounds["pistol2"] = game.sound.add("pistol2");
+                    MainGame.Sfx.sounds["pistol3"] = game.sound.add("pistol3");
+                    MainGame.Sfx.sounds["pistol4"] = game.sound.add("pistol4");
+                    MainGame.Sfx.sounds["rifle"] = game.sound.add("rifle");
+                    MainGame.Sfx.sounds["rifle2"] = game.sound.add("rifle2");
+                    MainGame.Sfx.sounds["rifle3"] = game.sound.add("rifle3");
+                    MainGame.Sfx.sounds["rifle4"] = game.sound.add("rifle4");
+                    MainGame.Sfx.sounds["rifle5"] = game.sound.add("rifle5");
+                    MainGame.Sfx.sounds["shotgun"] = game.sound.add("shotgun");
+                    MainGame.Sfx.sounds["shotgun2"] = game.sound.add("shotgun2");
+                    MainGame.Sfx.sounds["shotgun3"] = game.sound.add("shotgun3");
+                    MainGame.Sfx.sounds["sniper"] = game.sound.add("sniper");
+                    MainGame.Sfx.sounds["sniper2"] = game.sound.add("sniper2");
+                    MainGame.Sfx.sounds["sniper3"] = game.sound.add("sniper3");
+                    MainGame.Sfx.sounds["sniper4"] = game.sound.add("sniper4");
+                    MainGame.Sfx.sounds["sniper5"] = game.sound.add("sniper5");
+                    MainGame.Sfx.sounds["miss"] = game.sound.add("miss");
+                    MainGame.Sfx.sounds["explosion"] = game.sound.add("explosion");
+                    MainGame.Sfx.sounds["splash1"] = game.sound.add("splash");
+                    MainGame.Sfx.sounds["splash2"] = game.sound.add("splash2");
+                    MainGame.Sfx.sounds["splash3"] = game.sound.add("splash3");
+                    MainGame.Sfx.sounds["snowsplash"] = game.sound.add("snowsplash");
+                    MainGame.Sfx.sounds["crow1"] = game.sound.add("crow1");
+                    MainGame.Sfx.sounds["crow2"] = game.sound.add("crow2");
+                    MainGame.Sfx.sounds["click"].volume = 1.4;
+                    MainGame.Sfx.sounds["unlocked"].volume = 1.8;
+                    MainGame.Sfx.sounds["show_box"].volume = 2.1;
+                    MainGame.Sfx.sounds["merge"].volume = .8;
+                    MainGame.Sfx.sounds["open_box"].volume = .5;
+                    MainGame.Sfx.sounds["buy"].volume = .7;
+                    MainGame.Sfx.sounds["deleted"].volume = 3;
+                    MainGame.Sfx.sounds["level_up"].volume = 1;
+                    MainGame.Sfx.sounds["win"].volume = 1;
+                    MainGame.Sfx.sounds["offline_earning"].volume = 3;
+                    MainGame.Sfx.sounds["boost"].volume = 4;
+                    MainGame.Sfx.sounds["give_gun"].volume = 3;
+                    MainGame.Sfx.sounds["lucky_wheel"].volume = 2;
+                    MainGame.Sfx.sounds["reload"].volume = 1;
+                    MainGame.Sfx.sounds["enemy"].volume = 1;
+                    MainGame.Sfx.sounds["enemy2"].volume = 1;
+                    MainGame.Sfx.sounds["enemy3"].volume = 1;
+                    MainGame.Sfx.sounds["enemy4"].volume = 1;
+                    MainGame.Sfx.sounds["autorifle"].volume = .7;
+                    MainGame.Sfx.sounds["autorifle2"].volume = .9;
+                    MainGame.Sfx.sounds["autorifle3"].volume = .7;
+                    MainGame.Sfx.sounds["pistol"].volume = .7;
+                    MainGame.Sfx.sounds["pistol2"].volume = .7;
+                    MainGame.Sfx.sounds["pistol3"].volume = .7;
+                    MainGame.Sfx.sounds["pistol4"].volume = .7;
+                    MainGame.Sfx.sounds["rifle"].volume = .7;
+                    MainGame.Sfx.sounds["rifle2"].volume = .7;
+                    MainGame.Sfx.sounds["rifle3"].volume = .7;
+                    MainGame.Sfx.sounds["rifle4"].volume = .9;
+                    MainGame.Sfx.sounds["rifle5"].volume = .9;
+                    MainGame.Sfx.sounds["shotgun"].volume = .7;
+                    MainGame.Sfx.sounds["shotgun2"].volume = .7;
+                    MainGame.Sfx.sounds["shotgun3"].volume = .7;
+                    MainGame.Sfx.sounds["sniper"].volume = .7;
+                    MainGame.Sfx.sounds["sniper2"].volume = .7;
+                    MainGame.Sfx.sounds["sniper3"].volume = .7;
+                    MainGame.Sfx.sounds["sniper4"].volume = .7;
+                    MainGame.Sfx.sounds["sniper5"].volume = .7;
+                    MainGame.Sfx.sounds["miss"].volume = 1.2;
+                    MainGame.Sfx.sounds["explosion"].volume = 1;
+                    MainGame.Sfx.sounds["splash1"].volume = 1;
+                    MainGame.Sfx.sounds["splash2"].volume = .6;
+                    MainGame.Sfx.sounds["splash3"].volume = 1;
+                    MainGame.Sfx.sounds["snowsplash"].volume = 1;
+                    MainGame.Sfx.sounds["crow1"].volume = 1;
+                    MainGame.Sfx.sounds["crow2"].volume = 1
+                } else {
+                    MainGame.Sfx.nameMusicPlaying = -1;
+                    MainGame.Sfx.musics = []
                 }
-            case "on":
-                {
-                    MainGame.Sfx.status[type] = true;
-                    break
-                }
-            case "off":
-                {
-                    MainGame.Sfx.status[type] = false;
-                    break
-                }
-            case "switch":
-                {
-                    MainGame.Sfx.status[type] = !MainGame.Sfx.status[type];
-                    break
-                }
-            default:
-                {}
+                break
+            }
+            case "on": {
+                MainGame.Sfx.status[type] = true;
+                break
+            }
+            case "off": {
+                MainGame.Sfx.status[type] = false;
+                break
+            }
+            case "switch": {
+                MainGame.Sfx.status[type] = !MainGame.Sfx.status[type];
+                break
+            }
+            default: {}
         }
         MainGame.Sfx.update(type, button, label);
         if (MainGame.Sfx.sounds) {
@@ -328,7 +560,13 @@ MainGame.Sfx = {
         if (MainGame.Sfx.musics) {
             var statuMusic = !MainGame.Sfx.status["music"];
             if (MainGame.Sfx.musics["main"]) MainGame.Sfx.musics["main"].setMute(statuMusic);
-            if (MainGame.Sfx.musics["shoot"]) MainGame.Sfx.musics["shoot"].setMute(statuMusic)
+            if (MainGame.Sfx.musics["shoot"]) MainGame.Sfx.musics["shoot"].setMute(statuMusic);
+            if (MainGame.EVENT_NUM == 1) {
+                if (MainGame.Sfx.musics["halloween"]) MainGame.Sfx.musics["halloween"].setMute(statuMusic)
+            }
+            if (MainGame.EVENT_NUM == 2) {
+                if (MainGame.Sfx.musics["christmas"]) MainGame.Sfx.musics["christmas"].setMute(statuMusic)
+            }
         }
         if (MainGame.Sfx.status) {
             MainGame.Storage.set(MainGame.title + "-" + type, MainGame.Sfx.status[type])
@@ -345,9 +583,23 @@ MainGame.Sfx = {
     initMusicPart2: function() {
         MainGame.Sfx.musics["main"] = game.sound.add("music-main");
         MainGame.Sfx.musics["main"].volume = 1;
+        if (MainGame.EVENT_NUM == 1) {
+            MainGame.Sfx.musics["halloween"] = game.sound.add("music-halloween");
+            MainGame.Sfx.musics["halloween"].volume = .85
+        }
+        if (MainGame.EVENT_NUM == 2) {
+            MainGame.Sfx.musics["christmas"] = game.sound.add("music-christmas");
+            MainGame.Sfx.musics["christmas"].volume = .55
+        }
         if (MainGame.Sfx.musics) {
             var statuMusic = !MainGame.Sfx.status["music"];
-            MainGame.Sfx.musics["main"].setMute(statuMusic)
+            MainGame.Sfx.musics["main"].setMute(statuMusic);
+            if (MainGame.EVENT_NUM == 1) {
+                MainGame.Sfx.musics["halloween"].setMute(statuMusic)
+            }
+            if (MainGame.EVENT_NUM == 2) {
+                MainGame.Sfx.musics["christmas"].setMute(statuMusic)
+            }
         }
     },
     play: function(type, audio) {
@@ -442,9 +694,7 @@ MainGame.Storage = {
         try {
             window.localStorage.setItem(key, JSON.stringify(value))
         } catch (e) {
-            if (e == QUOTA_EXCEEDED_ERR) {
-                console.log("localStorage quota exceeded")
-            }
+            console.log("localStorage quota exceeded")
         }
     },
     initUnset: function(key, value) {
@@ -496,6 +746,7 @@ const ACTIONS = ["ACTION_RIGHT", "ACTION_LEFT", "ACTION_DOWN", "ACTION_UP", "ACT
 Bot = function(game, vLayer, vX, vY, vSkin, vLine, vBrain) {
     this.game = game;
     vSkin = vSkin || "stickman" + MyMath.getRandomInt(1, 4);
+    vSkin = this.checkSkin(vSkin);
     if (vX == 0) {
         var r = 0;
         var arSpawns = [];
@@ -520,15 +771,12 @@ Bot = function(game, vLayer, vX, vY, vSkin, vLine, vBrain) {
     hero.setSkinByName(vSkin);
     hero.setScale(1.5);
     this.offsetFlash = 0;
-    if (vSkin == "stickman1") this.offsetFlash = 10;
-    if (vSkin == "stickman2") this.offsetFlash = 5;
-    if (vSkin == "stickman3") this.offsetFlash = 5;
-    if (vSkin == "stickman4") this.offsetFlash = 15;
     vLayer.add(hero);
     this.hero = hero;
     this.lineNum = vLine;
     this.level = vBrain;
     this.skin = vSkin;
+    this.updateOffsetFlash();
     if (vLine == 1) {
         this.arrRespawns = this.game.arrRespawns1
     } else {
@@ -590,6 +838,12 @@ Bot.prototype.pauseAnimation = function() {
 };
 Bot.prototype.resumeAnimation = function() {
     this.hero.state.timeScale = 1
+};
+Bot.prototype.updateOffsetFlash = function() {
+    if (this.skin == "stickman1" || this.skin == "stickman_zombie") this.offsetFlash = 10;
+    if (this.skin == "stickman2" || this.skin == "stickman_ghost") this.offsetFlash = 5;
+    if (this.skin == "stickman3" || this.skin == "stickman_mummy") this.offsetFlash = 5;
+    if (this.skin == "stickman4" || this.skin == "stickman_skeleton") this.offsetFlash = 15
 };
 Bot.prototype.changePosition = function() {
     this.status = STATUS_RUN;
@@ -987,6 +1241,21 @@ Bot.prototype.hide = function() {
     this.lastPosY = this.hero.y;
     this.hero.y = -1e3
 };
+Bot.prototype.checkSkin = function(vSkin) {
+    var skin = vSkin;
+    if (MainGame.EVENT_NUM == 1) {
+        if (vSkin == "stickman1") skin = "stickman_zombie";
+        if (vSkin == "stickman2") skin = "stickman_ghost";
+        if (vSkin == "stickman3") skin = "stickman_mummy";
+        if (vSkin == "stickman4") skin = "stickman_skeleton"
+    } else if (MainGame.EVENT_NUM == 2) {
+        if (vSkin == "stickman1") skin = "stickman_christmas1";
+        if (vSkin == "stickman2") skin = "stickman_christmas2";
+        if (vSkin == "stickman3") skin = "stickman_christmas3";
+        if (vSkin == "stickman4") skin = "stickman_christmas4"
+    }
+    return skin
+};
 Bot.prototype.respawn = function() {
     if (this.lineNum == 1) {
         var r = MyMath.getRandomInt(0, 3);
@@ -999,12 +1268,10 @@ Bot.prototype.respawn = function() {
     }
     this.hero.setColor(16777215);
     var skin = "stickman" + MyMath.getRandomInt(1, 4);
+    skin = this.checkSkin(skin);
     this.hero.setSkinByName(skin);
     this.skin = skin;
-    if (skin == "stickman1") this.offsetFlash = 10;
-    if (skin == "stickman2") this.offsetFlash = 5;
-    if (skin == "stickman3") this.offsetFlash = 5;
-    if (skin == "stickman4") this.offsetFlash = 15;
+    this.updateOffsetFlash();
     this.hero.y = this.lastPosY;
     this.nextPos.x = this.hero.x;
     this.isStrike = false;
@@ -1064,7 +1331,13 @@ class Boot extends Phaser.Scene {
         this.load.plugin("PokiApiPlugin", PokiApiPlugin, true);
         this.load.image("preloader_bar", "assets/preloader_bar.png?r=2");
         this.load.image("preloader_back", "assets/preloader_back.png?r=2");
-        this.load.image("bg_mergegunfire3", "assets/background/bg_mergegunfire3.png");
+        if (MainGame.EVENT_NUM == 0) {
+            this.load.image("bg_mergegunfire3", "assets/background/bg_mergegunfire3.png")
+        } else if (MainGame.EVENT_NUM == 1) {
+            this.load.image("bg_mergegunfire3", "assets/background/bg_mergegunfire3H.png")
+        } else if (MainGame.EVENT_NUM == 2) {
+            this.load.image("bg_mergegunfire3", "assets/background/bg_mergegunfire3C.png")
+        }
         this.load.bitmapFont("Panton", "assets/fonts/Panton40.png", "assets/fonts/Panton40.fnt")
     }
     create() {
@@ -1189,7 +1462,15 @@ class Preloader extends Phaser.Scene {
                 ["enemy4", ["assets/audio/sfx2/enemy4.mp3"]],
                 ["kick", ["assets/audio/sfx2/kick.mp3"]],
                 ["kick2", ["assets/audio/sfx2/kick2.mp3"]],
-                ["kick3", ["assets/audio/sfx2/kick3.mp3"]]
+                ["kick3", ["assets/audio/sfx2/kick3.mp3"]],
+                ["crow1", ["assets/audio/sfx2/crow1.mp3"]],
+                ["crow2", ["assets/audio/sfx2/crow2.mp3"]],
+                ["miss", ["assets/audio/sfx3/miss.mp3"]],
+                ["explosion", ["assets/audio/sfx3/explosion.mp3"]],
+                ["splash", ["assets/audio/sfx3/splash.mp3"]],
+                ["splash2", ["assets/audio/sfx3/splash2.mp3"]],
+                ["splash3", ["assets/audio/sfx3/splash3.mp3"]],
+                ["snowsplash", ["assets/audio/sfx3/snowsplash.mp3"]]
             ],
             json: [
                 ["alltext", "assets/text/text.json?r=" + MyMath.getRandomInt(0, 99)]
@@ -1202,16 +1483,52 @@ class Preloader extends Phaser.Scene {
                 resources["spine"].push(["skeleton", "assets/spine/skeleton.json", "assets/spine/skeleton.atlas"], ["spine_shooter", "assets/spine/spine_shooter.json", "assets/spine/spine_shooter.atlas"]);
                 resources["audio"].push(["music-shoot", ["assets/audio/music/music_shoot.mp3"]])
             } else {
-                resources["image"].push(["bg_mergegunfire2", "assets/background/bg_mergegunfire2.png"], ["bg_game", "assets/background/bg_game.png"]);
+                if (MainGame.EVENT_NUM == 0) {
+                    resources["image"].push(["bg_mergegunfire2", "assets/background/bg_mergegunfire2.png"], ["bg_game", "assets/background/bg_game.png"])
+                } else if (MainGame.EVENT_NUM == 1) {
+                    resources["image"].push(["bg_mergegunfire2", "assets/background/bg_mergegunfire2H.png"], ["bg_game", "assets/background/bg_gameH.png"], ["bg_eventH", "assets/background/bg_eventH.png"])
+                } else if (MainGame.EVENT_NUM == 2) {
+                    resources["image"].push(["bg_mergegunfire2", "assets/background/bg_mergegunfire2C.png"], ["bg_game", "assets/background/bg_gameC.png"], ["bg_eventC", "assets/background/bg_eventC.png"])
+                }
                 resources["atlas"].push(["ss_shooter", "assets/spritesheets/ss_shooter.png?r=1", "assets/spritesheets/ss_shooter.json?r=" + MyMath.getRandomInt(0, 99)], ["ss_ui", "assets/spritesheets/ss_ui.png?r=1", "assets/spritesheets/ss_ui.json?r=" + MyMath.getRandomInt(0, 99)], ["ss_main", "assets/spritesheets/ss_main.png?r=1", "assets/spritesheets/ss_main.json?r=" + MyMath.getRandomInt(0, 99)]);
+                if (MainGame.EVENT_NUM == 1) {
+                    resources["atlas"].push(["ss_halloween", "assets/spritesheets/ss_halloween.png?r=1", "assets/spritesheets/ss_halloween.json?r=" + MyMath.getRandomInt(0, 99)])
+                } else if (MainGame.EVENT_NUM == 2) {
+                    resources["atlas"].push(["ss_christmas", "assets/spritesheets/ss_christmas.png?r=1", "assets/spritesheets/ss_christmas.json?r=" + MyMath.getRandomInt(0, 99)])
+                }
                 resources["spine"].push(["skeleton", "assets/spine/skeleton.json", "assets/spine/skeleton.atlas"], ["spine_shooter", "assets/spine/spine_shooter.json", "assets/spine/spine_shooter.atlas"], ["spine_main", "assets/spine/spine_main.json", "assets/spine/spine_main.atlas"]);
-                resources["audio"].push(["music-main", ["assets/audio/music/music_game.mp3"]], ["music-shoot", ["assets/audio/music/music_shoot.mp3"]])
+                resources["audio"].push(["music-main", ["assets/audio/music/music_game.mp3"]], ["music-shoot", ["assets/audio/music/music_shoot.mp3"]]);
+                if (MainGame.EVENT_NUM == 1) {
+                    resources["audio"].push(["music-halloween", ["assets/audio/music/music_halloween.mp3"]])
+                } else if (MainGame.EVENT_NUM == 2) {
+                    resources["audio"].push(["music-christmas", ["assets/audio/music/music_christmas.mp3"]])
+                }
             }
         } else {
-            resources["image"].push(["bg_game", "assets/background/bg_game.png"]);
+            if (MainGame.EVENT_NUM == 0) {
+                resources["image"].push(["bg_game", "assets/background/bg_game.png"])
+            } else if (MainGame.EVENT_NUM == 1) {
+                this.textures.remove("bg_mergegunfire2");
+                resources["image"].push(["bg_mergegunfire2", "assets/background/bg_mergegunfire2H.png"], ["bg_game", "assets/background/bg_gameH.png"], ["bg_eventH", "assets/background/bg_eventH.png"])
+            } else if (MainGame.EVENT_NUM == 2) {
+                this.textures.remove("bg_mergegunfire2");
+                resources["image"].push(["bg_mergegunfire2", "assets/background/bg_mergegunfire2C.png"], ["bg_game", "assets/background/bg_gameC.png"], ["bg_eventC", "assets/background/bg_eventC.png"])
+            }
             resources["atlas"].push(["ss_main", "assets/spritesheets/ss_main.png?r=1", "assets/spritesheets/ss_main.json?r=" + MyMath.getRandomInt(0, 99)]);
+            if (MainGame.EVENT_NUM == 1) {
+                resources["atlas"].push(["ss_halloween", "assets/spritesheets/ss_halloween.png?r=1", "assets/spritesheets/ss_halloween.json?r=" + MyMath.getRandomInt(0, 99)])
+            }
+            if (MainGame.EVENT_NUM == 2) {
+                resources["atlas"].push(["ss_christmas", "assets/spritesheets/ss_christmas.png?r=1", "assets/spritesheets/ss_christmas.json?r=" + MyMath.getRandomInt(0, 99)])
+            }
             resources["spine"].push(["spine_main", "assets/spine/spine_main.json", "assets/spine/spine_main.atlas"]);
-            resources["audio"].push(["music-main", ["assets/audio/music/music_game.mp3"]])
+            resources["audio"].push(["music-main", ["assets/audio/music/music_game.mp3"]]);
+            if (MainGame.EVENT_NUM == 1) {
+                resources["audio"].push(["music-halloween", ["assets/audio/music/music_halloween.mp3"]])
+            }
+            if (MainGame.EVENT_NUM == 2) {
+                resources["audio"].push(["music-christmas", ["assets/audio/music/music_christmas.mp3"]])
+            }
         }
         for (var method in resources) {
             resources[method].forEach((function(args) {
@@ -1241,17 +1558,16 @@ class Preloader extends Phaser.Scene {
                 }
             })
         }
-        if (MainGame.isAPI) MainGame.API_POKI.gameLoadingProgress(loadProgress)
+        if (MainGame.isAPI && !MainGame.isFromTutorial) MainGame.API_POKI.gameLoadingProgress(loadProgress)
     }
-    // 3kh0 on top
     onLoadStart() {
-        if (MainGame.isAPI) MainGame.API_POKI.gameLoadingStart()
+        if (MainGame.isAPI && !MainGame.isFromTutorial) MainGame.API_POKI.gameLoadingStart()
     }
     onLoadComplete() {
         this.tweens.killTweensOf(this.preloader_crop);
         this.load.off(Phaser.Loader.Events.PROGRESS, this.onLoadProgress);
         this.preloader_bar.isCropped = false;
-        if (MainGame.isAPI) MainGame.API_POKI.gameLoadingFinished()
+        if (MainGame.isAPI && !MainGame.isFromTutorial) MainGame.API_POKI.gameLoadingFinished()
     }
     initResize() {
         this.GAME_WIDTH = MainGame.Config.DEFAULT_WIDTH;
@@ -1323,13 +1639,13 @@ class Game extends Phaser.Scene {
         super("Game")
     }
     create() {
-        MainGame.isFromTutorial = false;
         MainGame.state = this;
         MainGame.stateName = "Game";
         MainGame.GAME_TEXT = MainGame.TEXT_FILE[MainGame.languages[MainGame.language]];
         this.initResize();
         this.midX = this.GAME_WIDTH / 2;
         this.midY = this.GAME_HEIGHT / 2;
+        this.updateResize();
         var back = this.add.image(this.midX, 0, "bg_game");
         back.setOrigin(.5, 0);
         if (MainGame.firstGo) {
@@ -1348,6 +1664,7 @@ class Game extends Phaser.Scene {
         this.initShop();
         this.initInputScrolling();
         this.icon_trash = this.gameGUI.icon_trash;
+        this.initAutoMerge();
         this.initArmHelp();
         this.initParkings();
         this.updateParking();
@@ -1371,10 +1688,8 @@ class Game extends Phaser.Scene {
                 })
             }
         }
-        if (MainGame.isFromFireMode) {
-            MainGame.isFromFireMode = false;
-            if (MainGame.isAPI) MainGame.API_POKI.commercialBreak()
-        }
+        if (MainGame.isFromFireMode) {}
+        MainGame.isFromTutorial = false;
         var earning_sec = this.total_speed;
         if (MainGame.lastSession && earning_sec > 0) {
             var currentSession = new Date;
@@ -1407,22 +1722,35 @@ class Game extends Phaser.Scene {
                 secondsFromLastSession = this.MAX_OFFLINE_EARNING_SEC
             }
             var add_money = Math.round(earning_sec * secondsFromLastSession * this.OFFLINE_EARNING);
-            this.value_offline_earning = add_money;
-            this.gameGUI.showOfflineEarningWindow(add_money);
-            this.amount_coins += add_money
+            if (MainGame.isFromFireMode) {
+                MainGame.isFromFireMode = false;
+                this.value_offline_earning = add_money;
+                this.amount_coins += add_money;
+                if (MainGame.isAPI) MainGame.API_POKI.gameplayStart()
+            } else {
+                this.value_offline_earning = add_money;
+                if (!MainGame.isAPI && MainGame.isDebug) {
+                    console.log("skip showing offline earning", add_money)
+                } else {
+                    this.gameGUI.showOfflineEarningWindow(add_money)
+                }
+                this.amount_coins += add_money
+            }
         } else {
             MainGame.isApiGameplayStop = true;
             if (this.currentLevel == 1 && this.exp == 0) {
                 this.freeTimeWheel = MainGame.maxTimeWheel;
                 MainGame.freeTimeWheel = this.freeTimeWheel;
-                this.initTutorial()
+                this.initTutorial();
+                if (MainGame.isAPI) MainGame.API_POKI.gameplayStart()
             }
         }
         this.updateValuesFromLoad();
         this.gameStarted = true;
         this.cameras.main.fadeIn(200);
-        this.updateResize();
-        this.offerFreeUpgrade = 3
+        this.offerFreeUpgrade = 3;
+        this.countDownSpineAnim = 5;
+        this.isShowingAnim = false
     }
     addText(vLayer, vX, vY, vText, vSize, vIsUpperCase) {
         vX -= 1;
@@ -1440,10 +1768,11 @@ class Game extends Phaser.Scene {
         stick_man.y = 530;
         stick_man.setSkinByName("gun" + MainGame.selectedGun);
         stick_man.setScale(2.3);
+        stick_man.on("complete", this.onAnimSpineComplete, this);
         this.stick_man = stick_man;
         this.updateSpineMan()
     }
-    updateSpineMan() {
+    updateSpineMan(vIsShowAnim) {
         var ar_pistol = [1, 2, 3, 4, 5, 6, 20, 21, 32, 33, 42, 43];
         var ar_rifle = [7, 8, 9, 10, 11, 12, 13, 14, 15, 18, 19, 22, 23, 24, 25, 26, 27, 28, 29, 30, 34, 36, 38, 39, 40, 41, 44, 45, 46, 48, 49, 50];
         var ar_autorifle = [16, 17, 31, 35, 37, 47];
@@ -1458,10 +1787,49 @@ class Game extends Phaser.Scene {
             this.stick_man.play(this.stickManAnim, true)
         }
         if (MainGame.selectedGun > 0) this.stick_man.setSkinByName("gun" + MainGame.selectedGun);
-        this.updateSpineHat(MainGame.selectedHat)
+        this.updateSpineHat(MainGame.selectedHat);
+        if (vIsShowAnim) {
+            this.updateSpineAnimation()
+        }
+    }
+    onAnimSpineComplete(vAnim) {
+        switch (vAnim.animation.name) {
+            case "show_pistol1":
+            case "show_pistol2":
+            case "show_rifle1":
+            case "show_rifle2":
+            case "show_autorifle1":
+            case "show_autorifle2":
+                this.isShowingAnim = false;
+                break
+        }
+    }
+    showSpineAnimation(vName) {
+        this.stick_man.play(vName, false);
+        this.stick_man.addAnimation(0, this.stickManAnim, true)
+    }
+    updateSpineAnimation() {
+        this.isShowingAnim = true;
+        var animName = "";
+        var r = MyMath.getRandomInt(1, 2);
+        if (this.stickManAnim == "idle_pistol") {
+            animName = "show_pistol" + r
+        } else if (this.stickManAnim == "idle_rifle") {
+            animName = "show_rifle" + r
+        } else if (this.stickManAnim == "idle_autorifle") {
+            animName = "show_autorifle" + r
+        }
+        if (animName != "") {
+            this.stick_man.play(animName, false);
+            this.stick_man.addAnimation(0, this.stickManAnim, true)
+        }
     }
     updateSpineHat(vValue) {
-        this.stick_man.skeleton.setAttachment("hat", "hat_" + vValue)
+        try {
+            this.stick_man.skeleton.setAttachment("hat", "hat_" + vValue)
+        } catch (e) {
+            this.stick_man.skeleton.setAttachment("hat", "hat_0")
+        }
     }
     showShooterScreen() {
         this.saveGameValues();
@@ -1476,6 +1844,18 @@ class Game extends Phaser.Scene {
     }
     goShooterScreen() {
         MainGame.fadeOutScene("Shooter", this)
+    }
+    goHalloweenScreen() {
+        this.saveGameValues();
+        this.scale.off("resize", this.updateResize, this);
+        if (MainGame.isAPI) MainGame.API_POKI.gameplayStop();
+        MainGame.fadeOutScene("UpdateHalloween", this)
+    }
+    goChristmasScreen() {
+        this.saveGameValues();
+        this.scale.off("resize", this.updateResize, this);
+        if (MainGame.isAPI) MainGame.API_POKI.gameplayStop();
+        MainGame.fadeOutScene("UpdateChristmas", this)
     }
     playOnce() {
         MainGame.firstGo = false;
@@ -1495,6 +1875,9 @@ class Game extends Phaser.Scene {
             this.gameGUI.layerProgressCar.visible = false
         }
         this.updateShop(text_coins_warm);
+        if (MainGame.cdBonusMerge && MainGame.cdBonusMerge > 0) {
+            this.activateBoostAutoMerge(MainGame.cdBonusMerge, true)
+        }
         if (MainGame.cdBonusCoins && MainGame.cdBonusCoins > 0) {
             this.activateBoost(MainGame.cdBonusCoins)
         }
@@ -1513,6 +1896,95 @@ class Game extends Phaser.Scene {
                 this.gameGUI.icon_free_fortune.visible = true;
                 this.gameGUI.buttonFortuna.visible = true
             }
+        }
+        if (MainGame.fireLevel > 2) {
+            if (MainGame.EVENT_NUM == 1) {
+                if (MainGame.listEvents[0] == 1) {
+                    this.gameGUI.effectEvent.visible = false
+                } else {
+                    this.gameGUI.effectEvent.visible = true
+                }
+            }
+            if (MainGame.EVENT_NUM == 2) {
+                if (MainGame.listEvents[1] == 1) {
+                    this.gameGUI.effectEvent.visible = false
+                } else {
+                    this.gameGUI.effectEvent.visible = true
+                }
+            }
+        } else {
+            if (this.gameGUI.buttonEvent) this.gameGUI.buttonEvent.visible = false;
+            if (this.gameGUI.effectEvent) this.gameGUI.effectEvent.visible = false
+        }
+        if (MainGame.EVENT_NUM == 0) {
+            if (this.gameGUI.buttonEvent) this.gameGUI.buttonEvent.visible = false;
+            if (this.gameGUI.effectEvent) this.gameGUI.effectEvent.visible = false
+        }
+    }
+    initAutoMerge() {
+        this.auto_car = this.add.image(200, 200, "ss_main", "icon_f1_0000");
+        this.auto_car.depth = this.DEPTH_cursorcar;
+        this.auto_car.visible = false;
+        this.auto_car.setScale(this.getScaleCar(1));
+        this.timerCheckAutoMerge = 0
+    }
+    checkAutoMerge() {
+        if (!this.gameGUI.buttonEnabled) return;
+        var action = false;
+        var pairIds = this.getMaxParkingPair(true);
+        if (pairIds) {
+            this.goAutoMerge(pairIds[1], pairIds[0]);
+            action = true
+        } else {}
+        return action
+    }
+    goAutoMerge(vId1, vId2) {
+        var parking1 = this.arParking[vId1];
+        var parking2 = this.arParking[vId2];
+        parking1.allow = false;
+        parking2.allow = false;
+        parking1.obj.alpha = .5;
+        parking2.obj.alpha = .5;
+        this.actionMerge(parking1, parking2, true);
+        this.time.delayedCall(500, this.onFinishAutoMerge, [vId1, vId2], this)
+    }
+    onFinishAutoMerge(vId1, vId2) {
+        var parking1 = this.arParking[vId1];
+        var parking2 = this.arParking[vId2];
+        parking1.allow = true;
+        parking2.allow = true
+    }
+    getSlotFullness(vIsCheckOfferTV) {
+        var countBusy = 0;
+        var parking;
+        for (var i = 0; i < this.LIMIT_parking; i++) {
+            parking = this.arParking[i];
+            if (parking.busy) countBusy++
+        }
+        if (vIsCheckOfferTV && countBusy >= 8 && this.countDownOfferTV == 0) {
+            this.countDownOfferTV = 2
+        }
+        return countBusy
+    }
+    getMaxParkingPair(isForAutoMerge) {
+        var valuesTypes = [];
+        var parking;
+        for (var i = 0; i < this.LIMIT_parking; i++) {
+            parking = this.arParking[i];
+            if (parking.type > 0 && parking.allow && parking.type < this.MAX_TYPES_CAR) {
+                if (parking.obj && parking.obj.count_box_tween != null && parking.obj.count_box_tween <= 0) {
+                    if (isForAutoMerge && (this.selectedCar && parking.id == this.selectedCar.id)) continue;
+                    valuesTypes.push({
+                        id: parking.id,
+                        type: parking.type
+                    })
+                }
+            }
+        }
+        if (valuesTypes.length < 1) return null;
+        var pairIds = this.getMaxValuePair(valuesTypes);
+        if (pairIds.length > 1) {
+            return [pairIds[1], pairIds[0]]
         }
     }
     initArmHelp() {
@@ -1552,27 +2024,13 @@ class Game extends Phaser.Scene {
         this.timerCheckHelp = 0
     }
     updateArmHelp() {
-        if (this.isGoTutorial || this.arm_help.visible) return;
+        if (this.isGoTutorial || this.arm_help.visible || this.isAutoMerge) return;
         this.hideArmHelp();
-        var valuesTypes = [];
-        var parking;
-        for (var i = 0; i < this.LIMIT_parking; i++) {
-            parking = this.arParking[i];
-            if (parking.type > 0 && parking.type < this.MAX_TYPES_CAR) {
-                if (parking.obj && parking.obj.count_box_tween != null && parking.obj.count_box_tween <= 0) {
-                    valuesTypes.push({
-                        id: parking.id,
-                        type: parking.type
-                    })
-                }
-            }
-        }
-        if (valuesTypes.length < 1) return;
-        var pairIds = this.getMaxValuePair(valuesTypes);
-        if (pairIds.length > 1) {
+        var pairIds = this.getMaxParkingPair(false);
+        if (pairIds) {
             this.arm_help.visible = true;
-            var parkingA = this.arParking[pairIds[1]];
-            var parkingB = this.arParking[pairIds[0]];
+            var parkingA = this.arParking[pairIds[0]];
+            var parkingB = this.arParking[pairIds[1]];
             var offsetY = 15;
             this.arm_help.x = parkingA.x;
             this.arm_help.y = parkingA.y + offsetY;
@@ -1595,6 +2053,9 @@ class Game extends Phaser.Scene {
         this.gameGUI.buttonChangeGun.visible = false;
         this.gameGUI.buttonHat.visible = false;
         this.gameGUI.buttonFortuna.visible = false;
+        if (this.gameGUI.layerCloudHat) this.gameGUI.layerCloudHat.visible = false;
+        if (this.gameGUI.buttonEvent) this.gameGUI.buttonEvent.visible = false;
+        if (this.gameGUI.effectEvent) this.gameGUI.effectEvent.visible = false;
         this.isGoTutorial = true;
         this.tutorialStep = 0;
         var effect = this.add.sprite(this.midX, this.midY, "ss_main");
@@ -1688,6 +2149,9 @@ class Game extends Phaser.Scene {
             this.gameGUI.buttonChangeGun.visible = true;
             this.gameGUI.buttonHat.visible = true;
             this.gameGUI.buttonFortuna.visible = false;
+            if (this.gameGUI.layerCloudHat) this.gameGUI.layerCloudHat.visible = true;
+            if (this.gameGUI.buttonEvent) this.gameGUI.buttonEvent.visible = false;
+            if (this.gameGUI.effectEvent) this.gameGUI.effectEvent.visible = false;
             this.gameGUI.btnFire.setEnable(true);
             this.gameGUI.buttonAddCar.enableInput()
         }
@@ -1753,7 +2217,8 @@ class Game extends Phaser.Scene {
             obj: null,
             lemming: null,
             btn_return: null,
-            type: 0
+            type: 0,
+            allow: true
         });
         this.arParking.push({
             id: 1,
@@ -1764,7 +2229,8 @@ class Game extends Phaser.Scene {
             obj: null,
             lemming: null,
             btn_return: null,
-            type: 0
+            type: 0,
+            allow: true
         });
         this.arParking.push({
             id: 2,
@@ -1775,7 +2241,8 @@ class Game extends Phaser.Scene {
             obj: null,
             lemming: null,
             btn_return: null,
-            type: 0
+            type: 0,
+            allow: true
         });
         this.arParking.push({
             id: 3,
@@ -1786,7 +2253,8 @@ class Game extends Phaser.Scene {
             obj: null,
             lemming: null,
             btn_return: null,
-            type: 0
+            type: 0,
+            allow: true
         });
         this.arParking.push({
             id: 4,
@@ -1797,7 +2265,8 @@ class Game extends Phaser.Scene {
             obj: null,
             lemming: null,
             btn_return: null,
-            type: 0
+            type: 0,
+            allow: true
         });
         this.arParking.push({
             id: 5,
@@ -1808,7 +2277,8 @@ class Game extends Phaser.Scene {
             obj: null,
             lemming: null,
             btn_return: null,
-            type: 0
+            type: 0,
+            allow: true
         });
         this.arParking.push({
             id: 6,
@@ -1819,7 +2289,8 @@ class Game extends Phaser.Scene {
             obj: null,
             lemming: null,
             btn_return: null,
-            type: 0
+            type: 0,
+            allow: true
         });
         this.arParking.push({
             id: 7,
@@ -1830,7 +2301,8 @@ class Game extends Phaser.Scene {
             obj: null,
             lemming: null,
             btn_return: null,
-            type: 0
+            type: 0,
+            allow: true
         });
         this.arParking.push({
             id: 8,
@@ -1841,7 +2313,8 @@ class Game extends Phaser.Scene {
             obj: null,
             lemming: null,
             btn_return: null,
-            type: 0
+            type: 0,
+            allow: true
         });
         this.arParking.push({
             id: 9,
@@ -1852,7 +2325,8 @@ class Game extends Phaser.Scene {
             obj: null,
             lemming: null,
             btn_return: null,
-            type: 0
+            type: 0,
+            allow: true
         });
         this.arParking.push({
             id: 10,
@@ -1863,7 +2337,8 @@ class Game extends Phaser.Scene {
             obj: null,
             lemming: null,
             btn_return: null,
-            type: 0
+            type: 0,
+            allow: true
         });
         this.arParking.push({
             id: 11,
@@ -1874,7 +2349,8 @@ class Game extends Phaser.Scene {
             obj: null,
             lemming: null,
             btn_return: null,
-            type: 0
+            type: 0,
+            allow: true
         });
         this.addParking(this.arParking[0]);
         this.addParking(this.arParking[1]);
@@ -2019,6 +2495,7 @@ class Game extends Phaser.Scene {
         this.isGoTutorial = false;
         this.tutorialStep = 0;
         this.gameStarted = false;
+        this.isAutoMerge = false;
         this.isDoubleSpeed = false;
         this.isBoostTimer = false;
         this.total_speed = 0;
@@ -2051,10 +2528,13 @@ class Game extends Phaser.Scene {
         this.DEPTH_layerUnlock = .31;
         this.DEPTH_layerShop = .5;
         this.DEPTH_systemtext = .6;
+        this.countDownBonusAutoMerge = 0;
         this.countDownRebootBonusSpeed = 0;
         this.countDownBonusSpeed = 0;
         this.countDownBonusCoins = 0;
         this.countDownNextFree = 0;
+        this.countDownOfferTV = 0;
+        this.countDownSpineAnim = 0;
         this.VALUE_SELL = .25;
         this.DELTA_PRICE = 1.15;
         this.OFFLINE_EARNING = .2;
@@ -2068,6 +2548,7 @@ class Game extends Phaser.Scene {
         this.offerFreeUpgrade = 0;
         this.parking_upgrade_id = null;
         this.parking_upgrade_type = 0;
+        this.TIME_BOOST_MERGE = 60;
         this.TIME_BOOST = 150;
         this.TIME_COOLDOWN_BOOST = 60 * 5;
         this.TIME_COINS = 60;
@@ -2104,6 +2585,8 @@ class Game extends Phaser.Scene {
         MainGame.selectedHat = MainGame.selectedHat || 0;
         MainGame.arHatsHave = MainGame.arHatsHave || [];
         MainGame.fireLevel = MainGame.fireLevel || 1;
+        MainGame.listEvents = MainGame.listEvents || [0, 0, 0, 0, 0];
+        MainGame.listQuests = MainGame.listQuests || [0, 0, 0, 0, 0];
         this.box_have = [];
         this.arDeltaCarLevel = [];
         this.buffer_boxes = [];
@@ -2170,28 +2653,28 @@ class Game extends Phaser.Scene {
             value: 10
         }, {
             price: kfShopPriv * 128e4,
-            value: 20
+            value: 15
         }, {
             price: kfShopPriv * 1024e5,
-            value: 30
+            value: 20
         }, {
             price: kfShopPriv * 8192e6,
-            value: 40
+            value: 25
         }, {
             price: kfShopPriv * 65536e7,
-            value: 50
+            value: 30
         }, {
             price: kfShopPriv * 524288e8,
-            value: 60
+            value: 35
         }, {
             price: kfShopPriv * 4194304e9,
-            value: 70
+            value: 40
         }, {
             price: kfShopPriv * 33554432e10,
-            value: 80
+            value: 45
         }, {
             price: kfShopPriv * 268435456e11,
-            value: 100
+            value: 50
         }];
         this.factorEarning = 1;
         this.factorDiscount = 1;
@@ -2250,6 +2733,25 @@ class Game extends Phaser.Scene {
                     this.gameGUI.icon_free_fortune.visible = true
                 }
                 this.gameGUI.updateFortunaWheelWindow(this.countDownNextFree)
+            }
+        }
+        if (!this.isAutoMerge) {
+            if (this.countDownOfferTV > 0) {
+                this.countDownOfferTV--;
+                if (this.countDownOfferTV == 0) {
+                    this.gameGUI.showOfferTV()
+                }
+            } else if (this.countDownOfferTV < 0) {
+                this.countDownOfferTV++
+            }
+        }
+        if (this.countDownSpineAnim > 0) {
+            this.countDownSpineAnim--;
+            if (this.countDownSpineAnim == 0) {
+                if (!this.isShowingAnim) {
+                    this.updateSpineAnimation()
+                }
+                this.countDownSpineAnim = MyMath.getRandomInt(10, 30)
             }
         }
         MainGame.amount_coins = this.amount_coins;
@@ -2649,6 +3151,38 @@ class Game extends Phaser.Scene {
         this.isBoostTimer = false;
         this.updateSpeedValue()
     }
+    activateBoostAutoMerge(vTime, isFromLoad) {
+        vTime = vTime || this.TIME_BOOST_MERGE;
+        this.isAutoMerge = true;
+        if (!isFromLoad && this.countDownBonusAutoMerge > 0) {
+            this.countDownBonusAutoMerge += vTime;
+            this.gameGUI.updateIndcatorBoostAutoMerge(this.secToHHMMSS(this.countDownBonusAutoMerge));
+            return
+        }
+        this.countDownBonusAutoMerge = vTime;
+        this.timerBonusAutoMerge = this.time.addEvent({
+            delay: 1e3,
+            callback: this.updateTimerBonusAutoMerge,
+            callbackScope: this,
+            loop: true
+        });
+        this.gameGUI.enableIndcatorBoostAutoMerge(true);
+        this.gameGUI.updateIndcatorBoostAutoMerge(this.secToHHMMSS(this.countDownBonusAutoMerge));
+        MainGame.Sfx.play("sound", "boost")
+    }
+    updateTimerBonusAutoMerge() {
+        this.countDownBonusAutoMerge--;
+        this.gameGUI.updateIndcatorBoostAutoMerge(this.secToHHMMSS(this.countDownBonusAutoMerge));
+        if (this.countDownBonusAutoMerge == 0) {
+            this.deactivateBoostAutoMerge()
+        }
+        MainGame.cdBonusMerge = this.countDownBonusAutoMerge
+    }
+    deactivateBoostAutoMerge() {
+        this.isAutoMerge = false;
+        this.gameGUI.enableIndcatorBoostAutoMerge(false);
+        this.timerBonusAutoMerge.remove()
+    }
     increaseLevel(vValue, vShowLater) {
         this.exp += vValue;
         var delta = this.exp_max - this.exp;
@@ -2845,6 +3379,26 @@ class Game extends Phaser.Scene {
             }),
             hideOnComplete: false,
             repeat: -1
+        });
+        this.anims.create({
+            key: "booster_halloween",
+            frames: this.anims.generateFrameNames("ss_ui", {
+                prefix: "booster_halloween_",
+                end: 15,
+                zeroPad: 4
+            }),
+            hideOnComplete: false,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "effect_event",
+            frames: this.anims.generateFrameNames("ss_ui", {
+                prefix: "effect_event_",
+                end: 39,
+                zeroPad: 4
+            }),
+            hideOnComplete: false,
+            repeat: -1
         })
     }
     update() {
@@ -2862,6 +3416,13 @@ class Game extends Phaser.Scene {
                 this.updateLemming(this.arParking[i])
             }
             this.gameGUI.updateHelicopter();
+            if (this.isAutoMerge) {
+                this.timerCheckAutoMerge++;
+                if (this.timerCheckAutoMerge > 90) {
+                    this.checkAutoMerge();
+                    this.timerCheckAutoMerge = 0
+                }
+            }
             if (!this.arm_help.visible) {
                 this.timerCheckHelp++;
                 if (this.timerCheckHelp > 120) {
@@ -2895,6 +3456,7 @@ class Game extends Phaser.Scene {
             fromParking.obj.alpha = .5
         }
         toParking.busy = true;
+        toParking.allow = true;
         toParking.obj = fromParking.obj;
         toParking.type = fromParking.type;
         toParking.racing = fromParking.racing;
@@ -2907,6 +3469,7 @@ class Game extends Phaser.Scene {
         if (toParking.id != fromParking.id) {
             fromParking.type = 0;
             fromParking.busy = false;
+            fromParking.allow = true;
             fromParking.racing = false;
             fromParking.obj = null;
             fromParking.icon_panel_number.visible = false;
@@ -2916,12 +3479,15 @@ class Game extends Phaser.Scene {
     }
     selectUnlockedGun() {
         MainGame.selectedGun = this.nextCarLevel - 1;
-        this.updateSpineMan()
+        this.updateSpineMan(true)
     }
-    actionMerge(toParking, fromParking, vType) {
+    actionMerge(toParking, fromParking, vIsAuto) {
+        if (toParking.obj == null || fromParking.obj == null) return;
         var currentType = toParking.type;
         var nextType = currentType + 1;
         var exp = this.getExpMerge(currentType);
+        var isUnlockedNew = false;
+        var isFreeUpgrade = false;
         this.increaseLevel(exp, this.nextCarLevel == nextType);
         if (this.nextCarLevel == nextType) {
             if (MainGame.isAPI) MainGame.API_POKI.happyTime(.5);
@@ -2943,25 +3509,29 @@ class Game extends Phaser.Scene {
                 this.parking_upgrade_id = toParking.id;
                 this.parking_upgrade_type = nextType + 2;
                 this.gameGUI.showUpgradeWindow(nextType);
-                this.offerFreeUpgrade = 0
+                this.offerFreeUpgrade = 0;
+                isFreeUpgrade = true
             } else {
-                if (nextType < this.nextCarLevel - this.MIN_LVL_UPGRADE) {
+                if (nextType < this.nextCarLevel - this.MIN_LVL_UPGRADE && !vIsAuto) {
                     this.offerFreeUpgrade++;
-                    if (this.offerFreeUpgrade >= this.ALLOW_UPGRADE) {
+                    if (this.offerFreeUpgrade >= this.ALLOW_UPGRADE && !this.isAutoMerge) {
                         this.parking_upgrade_id = toParking.id;
                         this.parking_upgrade_type = nextType + 2;
                         this.gameGUI.showUpgradeWindow(nextType);
-                        this.offerFreeUpgrade = 0
+                        this.offerFreeUpgrade = 0;
+                        isFreeUpgrade = true
                     }
                 }
             }
         }
         if (toParking.obj) toParking.obj.setFrame("icon_f" + nextType + "_0000");
         toParking.type = nextType;
+        toParking.allow = false;
         if (fromParking.obj) fromParking.obj.destroy();
         fromParking.busy = false;
         fromParking.obj = null;
         fromParking.type = 0;
+        if (fromParking.highlighter.visible) fromParking.highlighter.visible = false;
         fromParking.icon_panel_number.visible = false;
         fromParking.textNumberType.visible = false;
         if (fromParking.racing) {
@@ -2973,10 +3543,16 @@ class Game extends Phaser.Scene {
             toParking.racing = false;
             toParking.obj.alpha = 1
         }
+        if (toParking.obj) {
+            toParking.obj.alpha = 1
+        }
         fromParking.lemming.progress = 0;
         toParking.lemming.progress = 0;
         this.setSpriteText(toParking.textNumberType, nextType);
-        if (toParking.obj) this.showAnimationMerge(toParking.obj, nextType);
+        if (!vIsAuto) {
+            this.time.delayedCall(200, this.onAllowAfterAnimation, [toParking, fromParking], this)
+        }
+        if (toParking.obj) this.showAnimationMerge(toParking.obj, nextType, vIsAuto, isFreeUpgrade);
         this.updateSpeedValue();
         this.checkNextCar();
         MainGame.Sfx.play("sound", "merge")
@@ -2997,6 +3573,8 @@ class Game extends Phaser.Scene {
         fromParking.racing = save_racing;
         fromParking.busy = true;
         toParking.busy = true;
+        fromParking.allow = false;
+        toParking.allow = false;
         if (fromParking.obj) {
             fromParking.obj.alpha = 1;
             fromParking.obj.setFrame("icon_f" + fromParking.type + "_0000");
@@ -3014,11 +3592,18 @@ class Game extends Phaser.Scene {
                 toParking.obj.alpha = 1
             }
         }
-        if (toParking.obj && fromParking.obj) this.showAnimationSwap(toParking.obj, fromParking.obj, {
-            x: vX,
-            y: vY
-        });
+        if (toParking.obj && fromParking.obj) {
+            this.showAnimationSwap(toParking.obj, fromParking.obj, {
+                x: vX,
+                y: vY
+            });
+            this.time.delayedCall(200, this.onAllowAfterAnimation, [toParking, fromParking], this)
+        }
         this.updateSpeedValue()
+    }
+    onAllowAfterAnimation(vParking1, vParking2) {
+        vParking1.allow = true;
+        vParking2.allow = true
     }
     actionTrash(selectedParking) {
         var priceCar = this.getPriceCar(selectedParking.type);
@@ -3028,6 +3613,7 @@ class Game extends Phaser.Scene {
         this.updateShop(text_coins_warm);
         selectedParking.obj.destroy();
         selectedParking.busy = false;
+        selectedParking.allow = true;
         selectedParking.racing = false;
         selectedParking.obj = null;
         selectedParking.type = 0;
@@ -3054,7 +3640,7 @@ class Game extends Phaser.Scene {
             for (var i = 0; i < this.LIMIT_parking; i++) {
                 parking = this.arParking[i];
                 dist = MyMath.distanceTwoPoints(pos.x, parking.x, pos.y, parking.y - 20);
-                if (dist < this.DISTANCE_DRAG) {
+                if (dist < this.DISTANCE_DRAG && parking.allow) {
                     if (parking.obj && parking.busy && this.selectedCar.id != parking.id) {
                         if (this.selectedCar.type == parking.type && parking.type < this.MAX_TYPES_CAR) {
                             this.actionMerge(parking, this.arParking[this.selectedCar.id]);
@@ -3081,6 +3667,7 @@ class Game extends Phaser.Scene {
                         }
                     }
                 }
+                if (action_detected) break
             }
             if (!isPlacedToParking) {
                 dist = MyMath.distanceTwoPoints(pos.x, this.icon_trash.x, pos.y, this.icon_trash.y);
@@ -3096,7 +3683,7 @@ class Game extends Phaser.Scene {
                     dist = MyMath.distanceTwoPoints(pos.x, this.stick_man.x, pos.y, 350);
                     if (dist < 3e4) {
                         MainGame.selectedGun = oldParking.type;
-                        this.updateSpineMan();
+                        this.updateSpineMan(true);
                         MainGame.saveSaves();
                         MainGame.Sfx.play("sound", "give_gun")
                     }
@@ -3105,22 +3692,27 @@ class Game extends Phaser.Scene {
                     oldParking.busy = true;
                     oldParking.obj = this.selectedCar.obj;
                     oldParking.type = this.selectedCar.type;
+                    oldParking.allow = true;
                     if (oldParking.racing) {
                         this.cursor_car.visible = false;
                         this.linkToOldParking = null
                     } else {
                         this.cursor_car.visible = true;
                         this.linkToOldParking = oldParking;
-                        var posX = oldParking.obj.x;
-                        var posY = oldParking.obj.y;
-                        this.tweens.add({
-                            targets: this.cursor_car,
-                            x: posX,
-                            y: posY,
-                            ease: Phaser.Math.Easing.Cubic.Out,
-                            duration: 100,
-                            onComplete: this.finishCursorTween
-                        })
+                        if (oldParking.obj) {
+                            var posX = oldParking.obj.x;
+                            var posY = oldParking.obj.y;
+                            this.tweens.add({
+                                targets: this.cursor_car,
+                                x: posX,
+                                y: posY,
+                                ease: Phaser.Math.Easing.Cubic.Out,
+                                duration: 100,
+                                onComplete: this.finishCursorTween
+                            })
+                        } else {
+                            this.finishCursorTween()
+                        }
                     }
                 }
             }
@@ -3128,6 +3720,7 @@ class Game extends Phaser.Scene {
             this.isDrag = false;
             this.hideHighlight()
         }
+        this.selectedCar = null;
         this.isDownOnParking = false;
         this.gameGUI.delete_flash.visible = false;
         if (action_detected) {
@@ -3139,19 +3732,23 @@ class Game extends Phaser.Scene {
         if (MainGame.state.linkToOldParking && MainGame.state.linkToOldParking.obj) MainGame.state.linkToOldParking.obj.alpha = 1;
         MainGame.state.linkToOldParking = null
     }
-    showAnimationMerge(vObj, vType) {
+    showAnimationMerge(vObj, vType, vIsAuto, vIsFreeUpgrade) {
         var oldType = vType - 1;
         var posX = vObj.x;
         var posY = vObj.y;
-        this.cursor_car.visible = true;
-        this.cursor_car.setFrame("icon_f" + oldType + "_0000");
+        var obj_anim = this.cursor_car;
+        if (vIsAuto) {
+            obj_anim = this.auto_car
+        }
+        obj_anim.visible = true;
+        obj_anim.setFrame("icon_f" + oldType + "_0000");
         vObj.setFrame("icon_f" + oldType + "_0000");
-        this.cursor_car.x = posX;
-        this.cursor_car.y = posY;
+        obj_anim.x = posX;
+        obj_anim.y = posY;
         vObj.x = posX;
         vObj.y = posY;
         this.tweens.add({
-            targets: this.cursor_car,
+            targets: obj_anim,
             x: posX + 50,
             ease: Phaser.Math.Easing.Cubic.Out,
             duration: 100,
@@ -3164,16 +3761,23 @@ class Game extends Phaser.Scene {
             duration: 100,
             yoyo: true
         });
-        this.time.delayedCall(200, this.onMergePart, [vObj, vType], this);
+        this.time.delayedCall(200, this.onMergePart, [vObj, vType, vIsAuto], this);
         var effect = this.add.sprite(vObj.x - 5, vObj.y + 2, "ss_main");
         effect.setDepth(this.DEPTH_effect_unboxing);
         effect.play("effect_connect")
     }
-    onMergePart(vObj, vType) {
+    onMergePart(vObj, vType, vIsAuto) {
+        var obj_anim = this.cursor_car;
+        if (vIsAuto) {
+            obj_anim = this.auto_car
+        }
         vObj.setFrame("icon_f" + vType + "_0000");
-        this.cursor_car.setFrame("icon_f" + vType + "_0000");
-        if (this.isDrag) return;
-        this.cursor_car.visible = false;
+        obj_anim.setFrame("icon_f" + vType + "_0000");
+        if (this.isDrag) {
+            if (obj_anim == this.auto_car) obj_anim.visible = false;
+            return
+        }
+        obj_anim.visible = false;
         vObj.setScale(this.getScaleCar(1));
         this.tweens.add({
             targets: vObj,
@@ -3223,10 +3827,6 @@ class Game extends Phaser.Scene {
             yoyo: true
         })
     }
-    onBackPart(vObj) {
-        vObj.alpha = 1;
-        this.cursor_car.visible = false
-    }
     showHighlight() {
         var parking = null;
         var typeSelected = this.selectedCar.type;
@@ -3275,6 +3875,7 @@ class Game extends Phaser.Scene {
                 }
                 parking.obj.alpha = .5;
                 parking.busy = false;
+                parking.allow = false;
                 this.isDownOnParking = false;
                 this.showHighlight();
                 parking.obj.setScale(this.getScaleCar(1));
@@ -3298,7 +3899,7 @@ class Game extends Phaser.Scene {
             if (this.isGoTutorial && this.tutorialStep == 3 && parking.id == 0) {
                 continue
             }
-            if (dist < this.DISTANCE_DRAG && parking.busy) {
+            if (dist < this.DISTANCE_DRAG && parking.busy && parking.allow) {
                 this.isDownOnParking = true;
                 this.selectedCar = {
                     id: parking.id,
@@ -3309,6 +3910,7 @@ class Game extends Phaser.Scene {
                 if (parking.obj && parking.obj.count_box_tween > 0) {
                     this.openBox(parking, true)
                 }
+                break
             }
         }
     }
@@ -3457,6 +4059,7 @@ class Game extends Phaser.Scene {
             this.gameGUI.showSystemMessage(MainGame.GAME_TEXT.no_parking)
         }
         this.checkNextCar();
+        if (vIsSound) this.getSlotFullness(true);
         this.updateSpeedCars(this.isDoubleSpeed)
     }
     getTypeFastCar() {
@@ -3543,7 +4146,7 @@ class Game extends Phaser.Scene {
         return placeNum
     }
     setSpriteText(vLayer, vNum) {
-        vLayer.removeAll();
+        vLayer.removeAll(true);
         var stringNum = vNum.toString();
         var arrayOfNum = stringNum.split("");
         var length = 0;
@@ -3872,7 +4475,11 @@ class Game extends Phaser.Scene {
         var color = 65535;
         graphicsMask.fillStyle(color);
         graphicsMask.fillRect(100 + offsetX, 85, 700, 530);
-        this.layerShopContent.mask = new Phaser.Display.Masks.BitmapMask(this, graphicsMask);
+        try {
+            this.layerShopContent.mask = new Phaser.Display.Masks.BitmapMask(this, graphicsMask)
+        } catch (e) {
+            console.log(e)
+        }
         this.layerShop.visible = false;
         this.contentMaxY = this.contentHeight;
         this.isShopAdded = true;
@@ -4371,6 +4978,54 @@ class Game extends Phaser.Scene {
                 this.parking_upgrade_id = null;
                 this.parking_upgrade_type = 0;
                 this.gameGUI.closeUpgadeWindow();
+                break;
+            case "auto_merge":
+                this.activateBoostAutoMerge();
+                this.gameGUI.hideOfferTV();
+                break;
+            case "quest_hat21":
+                MainGame.selectedHat = 21;
+                this.updateSpineHat(MainGame.selectedHat);
+                this.gameGUI.updateWindowHelmet();
+                break;
+            case "ads_hat28":
+                var num = 0;
+                MainGame.listAdsHats[num]++;
+                var value1 = MainGame.listAdsHats[num];
+                var value2 = MainGame.listAdsHatsMax[num];
+                if (value1 == value2) {
+                    MainGame.selectedHat = 28;
+                    MainGame.arHatsHave.push(28);
+                    this.updateSpineHat(MainGame.selectedHat);
+                    this.gameGUI.updateWindowHelmet()
+                }
+                this.gameGUI.updateAdsHat();
+                break;
+            case "ads_hat29":
+                var num = 1;
+                MainGame.listAdsHats[num]++;
+                var value1 = MainGame.listAdsHats[num];
+                var value2 = MainGame.listAdsHatsMax[num];
+                if (value1 == value2) {
+                    MainGame.selectedHat = 29;
+                    MainGame.arHatsHave.push(29);
+                    this.updateSpineHat(MainGame.selectedHat);
+                    this.gameGUI.updateWindowHelmet()
+                }
+                this.gameGUI.updateAdsHat();
+                break;
+            case "ads_hat30":
+                var num = 2;
+                MainGame.listAdsHats[num]++;
+                var value1 = MainGame.listAdsHats[num];
+                var value2 = MainGame.listAdsHatsMax[num];
+                if (value1 == value2) {
+                    MainGame.selectedHat = 30;
+                    MainGame.arHatsHave.push(30);
+                    this.updateSpineHat(MainGame.selectedHat);
+                    this.gameGUI.updateWindowHelmet()
+                }
+                this.gameGUI.updateAdsHat();
                 break
         }
     }
@@ -4402,6 +5057,15 @@ class Game extends Phaser.Scene {
     showAdsForCar() {
         MainGame.clickReward("freeCar")
     }
+    clickOfferTV() {
+        MainGame.clickReward("auto_merge");
+        this.gameGUI.buttonPanelTV.setEnable(false)
+    }
+    showAdsForHats(vNumHat) {
+        MainGame.isApiGameplayStop = true;
+        MainGame.clickReward("ads_hat" + vNumHat);
+        this.gameGUI.buttonFreeUpgrade.setEnable(false)
+    }
     goAllowAdsCar() {
         if (this.nextCarLevel < 6) return;
         if (this.ALLOW_ADS_CAR) return;
@@ -4418,6 +5082,11 @@ class Game extends Phaser.Scene {
     }
     showHelicopter() {
         this.gameGUI.showHelicopter()
+    }
+    testAllowParking() {
+        for (var i = 0; i < this.arParking.length; i++) {
+            if (!this.arParking[i].allow) console.log("[!!!]", i, this.arParking[i].allow)
+        }
     }
     testAddBoxes() {
         this.addBoxToBuffer(2);
@@ -4450,6 +5119,32 @@ class Game extends Phaser.Scene {
             fromShop: true
         }, true)
     }
+    testShowAnim2() {
+        this.stick_man.setSkinByName("gun" + 1);
+        this.updateSpineHat(5)
+    }
+    testShowAnim() {
+        this.stick_man.play("show_pistol2", false);
+        this.stick_man.addAnimation(0, "idle_pistol", true);
+        this.stick_man.setSkinByName("gun" + 1);
+        this.updateSpineHat(20);
+        this.time.delayedCall(300, (function() {
+            this.stick_man.setSkinByName("gun" + 2);
+            this.updateSpineHat(20)
+        }), [], this);
+        this.time.delayedCall(600, (function() {
+            this.stick_man.setSkinByName("gun" + 3);
+            this.updateSpineHat(28)
+        }), [], this);
+        this.time.delayedCall(900, (function() {
+            this.stick_man.setSkinByName("gun" + 20);
+            this.updateSpineHat(30)
+        }), [], this);
+        this.time.delayedCall(1200, (function() {
+            this.stick_man.setSkinByName("gun" + 4);
+            this.updateSpineHat(29)
+        }), [], this)
+    }
 }
 GameGUI = function(link) {
     this.gameScreen = link;
@@ -4475,8 +5170,11 @@ GameGUI.prototype.init = function() {
     this.initCoinsPanel();
     this.initProgressBar();
     this.initLevelBar();
+    this.initCloudHat();
     this.initIndcatorBoostCoins();
     this.initIndcatorBoostSpeed();
+    this.initIndcatorBoostAutoMerge();
+    this.initOfferTV();
     this.initCoinsText();
     this.initSystemMessage();
     this.initUpgradeWindow();
@@ -4490,7 +5188,13 @@ GameGUI.prototype.init = function() {
     this.initFortunaWheelWindow();
     this.initRewardWindow();
     this.initHelmetWindow();
-    this.initHelicopter()
+    this.initHelicopter();
+    if (MainGame.EVENT_NUM == 1) {
+        this.initSpider()
+    }
+    if (MainGame.reward_quest) {
+        if (MainGame.reward_quest == "quest_hat21") this.showRewardWindow("icon_hat21")
+    }
 };
 GameGUI.prototype.showBtnFireEffect = function() {
     this.btn_fire_effect.visible = true;
@@ -4510,6 +5214,13 @@ GameGUI.prototype.initMainButtons = function() {
     effect.visible = false;
     this.layerButtons.add(effect);
     this.btn_fire_effect = effect;
+    if (MainGame.EVENT_NUM > 0) {
+        var effectEvent = _this.add.sprite(0, 0, "ss_ui");
+        effectEvent.play("effect_event");
+        effectEvent.setScale(2);
+        effectEvent.setDepth(_this.DEPTH_GUI);
+        this.effectEvent = effectEvent
+    }
     var textDay = MainGame.GAME_TEXT.day + " " + MainGame.fireLevel;
     var text_day = _this.addText(btnFire, 34, 20, textDay.toUpperCase(), 24);
     this.btnFire = btnFire;
@@ -4521,6 +5232,18 @@ GameGUI.prototype.initMainButtons = function() {
     this.buttonChangeGun.setDepth(_this.DEPTH_GUI);
     this.buttonHat = new Button(btnFire.x - 190, posY - 110, "ss_ui", "btn_hat_0000", this.showHatWindow, _this, this);
     this.buttonHat.setDepth(_this.DEPTH_GUI);
+    if (MainGame.EVENT_NUM == 1) {
+        this.buttonEvent = new Button(btnFire.x - 190, posY - 215, "ss_ui", "btn_event_halloween_0000", this.showEventScreen, _this, this);
+        this.buttonEvent.setDepth(_this.DEPTH_GUI);
+        this.effectEvent.x = this.buttonEvent.x;
+        this.effectEvent.y = this.buttonEvent.y
+    }
+    if (MainGame.EVENT_NUM == 2) {
+        this.buttonEvent = new Button(btnFire.x - 190, posY - 215, "ss_ui", "btn_event_christmas_0000", this.showEventScreen, _this, this);
+        this.buttonEvent.setDepth(_this.DEPTH_GUI);
+        this.effectEvent.x = this.buttonEvent.x;
+        this.effectEvent.y = this.buttonEvent.y
+    }
     var buttonAddCar = new ButtonText(posX, posY, "ss_ui", "btn_big_0000", _this.buyFastCar, _this, "");
     this.layerButtons.add(buttonAddCar);
     this.buttonAddCar = buttonAddCar;
@@ -4595,6 +5318,8 @@ GameGUI.prototype.enableMainButtons = function() {
     this.buttonEnabled = true;
     this.buttonFortuna.enableInput();
     this.buttonChangeGun.enableInput();
+    this.buttonHat.enableInput();
+    if (this.buttonEvent) this.buttonEvent.enableInput();
     this.buttonShop.enableInput();
     this.buttonTurbo.enableInput();
     this.buttonSettings.enableInput();
@@ -4610,6 +5335,8 @@ GameGUI.prototype.disableMainButtons = function(vSkipApiEvent) {
     this.btnFire.disableInput();
     this.buttonFortuna.disableInput();
     this.buttonChangeGun.disableInput();
+    this.buttonHat.disableInput();
+    if (this.buttonEvent) this.buttonEvent.disableInput();
     this.buttonAddCar.disableInput();
     this.buttonTurbo.disableInput();
     this.buttonShop.disableInput();
@@ -4617,6 +5344,15 @@ GameGUI.prototype.disableMainButtons = function(vSkipApiEvent) {
     if (MainGame.isAPI && !vSkipApiEvent) {
         MainGame.isApiGameplayStop = true;
         MainGame.API_POKI.gameplayStop()
+    }
+};
+GameGUI.prototype.showEventScreen = function() {
+    _this = this.gameScreen;
+    if (MainGame.EVENT_NUM == 1) {
+        _this.goHalloweenScreen()
+    }
+    if (MainGame.EVENT_NUM == 2) {
+        _this.goChristmasScreen()
     }
 };
 GameGUI.prototype.initCoinsPanel = function() {
@@ -4719,6 +5455,57 @@ GameGUI.prototype.updateProgress = function(progress) {
         this.effect_readyMerge.visible = false
     }
 };
+GameGUI.prototype.initCloudHat = function() {
+    if (MainGame.EVENT_NUM == 0) {
+        return
+    } else if (MainGame.EVENT_NUM == 1) {
+        if (MainGame.listEvents && MainGame.listEvents[2] == 1) return
+    } else if (MainGame.EVENT_NUM == 2) {
+        return
+    }
+    _this = this.gameScreen;
+    this.layerCloudHat = _this.add.container();
+    var pos = {
+        x: 350,
+        y: 185
+    };
+    var cloud_ads = _this.add.image(pos.x, pos.y, "ss_ui", "cloud_ads_0000");
+    var icon_hat21 = _this.add.image(pos.x + 5, pos.y - 20, "ss_ui", "icon_hat21_0000");
+    icon_hat21.setScale(.7);
+    var plaha_quest = _this.add.image(pos.x, pos.y + 30, "ss_ui", "plaha_quest_0000");
+    var icon_crow = _this.add.image(pos.x - 27, pos.y + 24, "ss_ui", "icon_crow_0000");
+    icon_crow.setScale(.7);
+    this.layerCloudHat.add(cloud_ads);
+    this.layerCloudHat.add(icon_hat21);
+    this.layerCloudHat.add(plaha_quest);
+    this.layerCloudHat.add(icon_crow);
+    var valueQuest = MainGame.getQuestValue(0);
+    if (valueQuest) {
+        var stringQuest = valueQuest[0] + "/" + valueQuest[1];
+        var txt = _this.addText(this.layerCloudHat, pos.x + 22, pos.y + 28, stringQuest, 18)
+    }
+    this.layerCloudHat.setDepth(_this.DEPTH_GUI)
+};
+GameGUI.prototype.updateAdsHat = function() {
+    var value1 = MainGame.listAdsHats[0];
+    var value2 = MainGame.listAdsHatsMax[0];
+    this.buttonAdsHat28.text.setText(value1 + "/" + value2);
+    if (value1 == value2) {
+        this.buttonAdsHat28.visible = false
+    }
+    var value1 = MainGame.listAdsHats[1];
+    var value2 = MainGame.listAdsHatsMax[1];
+    this.buttonAdsHat29.text.setText(value1 + "/" + value2);
+    if (value1 == value2) {
+        this.buttonAdsHat29.visible = false
+    }
+    var value1 = MainGame.listAdsHats[2];
+    var value2 = MainGame.listAdsHatsMax[2];
+    this.buttonAdsHat30.text.setText(value1 + "/" + value2);
+    if (value1 == value2) {
+        this.buttonAdsHat30.visible = false
+    }
+};
 GameGUI.prototype.initLevelBar = function() {
     _this = this.gameScreen;
     this.layerPanelLevel = _this.add.container();
@@ -4756,6 +5543,62 @@ GameGUI.prototype.updateLevel = function(progress, delay) {
             this.levelBarT.setCrop(this.levelBarT_crop)
         }
     })
+};
+GameGUI.prototype.initOfferTV = function() {
+    _this = this.gameScreen;
+    this.layerOfferAutoMerge = _this.add.container();
+    this.layerOfferAutoMerge.setDepth(_this.DEPTH_text_field);
+    this.layerOfferAutoMerge.x = 450;
+    this.layerOfferAutoMerge.y = 160 + 100 + 100;
+    var icon = _this.add.image(0, 0, "ss_ui", "indicator_automerge_0000");
+    this.layerOfferAutoMerge.add(icon);
+    var buttonContinue = new ButtonText(0, 44, "ss_ui", "btn_free_0000", _this.clickOfferTV, _this, MainGame.GAME_TEXT.free);
+    buttonContinue.text.setFontSize(20);
+    buttonContinue.text.x = -16;
+    buttonContinue.text.y = -3;
+    this.layerOfferAutoMerge.add(buttonContinue);
+    this.buttonPanelTV = buttonContinue;
+    _this.tweens.add({
+        targets: buttonContinue,
+        scaleX: .95,
+        scaleY: .95,
+        ease: "Linear",
+        duration: 500,
+        yoyo: true,
+        repeat: -1
+    });
+    this.layerOfferAutoMerge.visible = false
+};
+GameGUI.prototype.showOfferTV = function() {
+    if (this.layerOfferAutoMerge.visible || this.gameScreen.isAutoMerge) return;
+    this.buttonPanelTV.setEnable(true);
+    if (MainGame.isAPI) {
+        if (MainGame.API_POKI && MainGame.API_POKI.api_isAdblock) this.buttonPanelTV.setEnable(false)
+    } else {
+        if (!MainGame.isDebug) this.buttonPanelTV.setEnable(false)
+    }
+    this.layerOfferAutoMerge.visible = true;
+    _this.time.delayedCall(1e4, this.hideOfferTV, [], this)
+};
+GameGUI.prototype.hideOfferTV = function() {
+    if (!this.layerOfferAutoMerge.visible) return;
+    this.buttonPanelTV.setEnable(false);
+    this.layerOfferAutoMerge.visible = false;
+    _this.countDownOfferTV = -30
+};
+GameGUI.prototype.initIndcatorBoostAutoMerge = function() {
+    _this = this.gameScreen;
+    this.layerIndicatorAutoMerge = _this.add.container();
+    this.layerIndicatorAutoMerge.setDepth(_this.DEPTH_text_field);
+    this.layerIndicatorAutoMerge.x = 450;
+    this.layerIndicatorAutoMerge.y = 160 + 100 + 100;
+    var icon = _this.add.image(0, 0, "ss_ui", "indicator_automerge_0000");
+    this.layerIndicatorAutoMerge.add(icon);
+    var txt = _this.addText(this.layerIndicatorAutoMerge, 0, 38, "", 18);
+    txt.setText(_this.secToHHMMSS(105));
+    this.layerIndicatorAutoMerge.visible = false;
+    this.iconIndicatorAutoMerge = icon;
+    this.textFieldIndicatorAutoMerge = txt
 };
 GameGUI.prototype.initIndcatorBoostCoins = function() {
     _this = this.gameScreen;
@@ -4801,8 +5644,14 @@ GameGUI.prototype.enableIndcatorBoostSpeed = function(bool) {
     this.layerIndicatorBoost.visible = bool;
     this.updateIndicatorsBonus("speed_x2", bool)
 };
+GameGUI.prototype.enableIndcatorBoostAutoMerge = function(bool) {
+    this.layerIndicatorAutoMerge.visible = bool
+};
 GameGUI.prototype.updateIndcatorBoostSpeed = function(vValue) {
     this.textFieldIndicatorBoost.setText(vValue)
+};
+GameGUI.prototype.updateIndcatorBoostAutoMerge = function(vValue) {
+    this.textFieldIndicatorAutoMerge.setText(vValue)
 };
 GameGUI.prototype.updateIndicatorsBonus = function(type, bool) {
     _this = this.gameScreen;
@@ -4972,13 +5821,60 @@ GameGUI.prototype.updateFastBuy = function() {
     this.icon_fast_coin.x = this.buttonAddCar.text.x - this.buttonAddCar.text.width * .5 - 20;
     this.icon_fast_car.setFrame("icon_f" + typeFastCar + "_0000")
 };
+GameGUI.prototype.initSpider = function() {
+    _this = this.gameScreen;
+    this.spider_web = _this.add.image(1e3, -100, "ss_ui", "spider_web_0000");
+    this.spider_web.setOrigin(.5, 0);
+    this.spider = _this.add.image(1e3, -100, "ss_ui", "spider_0000");
+    this.spider_web.setDepth(_this.DEPTH_helicopter);
+    this.spider.setDepth(_this.DEPTH_helicopter);
+    this.spider_web.displayHeight = this.spider.y + 100;
+    this.spider.setInteractive(new Phaser.Geom.Circle(0, 0, 50), Phaser.Geom.Circle.Contains);
+    this.spider.on("pointerup", this.onHideSpider, this);
+    this.spider.on("pointerover", this.onHideSpider, this);
+    var timeSec = MyMath.getRandomInt(3, 10);
+    _this.time.delayedCall(timeSec * 1e3, this.moveSpider, [250], this);
+    this.isSpiderTweening = false
+};
+GameGUI.prototype.moveSpider = function(vY, vIsBack) {
+    if (this.isSpiderTweening) return;
+    _this.tweens.killTweensOf(this.spider);
+    var typeTween = Phaser.Math.Easing.Back.Out;
+    if (vIsBack) typeTween = Phaser.Math.Easing.Back.In;
+    this.isSpiderTweening = true;
+    _this.tweens.add({
+        targets: this.spider,
+        y: vY,
+        ease: typeTween,
+        duration: 800,
+        delay: 0,
+        onUpdate: () => {
+            this.spider_web.displayHeight = this.spider.y + 100
+        },
+        onComplete: () => {
+            if (this.isSpiderTweening) {
+                this.isSpiderTweening = false;
+                var timeSec = MyMath.getRandomInt(2, 10);
+                if (this.spider.y > 0) {
+                    _this.time.delayedCall(timeSec * 1e3, this.moveSpider, [-100, true], this)
+                } else {
+                    timeSec = MyMath.getRandomInt(10, 30);
+                    _this.time.delayedCall(timeSec * 1e3, this.moveSpider, [250, false], this)
+                }
+            }
+        }
+    })
+};
+GameGUI.prototype.onHideSpider = function() {
+    this.moveSpider(-100, true)
+};
 GameGUI.prototype.initHelicopter = function() {
     _this = this.gameScreen;
     this.helicopter = _this.add.container();
     this.helicopter.setInteractive(new Phaser.Geom.Circle(0, 0, 80), Phaser.Geom.Circle.Contains);
     this.helicopter.on("pointerup", this.onClickHelicopter, this);
     this.helicopter.setDepth(_this.DEPTH_helicopter);
-    this.helicopter.x = this.midX;
+    this.helicopter.x = this.midX - 100;
     this.helicopter.y = 300;
     var dron_box = _this.add.image(0, 15 - 60, "ss_ui", "box_drone_0000");
     dron_box.setOrigin(.5, .1);
@@ -4991,13 +5887,24 @@ GameGUI.prototype.initHelicopter = function() {
     this.dron_box = dron_box;
     this.dron_body = dron_body;
     this.dron_propeller = propeller1;
-    this.helicopter.visible = false
+    this.helicopter.visible = false;
+    if (MainGame.EVENT_NUM == 1) {
+        var bat = _this.add.sprite(0, -60, "ss_ui");
+        bat.play("booster_halloween");
+        this.helicopter.add(bat);
+        this.dron_body = bat;
+        propeller1.visible = false;
+        dron_body.visible = false
+    } else if (MainGame.EVENT_NUM == 2) {
+        dron_box.setFrame("box_drone_c_0000");
+        dron_body.setFrame("booster_c_0000")
+    }
 };
 GameGUI.prototype.showHelicopter = function() {
     this.isShowHelicopter = true;
     this.helicopter.visible = true;
     this.countHelicopterFly = 3;
-    this.flagHelicopter = Math.random() >= .5;
+    this.flagHelicopter = false;
     if (this.flagHelicopter) {
         this.helicopter.x = this.midX + 500
     } else {
@@ -5023,20 +5930,16 @@ GameGUI.prototype.updateHelicopter = function() {
         if (this.helicopter.x < this.midX - 500) {
             this.flagHelicopter = false;
             this.countHelicopterFly--;
-            if (this.countHelicopterFly == 0) {
+            if (this.countHelicopterFly <= 0) {
                 this.isShowHelicopter = false;
                 this.helicopter.visible = false
             }
         }
     } else {
         this.helicopter.x += 1;
-        if (this.helicopter.x > this.midX + 500) {
+        if (this.helicopter.x > this.midX + 20) {
             this.flagHelicopter = true;
-            this.countHelicopterFly--;
-            if (this.countHelicopterFly == 0) {
-                this.isShowHelicopter = false;
-                this.helicopter.visible = false
-            }
+            this.countHelicopterFly--
         }
     }
 };
@@ -5272,6 +6175,11 @@ GameGUI.prototype.initBoosterWindow = function() {
     this.layerBoosterWindow.add(effect);
     var helicopter_icon = _this.add.image(-30, -55, "ss_ui", "helicopter_icon_0000");
     this.layerBoosterWindow.add(helicopter_icon);
+    if (MainGame.EVENT_NUM == 1) {
+        helicopter_icon.setFrame("helicopter_icon_halloween_0000")
+    } else if (MainGame.EVENT_NUM == 2) {
+        helicopter_icon.setFrame("helicopter_icon_c_0000")
+    }
     helicopter_icon.angle = -20;
     var few_coins = _this.add.image(80, -5, "ss_ui", "few_coins_0000");
     this.layerBoosterWindow.add(few_coins);
@@ -5407,7 +6315,8 @@ GameGUI.prototype.initSettingsWindow = function() {
     _this.addText(this.layerSettingsWindow, 0, textMusic.y + 40, "GRIN DANILOV", 24, true);
     this.layerSettingsWindowMain.visible = false;
     this.layerSettingsWindow.visible = false;
-    _this.addText(this.layerSettingsWindow, 220, 260, MainGame.version, 18);
+    var textVersion = _this.addText(this.layerSettingsWindow, 245, 260, MainGame.version, 18);
+    textVersion.setOrigin(1, .5);
     popup_drop.setInteractive();
     fon_merge.setInteractive();
     fon_merge.on("pointerdown", this.onFonInputDown, this);
@@ -5968,7 +6877,7 @@ GameGUI.prototype.clickSelectGun = function() {
     _this = this.gameScreen;
     MainGame.selectedGun = this.selectedGun;
     this.closeSelectGunWindow();
-    _this.updateSpineMan();
+    _this.updateSpineMan(true);
     MainGame.saveSaves()
 };
 GameGUI.prototype.initHelmetWindow = function() {
@@ -5999,38 +6908,92 @@ GameGUI.prototype.initHelmetWindow = function() {
     this.btnHat4 = this.addHatButton(4, offsetX - 140, -20, this.clickHat, "window_hat1_0000", "icon_hat4_0000");
     this.btnHat5 = this.addHatButton(5, offsetX, -20, this.clickHat, "window_hat1_0000", "icon_hat5_0000");
     this.btnHat6 = this.addHatButton(6, offsetX + 140, -20, this.clickHat, "window_hat1_0000", "icon_hat6_0000");
+    this.btnHat7 = this.addHatButton(7, offsetX - 140, 120, this.clickHat, "window_hat1_0000", "icon_hat7_0000");
+    this.btnHat8 = this.addHatButton(8, offsetX, 120, this.clickHat, "window_hat1_0000", "icon_hat8_0000");
+    this.btnHat9 = this.addHatButton(9, offsetX + 140, 120, this.clickHat, "window_hat1_0000", "icon_hat9_0000");
     this.btnHat10 = this.addHatButton(10, offsetX - 140, -160, this.clickHat, "window_hat1_0000", "icon_hat10_0000");
     this.btnHat11 = this.addHatButton(11, offsetX, -160, this.clickHat, "window_hat1_0000", "icon_hat11_0000");
     this.btnHat12 = this.addHatButton(12, offsetX + 140, -160, this.clickHat, "window_hat1_0000", "icon_hat12_0000");
     this.btnHat13 = this.addHatButton(13, offsetX - 140, -20, this.clickHat, "window_hat1_0000", "icon_hat13_0000");
     this.btnHat14 = this.addHatButton(14, offsetX, -20, this.clickHat, "window_hat1_0000", "icon_hat14_0000");
     this.btnHat15 = this.addHatButton(15, offsetX + 140, -20, this.clickHat, "window_hat1_0000", "icon_hat15_0000");
+    this.btnHat16 = this.addHatButton(16, offsetX - 140, 120, this.clickHat, "window_hat1_0000", "icon_hat16_0000");
+    this.btnHat17 = this.addHatButton(17, offsetX, 120, this.clickHat, "window_hat1_0000", "icon_hat17_0000");
+    this.btnHat18 = this.addHatButton(18, offsetX + 140, 120, this.clickHat, "window_hat1_0000", "icon_hat18_0000");
+    this.btnHat19 = this.addHatButton(19, offsetX - 140, -160, this.clickHat, "window_hat1_0000", "icon_hat19_0000");
+    this.btnHat20 = this.addHatButton(20, offsetX, -160, this.clickHat, "window_hat1_0000", "icon_hat20_0000");
+    this.btnHat21 = this.addHatButton(21, offsetX + 140, -160, this.clickHat, "window_hat1_0000", "icon_hat21_0000");
+    this.btnHat28 = this.addHatButton(28, offsetX - 140, -160, this.clickHat, "window_hat1_0000", "icon_hat28_0000");
+    this.btnHat29 = this.addHatButton(29, offsetX, -160, this.clickHat, "window_hat1_0000", "icon_hat29_0000");
+    this.btnHat30 = this.addHatButton(30, offsetX + 140, -160, this.clickHat, "window_hat1_0000", "icon_hat30_0000");
     this.arBtnHats.push(this.btnHat1);
     this.arBtnHats.push(this.btnHat2);
     this.arBtnHats.push(this.btnHat3);
     this.arBtnHats.push(this.btnHat4);
     this.arBtnHats.push(this.btnHat5);
     this.arBtnHats.push(this.btnHat6);
+    this.arBtnHats.push(this.btnHat7);
+    this.arBtnHats.push(this.btnHat8);
+    this.arBtnHats.push(this.btnHat9);
     this.arBtnHats.push(this.btnHat10);
     this.arBtnHats.push(this.btnHat11);
     this.arBtnHats.push(this.btnHat12);
     this.arBtnHats.push(this.btnHat13);
     this.arBtnHats.push(this.btnHat14);
     this.arBtnHats.push(this.btnHat15);
+    this.arBtnHats.push(this.btnHat16);
+    this.arBtnHats.push(this.btnHat17);
+    this.arBtnHats.push(this.btnHat18);
+    this.arBtnHats.push(this.btnHat19);
+    this.arBtnHats.push(this.btnHat20);
+    this.arBtnHats.push(this.btnHat21);
+    this.arBtnHats.push(this.btnHat28);
+    this.arBtnHats.push(this.btnHat29);
+    this.arBtnHats.push(this.btnHat30);
+    this.btnHat21.icon_reward.x = 8;
+    this.btnHat28.icon_reward.x = 8;
+    this.btnHat29.icon_reward.x = 10;
+    this.btnHat30.icon_reward.x = 6;
+    this.buttonAdsHat28 = this.addButtonsAdsHelmet(this.btnHat28, 28);
+    this.buttonAdsHat29 = this.addButtonsAdsHelmet(this.btnHat29, 29);
+    this.buttonAdsHat30 = this.addButtonsAdsHelmet(this.btnHat30, 30);
     var buttonHelmetTab1 = new ButtonText(-370 + offsetX, -262, "ss_ui", "btn_shop1_0000", this.clickHelmetTab1, _this, MainGame.GAME_TEXT.basic, null, this);
     buttonHelmetTab1.text.setFontSize(22);
     buttonHelmetTab1.text.x = -5;
     buttonHelmetTab1.text.y = -2;
     this.layerHelmetWindow.add(buttonHelmetTab1);
     MainGame.updateTextWidth(buttonHelmetTab1.text, 140);
-    var buttonHelmetTab2 = new ButtonText(-370 + offsetX, -262 + 85, "ss_ui", "btn_shop2_0000", this.clickHelmetTab2, _this, MainGame.GAME_TEXT.epic, null, this);
+    var buttonHelmetTab2 = new ButtonText(-370 + offsetX, -262 + 85 * 1, "ss_ui", "btn_shop2_0000", this.clickHelmetTab2, _this, MainGame.GAME_TEXT.epic, null, this);
     buttonHelmetTab2.text.setFontSize(22);
     buttonHelmetTab2.text.x = -5;
     buttonHelmetTab2.text.y = -2;
     this.layerHelmetWindow.add(buttonHelmetTab2);
     MainGame.updateTextWidth(buttonHelmetTab2.text, 140);
+    var buttonHelmetTab3 = new ButtonText(-370 + offsetX, -262 + 85 * 2, "ss_ui", "btn_shop2_0000", this.clickHelmetTab3, _this, MainGame.GAME_TEXT.special, null, this);
+    buttonHelmetTab3.text.setFontSize(22);
+    buttonHelmetTab3.text.x = -5;
+    buttonHelmetTab3.text.y = -2;
+    this.layerHelmetWindow.add(buttonHelmetTab3);
+    MainGame.updateTextWidth(buttonHelmetTab3.text, 140);
+    var buttonHelmetTab4 = new ButtonText(-370 + offsetX, -262 + 85 * 3, "ss_ui", "btn_shop2_0000", this.clickHelmetTab4, _this, MainGame.GAME_TEXT.legendary, null, this);
+    buttonHelmetTab4.text.setFontSize(22);
+    buttonHelmetTab4.text.x = -5;
+    buttonHelmetTab4.text.y = -2;
+    this.layerHelmetWindow.add(buttonHelmetTab4);
+    MainGame.updateTextWidth(buttonHelmetTab4.text, 140);
+    if (MainGame.EVENT_NUM == 1) {
+        var icon_halloween = _this.add.image(-112, -3, "ss_ui", "icon_event_halloween_0000");
+        buttonHelmetTab3.add(icon_halloween)
+    } else if (MainGame.EVENT_NUM == 2) {
+        var icon_halloween = _this.add.image(-112, 4, "ss_ui", "icon_event_c_0000");
+        buttonHelmetTab3.add(icon_halloween)
+    }
+    var icon_ads = _this.add.image(-112, 2, "ss_ui", "icon_view_reward_0000");
+    buttonHelmetTab4.add(icon_ads);
     this.buttonHelmetTab1 = buttonHelmetTab1;
     this.buttonHelmetTab2 = buttonHelmetTab2;
+    this.buttonHelmetTab3 = buttonHelmetTab3;
+    this.buttonHelmetTab4 = buttonHelmetTab4;
     var buttonBuy = new ButtonText(offsetX, 255, "ss_ui", "btn_buy2_0000", this.clickBuyHelmet, _this, "100", null, this);
     buttonBuy.text.setFontSize(26);
     buttonBuy.text.x = 25;
@@ -6043,7 +7006,9 @@ GameGUI.prototype.initHelmetWindow = function() {
     text_currency.setOrigin(0, .5);
     this.buttonBuyHelmet = buttonBuy;
     this.textFieldHelmetWindow = text_currency;
-    this.text_buyNew = _this.addText(this.layerHelmetWindow, offsetX, 200, MainGame.GAME_TEXT.buy_new, 24, true);
+    this.text_buyNew = _this.addText(this.layerHelmetWindow, offsetX, 205, MainGame.GAME_TEXT.buy_new, 24, true);
+    this.text_legendary = _this.addText(this.layerHelmetWindow, offsetX, 255, MainGame.GAME_TEXT.text_legendary, 22, true);
+    this.text_legendary.setCenterAlign();
     this.layerHelmetWindowMain.visible = false;
     this.layerHelmetWindow.visible = false;
     fon_unlock.setInteractive();
@@ -6052,6 +7017,18 @@ GameGUI.prototype.initHelmetWindow = function() {
     fon_merge.on("pointerup", this.onFonInputUp, this);
     this.selectedHelmetTab = 1;
     this.clickHelmetTab1()
+};
+GameGUI.prototype.addButtonsAdsHelmet = function(vButton, vNumHat) {
+    var buttonContinue = new ButtonText(vButton.x, vButton.y + 60, "ss_ui", "btn_buy2_small_0000", _this.showAdsForHats, _this, "0", vNumHat);
+    buttonContinue.text.setFontSize(26);
+    buttonContinue.text.x = 15;
+    buttonContinue.text.y = -2;
+    this.layerHelmetWindow.add(buttonContinue);
+    MainGame.updateTextWidth(buttonContinue.text, 200);
+    var icon_reward = _this.add.image(-35, -1, "ss_ui", "icon_reward_0000");
+    icon_reward.setScale(.65);
+    buttonContinue.add(icon_reward);
+    return buttonContinue
 };
 GameGUI.prototype.addHatButton = function(vNum, vX, vY, vCallBack, vBackBtn, vIconBtn) {
     _this = this.gameScreen;
@@ -6063,6 +7040,7 @@ GameGUI.prototype.addHatButton = function(vNum, vX, vY, vCallBack, vBackBtn, vIc
     btn.add(ramka);
     ramka.visible = false;
     btn.ramka = ramka;
+    btn.icon_reward = icon_reward;
     return btn
 };
 GameGUI.prototype.clickHat = function(v) {
@@ -6073,15 +7051,19 @@ GameGUI.prototype.clickHat = function(v) {
     MainGame.saveSaves()
 };
 GameGUI.prototype.updateWindowHelmet = function() {
+    var btnHelmet;
     for (var i = 0; i < this.arBtnHats.length; i++) {
-        this.arBtnHats[i].ramka.visible = false;
-        this.arBtnHats[i].disableInput()
+        btnHelmet = this.arBtnHats[i];
+        if (btnHelmet) {
+            this.arBtnHats[i].ramka.visible = false;
+            this.arBtnHats[i].disableInput()
+        }
     }
     var num = MainGame.selectedHat;
     if (num == 0) {
         this["btnHat" + 1].ramka.visible = true
     } else {
-        this["btnHat" + num].ramka.visible = true
+        if (this["btnHat" + num]) this["btnHat" + num].ramka.visible = true
     }
     this.btnHat1.back.setFrame("window_hat2_0000");
     this.btnHat1.enableInput();
@@ -6092,14 +7074,21 @@ GameGUI.prototype.updateWindowHelmet = function() {
     var hatId = null;
     for (var i = 0; i < MainGame.arHatsHave.length; i++) {
         hatId = MainGame.arHatsHave[i];
-        if (hatId < 10) {
-            countBasicHave++
-        } else {
-            countEpicHave++
+        if (hatId < 19) {
+            if (hatId < 10) {
+                countBasicHave++
+            } else {
+                countEpicHave++
+            }
         }
-        this["btnHat" + hatId].back.setFrame("window_hat2_0000");
-        this["btnHat" + hatId].enableInput()
+        if (this["btnHat" + hatId]) {
+            this["btnHat" + hatId].back.setFrame("window_hat2_0000");
+            this["btnHat" + hatId].enableInput()
+        }
     }
+    this.buttonAdsHat28.visible = false;
+    this.buttonAdsHat29.visible = false;
+    this.buttonAdsHat30.visible = false;
     if (this.selectedHelmetTab == 1) {
         priceNextHelmet = MainGame.priceBasic * (1 + countBasicHave);
         if (countBasicHave == MainGame.arHatsBasic.length) {
@@ -6117,6 +7106,30 @@ GameGUI.prototype.updateWindowHelmet = function() {
         } else {
             this.buttonBuyHelmet.visible = true;
             this.text_buyNew.visible = true
+        }
+    } else if (this.selectedHelmetTab == 3) {
+        this.buttonBuyHelmet.visible = false;
+        this.text_buyNew.visible = false
+    } else if (this.selectedHelmetTab == 4) {
+        this.buttonBuyHelmet.visible = false;
+        this.text_buyNew.visible = false;
+        if (MainGame.listAdsHats[0] < MainGame.listAdsHatsMax[0]) {
+            this.buttonAdsHat28.visible = true;
+            var value1 = MainGame.listAdsHats[0];
+            var value2 = MainGame.listAdsHatsMax[0];
+            this.buttonAdsHat28.text.setText(value1 + "/" + value2)
+        }
+        if (MainGame.listAdsHats[1] < MainGame.listAdsHatsMax[1]) {
+            this.buttonAdsHat29.visible = true;
+            var value1 = MainGame.listAdsHats[1];
+            var value2 = MainGame.listAdsHatsMax[1];
+            this.buttonAdsHat29.text.setText(value1 + "/" + value2)
+        }
+        if (MainGame.listAdsHats[2] < MainGame.listAdsHatsMax[2]) {
+            this.buttonAdsHat30.visible = true;
+            var value1 = MainGame.listAdsHats[2];
+            var value2 = MainGame.listAdsHatsMax[2];
+            this.buttonAdsHat30.text.setText(value1 + "/" + value2)
         }
     }
     this.buttonBuyHelmet.text.setText(priceNextHelmet);
@@ -6195,14 +7208,29 @@ GameGUI.prototype.clickHelmetTab1 = function() {
     this.btnHat4.visible = true;
     this.btnHat5.visible = true;
     this.btnHat6.visible = true;
+    this.btnHat7.visible = true;
+    this.btnHat8.visible = true;
+    this.btnHat9.visible = true;
     this.btnHat10.visible = false;
     this.btnHat11.visible = false;
     this.btnHat12.visible = false;
     this.btnHat13.visible = false;
     this.btnHat14.visible = false;
     this.btnHat15.visible = false;
+    this.btnHat16.visible = false;
+    this.btnHat17.visible = false;
+    this.btnHat18.visible = false;
+    this.btnHat19.visible = false;
+    this.btnHat20.visible = false;
+    this.btnHat21.visible = false;
+    this.btnHat28.visible = false;
+    this.btnHat29.visible = false;
+    this.btnHat30.visible = false;
     this.buttonHelmetTab1.back.setFrame("btn_shop1_0000");
     this.buttonHelmetTab2.back.setFrame("btn_shop2_0000");
+    this.buttonHelmetTab3.back.setFrame("btn_shop2_0000");
+    this.buttonHelmetTab4.back.setFrame("btn_shop2_0000");
+    this.text_legendary.visible = false;
     this.selectedHelmetTab = 1;
     this.updateWindowHelmet()
 };
@@ -6214,15 +7242,98 @@ GameGUI.prototype.clickHelmetTab2 = function() {
     this.btnHat4.visible = false;
     this.btnHat5.visible = false;
     this.btnHat6.visible = false;
+    this.btnHat7.visible = false;
+    this.btnHat8.visible = false;
+    this.btnHat9.visible = false;
     this.btnHat10.visible = true;
     this.btnHat11.visible = true;
     this.btnHat12.visible = true;
     this.btnHat13.visible = true;
     this.btnHat14.visible = true;
     this.btnHat15.visible = true;
+    this.btnHat16.visible = true;
+    this.btnHat17.visible = true;
+    this.btnHat18.visible = true;
+    this.btnHat19.visible = false;
+    this.btnHat20.visible = false;
+    this.btnHat21.visible = false;
+    this.btnHat28.visible = false;
+    this.btnHat29.visible = false;
+    this.btnHat30.visible = false;
     this.buttonHelmetTab1.back.setFrame("btn_shop2_0000");
     this.buttonHelmetTab2.back.setFrame("btn_shop1_0000");
+    this.buttonHelmetTab3.back.setFrame("btn_shop2_0000");
+    this.buttonHelmetTab4.back.setFrame("btn_shop2_0000");
+    this.text_legendary.visible = false;
     this.selectedHelmetTab = 2;
+    this.updateWindowHelmet()
+};
+GameGUI.prototype.clickHelmetTab3 = function() {
+    if (this.isTweeningHat) return;
+    this.btnHat1.visible = false;
+    this.btnHat2.visible = false;
+    this.btnHat3.visible = false;
+    this.btnHat4.visible = false;
+    this.btnHat5.visible = false;
+    this.btnHat6.visible = false;
+    this.btnHat7.visible = false;
+    this.btnHat8.visible = false;
+    this.btnHat9.visible = false;
+    this.btnHat10.visible = false;
+    this.btnHat11.visible = false;
+    this.btnHat12.visible = false;
+    this.btnHat13.visible = false;
+    this.btnHat14.visible = false;
+    this.btnHat15.visible = false;
+    this.btnHat16.visible = false;
+    this.btnHat17.visible = false;
+    this.btnHat18.visible = false;
+    this.btnHat19.visible = true;
+    this.btnHat20.visible = true;
+    this.btnHat21.visible = true;
+    this.btnHat28.visible = false;
+    this.btnHat29.visible = false;
+    this.btnHat30.visible = false;
+    this.buttonHelmetTab1.back.setFrame("btn_shop2_0000");
+    this.buttonHelmetTab2.back.setFrame("btn_shop2_0000");
+    this.buttonHelmetTab3.back.setFrame("btn_shop1_0000");
+    this.buttonHelmetTab4.back.setFrame("btn_shop2_0000");
+    this.text_legendary.visible = true;
+    this.selectedHelmetTab = 3;
+    this.updateWindowHelmet()
+};
+GameGUI.prototype.clickHelmetTab4 = function() {
+    if (this.isTweeningHat) return;
+    this.btnHat1.visible = false;
+    this.btnHat2.visible = false;
+    this.btnHat3.visible = false;
+    this.btnHat4.visible = false;
+    this.btnHat5.visible = false;
+    this.btnHat6.visible = false;
+    this.btnHat7.visible = false;
+    this.btnHat8.visible = false;
+    this.btnHat9.visible = false;
+    this.btnHat10.visible = false;
+    this.btnHat11.visible = false;
+    this.btnHat12.visible = false;
+    this.btnHat13.visible = false;
+    this.btnHat14.visible = false;
+    this.btnHat15.visible = false;
+    this.btnHat16.visible = false;
+    this.btnHat17.visible = false;
+    this.btnHat18.visible = false;
+    this.btnHat19.visible = false;
+    this.btnHat20.visible = false;
+    this.btnHat21.visible = false;
+    this.btnHat28.visible = true;
+    this.btnHat29.visible = true;
+    this.btnHat30.visible = true;
+    this.buttonHelmetTab1.back.setFrame("btn_shop2_0000");
+    this.buttonHelmetTab2.back.setFrame("btn_shop2_0000");
+    this.buttonHelmetTab3.back.setFrame("btn_shop2_0000");
+    this.buttonHelmetTab4.back.setFrame("btn_shop1_0000");
+    this.text_legendary.visible = false;
+    this.selectedHelmetTab = 4;
     this.updateWindowHelmet()
 };
 GameGUI.prototype.showHatWindow = function() {
@@ -6427,7 +7538,9 @@ GameGUI.prototype.closeRewardWindow = function() {
     this.updateFortunaWheelWindow(_this.countDownNextFree);
     this.eventFonImputUp = this.closeFortunaWheelWindow;
     if (MainGame.reward_wheel) this.gameScreen.getRewards(MainGame.reward_wheel);
-    MainGame.reward_wheel = null
+    MainGame.reward_wheel = null;
+    if (MainGame.reward_quest) this.gameScreen.getRewards(MainGame.reward_quest);
+    MainGame.reward_quest = null
 };
 GameGUI.prototype.clickShop = function() {
     _this = this.gameScreen;
@@ -6494,6 +7607,7 @@ class Shooter extends Phaser.Scene {
         } else {
             MainGame.Sfx.play("music", "shoot")
         }
+        this.initQuests()
     }
     playOnce() {
         MainGame.firstGo = false;
@@ -6566,18 +7680,45 @@ class Shooter extends Phaser.Scene {
         this.icon_frag.x = 80 - offsetX;
         if (this.icon_frag.x < -100) this.icon_frag.x = -100;
         this.text_frags.x = this.icon_frag.x + 90;
+        this.icon_crow.x = this.icon_frag.x + 200;
+        this.text_crow.x = this.icon_crow.x + 60;
         this.btnExit.y = 50 - offsetY;
         if (this.btnExit.y < -100 + 50) this.btnExit.y = -100 + 50;
         this.text_level.y = this.btnExit.y - 10;
         this.icon_frag.y = this.btnExit.y + 5;
+        this.icon_crow.y = this.icon_frag.y - 5;
         this.text_frags.y = this.icon_frag.y;
+        this.text_crow.y = this.text_frags.y;
         this.hpBarB.y = 600 + offsetY;
         if (this.hpBarB.y > 600 + 100) this.hpBarB.y = 600 + 100;
         this.hpBarT.y = this.hpBarB.y;
         this.text_hp.y = this.hpBarB.y - 7;
         this.btnReload.y = 520 + offsetY;
         if (this.btnReload.y > 520 + 100) this.btnReload.y = 520 + 100;
-        this.text_bullets.y = this.btnReload.y + 95
+        this.text_bullets.y = this.btnReload.y + 95;
+        if (this.stick_man) {
+            this.stick_man.y = 350 + offsetY
+        }
+        this.screen_offsetY = offsetY
+    }
+    addSpineMan() {
+        var stick_man = this.add.spine(0, 0, "spine_main", "idle_pistol", true);
+        stick_man.x = -250;
+        stick_man.y = 350 + this.screen_offsetY;
+        stick_man.setSkinByName("gun" + MainGame.selectedGun);
+        stick_man.setScale(2.5);
+        this.stick_man = stick_man;
+        this.layerFinishWindow.add(stick_man);
+        this.updateSpineHat(MainGame.selectedHat);
+        this.stick_man.play("win1", false);
+        this.stick_man.addAnimation(0, "win2", true)
+    }
+    updateSpineHat(vValue) {
+        try {
+            this.stick_man.skeleton.setAttachment("hat", "hat_" + vValue)
+        } catch (e) {
+            this.stick_man.skeleton.setAttachment("hat", "hat_0")
+        }
     }
     addCanvas(vLayer, vColor, vAlpha) {
         var canvas = this.add.image(this.midX, this.midY, "ss_shooter", "canvas_0000");
@@ -7010,6 +8151,7 @@ class Shooter extends Phaser.Scene {
         this.hpPlayerMax = 100;
         this.hpPlayerNow = this.hpPlayerMax;
         this.countFrags = 0;
+        this.countCrow = 0;
         this.isGoTutorial = false;
         this.armReady = false;
         this.isInputPressed = false;
@@ -7122,6 +8264,25 @@ class Shooter extends Phaser.Scene {
                 zeroPad: 4
             }),
             hideOnComplete: false
+        });
+        this.anims.create({
+            key: "crow_fly",
+            frames: this.anims.generateFrameNames("ss_shooter", {
+                prefix: "crow_fly_",
+                end: 24,
+                zeroPad: 4
+            }),
+            hideOnComplete: false,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "crow_dead",
+            frames: this.anims.generateFrameNames("ss_shooter", {
+                prefix: "crow_dead_",
+                end: 28,
+                zeroPad: 4
+            }),
+            hideOnComplete: true
         })
     }
     initPauseWindow() {
@@ -7293,6 +8454,8 @@ class Shooter extends Phaser.Scene {
         });
         var icon_frag = this.add.image(80, 55, "ss_shooter", "icon_frag_0000");
         this.layerUI.add(icon_frag);
+        var icon_crow = this.add.image(80, 55, "ss_shooter", "icon_crow_0000");
+        this.layerUI.add(icon_crow);
         var pos = {
             x: this.midX,
             y: 600
@@ -7309,16 +8472,21 @@ class Shooter extends Phaser.Scene {
         var text_level = this.addText(this.layerText, btnExit.x - 60, 40, "", 32, true);
         text_level.setOrigin(1, .5);
         var text_frags = this.addText(this.layerText, icon_frag.x + 90, icon_frag.y, "10/10", 32, true);
+        var text_crow = this.addText(this.layerText, icon_crow.x + 90, icon_crow.y, "0", 32, true);
         var text_bullets = this.addText(this.layerText, btnReload.x, btnReload.y + 95, "", 32, true);
         this.btnReload = btnReload;
         this.btnExit = btnExit;
         this.icon_frag = icon_frag;
+        this.icon_crow = icon_crow;
         this.aim_target = aim_target;
         this.aim_reloading = aim_reloading;
         this.text_hp = text_hp;
         this.text_level = text_level;
         this.text_frags = text_frags;
-        this.text_bullets = text_bullets
+        this.text_crow = text_crow;
+        this.text_bullets = text_bullets;
+        this.icon_crow.visible = false;
+        this.text_crow.visible = false
     }
     initComboTexts() {
         this.arComboText = [];
@@ -7613,6 +8781,2198 @@ class Shooter extends Phaser.Scene {
             for (var i = 0; i < this.countEnemies; i++) {
                 target = this.arTargets[i];
                 if (target && target.hero && target.isAlive()) {
+                    dist = MyMath.distanceTwoPoints(this.aim_target.x, target.hero.x, this.aim_target.y, target.hero.y - target.offsetY);
+                    if (dist < target.radius) {
+                        var isUnderBarrel = this.checkBarrels(target.hero.x, target.hero.y - 20);
+                        if (isUnderBarrel && target.isPrised) {} else {
+                            this.aim_target.setFrame("crosshair3_0000");
+                            this.makeShoot(target, this.aim_target.x, this.aim_target.y)
+                        }
+                    }
+                }
+            }
+        }
+    }
+    onAnimEvent(entry) {
+        if (entry.animation.name == this.weaponType + "_idle") {}
+        console.log(entry.animation.name)
+    }
+    showEffectFire(vX, vY) {
+        this.effect_shoot.play("flash_big");
+        this.effect_shoot.visible = true;
+        if (!this.effect_smoke1.visible) {
+            this.showEffectSmoke(this.effect_smoke1);
+            this.group_smoke1.x = vX;
+            this.group_smoke1.y = vY
+        } else {
+            if (!this.effect_smoke2.visible) {
+                this.showEffectSmoke(this.effect_smoke2);
+                this.group_smoke2.x = vX;
+                this.group_smoke2.y = vY
+            } else {
+                if (!this.effect_smoke3.visible) {
+                    this.showEffectSmoke(this.effect_smoke3);
+                    this.group_smoke3.x = vX;
+                    this.group_smoke3.y = vY
+                } else {
+                    this.showEffectSmoke(this.effect_smoke1);
+                    this.group_smoke1.x = vX;
+                    this.group_smoke1.y = vY
+                }
+            }
+        }
+    }
+    updateAmmoText() {
+        this.text_bullets.setText(this.amountAmmo + "/" + this.maxAmmo)
+    }
+    updateFragsText() {
+        this.text_frags.setText(this.countFrags + "/" + this.needToKill)
+    }
+    updateCrowText() {
+        this.text_crow.setText(this.countCrow)
+    }
+    getCountBots() {
+        this.countBots--;
+        return this.countBots >= 0
+    }
+    reviveLevel() {
+        this.isLevelFinished = false;
+        this.isGameOver = false;
+        this.hpPlayerNow = this.hpPlayerMax;
+        this.text_hp.setText(this.hpPlayerNow);
+        this.updateHpBar(this.hpPlayerNow / this.hpPlayerMax);
+        this.layerFinishWindowMain.visible = false;
+        this.layerFinishWindow.visible = false;
+        this.layerRed.alpha = 0;
+        this.tweens.killTweensOf(this.layerRed);
+        this.btnExit.visible = true;
+        MainGame.api_google("Revive", MainGame.fireLevel);
+        if (MainGame.isAPI) MainGame.API_POKI.gameplayStart()
+    }
+    finishLevel(vBool) {
+        this.btnExit.visible = false;
+        if (vBool) {
+            MainGame.api_google("CompletedDay", MainGame.fireLevel);
+            this.time.delayedCall(1200, this.showFinishWindowWin, [], this);
+            MainGame.fireLevel++;
+            MainGame.saveSaves()
+        } else {
+            MainGame.api_google("DefeatDay", MainGame.fireLevel);
+            this.isGameOver = true;
+            this.time.delayedCall(1200, this.showFinishWindowLose, [], this)
+        }
+    }
+    showFinishWindowWin() {
+        MainGame.Sfx.play("sound", "win");
+        this.showFinishWindow(true)
+    }
+    showFinishWindowLose() {
+        this.showFinishWindow(false)
+    }
+    showFinishWindow(vBool) {
+        game.canvas.style.cursor = "default";
+        this.isLevelFinished = true;
+        this.aim_target.setFrame("crosshair2_0000");
+        this.layerFinishWindowMain.visible = true;
+        this.layerFinishWindow.visible = true;
+        this.buttonIncomeX2.visible = false;
+        this.buttonGet.visible = false;
+        this.reward_diamond.visible = false;
+        this.effect_diamonds.visible = false;
+        this.text_diamonds.visible = false;
+        this.buttonHome.visible = false;
+        this.buttonReplay.visible = false;
+        this.buttonRevive.visible = false;
+        this.text_no_give_up.visible = false;
+        this.text_try_merge_gun.visible = false;
+        if (vBool) {
+            this.title_finish.setText(MainGame.GAME_TEXT.victory.toUpperCase());
+            this.title_finish.setFontSize(46);
+            this.buttonIncomeX2.visible = true;
+            this.buttonGet.visible = true;
+            this.reward_diamond.visible = true;
+            this.effect_diamonds.visible = true;
+            this.text_diamonds.visible = true;
+            if (MainGame.isAPI) {
+                if (MainGame.API_POKI && MainGame.API_POKI.api_isAdblock) this.buttonIncomeX2.setEnable(false)
+            } else {
+                if (!MainGame.isDebug) this.buttonIncomeX2.setEnable(false)
+            }
+            this.updateQuest();
+            if (MainGame.fireLevel > 2) {
+                this.addSpineMan()
+            }
+        } else {
+            this.title_finish.setText(MainGame.GAME_TEXT.try_again.toUpperCase());
+            this.title_finish.setFontSize(30);
+            if (this.suggestRevive) {
+                this.suggestRevive = false;
+                this.buttonRevive.visible = true;
+                this.countRevive = 9 + 1;
+                this.updateTimerRevive();
+                this.timerRevive = this.time.addEvent({
+                    delay: 1e3,
+                    callback: this.updateTimerRevive,
+                    callbackScope: this,
+                    loop: true
+                })
+            } else {
+                this.buttonReplay.visible = true
+            }
+            this.buttonHome.visible = true;
+            this.text_no_give_up.visible = true;
+            this.text_try_merge_gun.visible = true
+        }
+        if (MainGame.isAPI) MainGame.API_POKI.gameplayStop()
+    }
+    updateTimerRevive() {
+        this.countRevive--;
+        this.text_count_revive.setText(this.countRevive);
+        if (this.countRevive > 0) {
+            this.tweens.add({
+                targets: this.text_count_revive,
+                scaleX: 1.3,
+                scaleY: 1.3,
+                ease: "Linear",
+                duration: 250,
+                yoyo: true,
+                repeat: 0
+            })
+        } else {
+            if (this.timerRevive) this.timerRevive.remove();
+            this.buttonReplay.visible = true;
+            this.buttonRevive.visible = false;
+            this.buttonHome.setEnable(true)
+        }
+    }
+    checkFinishLevel() {
+        var isFinish = this.countFrags >= this.needToKill;
+        if (isFinish) this.finishLevel(true);
+        return isFinish
+    }
+    increaseFrags() {
+        this.countFrags++;
+        this.checkFinishLevel();
+        this.updateFragsText()
+    }
+    increaseCrow() {
+        this.countCrow++;
+        this.updateCrowText();
+        this.time.delayedCall(3e3, this.addCrow, [], this)
+    }
+    checkAmmoAmount() {
+        if (this.amountAmmo <= 0) {
+            this.updateReloading(true)
+        }
+        this.updateAmmoText()
+    }
+    allowShoot() {
+        this.isAllowShoot = true
+    }
+    playSfxShoot() {
+        switch (MainGame.selectedGun) {
+            case 17:
+            case 28:
+            case 35:
+                MainGame.Sfx.play("sound", "autorifle");
+                break;
+            case 6:
+            case 10:
+            case 24:
+            case 27:
+            case 34:
+                MainGame.Sfx.play("sound", "autorifle2");
+                break;
+            case 7:
+            case 9:
+            case 32:
+                MainGame.Sfx.play("sound", "autorifle3");
+                break;
+            case 1:
+            case 3:
+            case 33:
+                MainGame.Sfx.play("sound", "pistol");
+                break;
+            case 5:
+            case 21:
+            case 43:
+                MainGame.Sfx.play("sound", "pistol2");
+                break;
+            case 2:
+            case 20:
+                MainGame.Sfx.play("sound", "pistol3");
+                break;
+            case 4:
+            case 42:
+                MainGame.Sfx.play("sound", "pistol4");
+                break;
+            case 38:
+            case 46:
+                MainGame.Sfx.play("sound", "rifle");
+                break;
+            case 14:
+            case 36:
+            case 41:
+                MainGame.Sfx.play("sound", "rifle2");
+                break;
+            case 15:
+            case 23:
+            case 47:
+                MainGame.Sfx.play("sound", "rifle3");
+                break;
+            case 13:
+            case 37:
+                MainGame.Sfx.play("sound", "rifle4");
+                break;
+            case 16:
+            case 45:
+                MainGame.Sfx.play("sound", "rifle5");
+                break;
+            case 19:
+            case 26:
+                MainGame.Sfx.play("sound", "shotgun");
+                break;
+            case 18:
+            case 44:
+                MainGame.Sfx.play("sound", "shotgun2");
+                break;
+            case 8:
+            case 25:
+                MainGame.Sfx.play("sound", "shotgun3");
+                break;
+            case 22:
+            case 30:
+            case 40:
+                MainGame.Sfx.play("sound", "sniper");
+                break;
+            case 39:
+            case 49:
+                MainGame.Sfx.play("sound", "sniper2");
+                break;
+            case 48:
+            case 50:
+                MainGame.Sfx.play("sound", "sniper3");
+                break;
+            case 12:
+            case 29:
+                MainGame.Sfx.play("sound", "sniper4");
+                break;
+            case 11:
+            case 31:
+                MainGame.Sfx.play("sound", "sniper5");
+                break
+        }
+    }
+    makeShoot(vTarget, vX, vY) {
+        var animName = this.arm_weapon.getCurrentAnimation().name;
+        if (this.isAllowShoot) {
+            this.isAllowShoot = false;
+            this.time.delayedCall(this.FIRERATE, this.allowShoot, [], this);
+            var animationTime = 1 * (330 / this.FIRERATE);
+            this.arm_weapon.timeScale = animationTime;
+            this.arm_weapon.setAnimation(0, this.weaponType + "_shoot", false);
+            this.arm_weapon.addAnimation(0, this.weaponType + "_idle", false);
+            vTarget.damage(this.damageWeapons);
+            var posKickX = (vTarget.hero.x + vX) * .5;
+            this.addBotKick(posKickX, vY);
+            this.showEffectFire(this.effect_shoot.x, this.effect_shoot.y);
+            this.amountAmmo--;
+            this.checkAmmoAmount();
+            if (this.isGoTutorial) this.checkTutorial();
+            this.playSfxShoot()
+        }
+    }
+    addBotFlash(vX, vY) {
+        var effect = this.add.sprite(vX, vY, "ss_shooter");
+        effect.play("flash");
+        this.layerEffect.add(effect)
+    }
+    addBotKick(vX, vY) {
+        var effect = this.add.sprite(vX, vY, "ss_shooter");
+        effect.play("effect_kick");
+        this.layerEffect.add(effect)
+    }
+    underAttack(vIsYoyo) {
+        this.layerRed.alpha = 0;
+        this.tweens.killTweensOf(this.layerRed);
+        this.tweens.add({
+            targets: this.layerRed,
+            alpha: .6,
+            ease: "Linear",
+            duration: 150,
+            yoyo: vIsYoyo
+        })
+    }
+    botShoot(vType, vLevel, vX, vY) {
+        if (this.isLevelFinished) return;
+        this.addBotFlash(vX, vY);
+        if (this.isGameOver) return;
+        this.hpPlayerNow -= 5;
+        if (this.hpPlayerNow <= 0) {
+            this.hpPlayerNow = 0;
+            this.finishLevel(false);
+            this.underAttack(false)
+        } else {
+            this.underAttack(true)
+        }
+        this.text_hp.setText(this.hpPlayerNow);
+        this.updateHpBar(this.hpPlayerNow / this.hpPlayerMax);
+        if (vType == "stickman1") MainGame.Sfx.play("sound", "enemy4");
+        if (vType == "stickman2") MainGame.Sfx.play("sound", "enemy3");
+        if (vType == "stickman3") MainGame.Sfx.play("sound", "enemy");
+        if (vType == "stickman4") MainGame.Sfx.play("sound", "enemy2")
+    }
+    checkBarrels(vX, vY) {
+        var isInsideRect1 = Phaser.Geom.Rectangle.ContainsPoint(this.rect1, {
+            x: vX,
+            y: vY
+        });
+        var isInsideRect2 = Phaser.Geom.Rectangle.ContainsPoint(this.rect2, {
+            x: vX,
+            y: vY
+        });
+        var isInsideRect3 = Phaser.Geom.Rectangle.ContainsPoint(this.rect3, {
+            x: vX,
+            y: vY
+        });
+        var isInsideRect4 = Phaser.Geom.Rectangle.ContainsPoint(this.rect4, {
+            x: vX,
+            y: vY
+        });
+        var isInsideRect5 = Phaser.Geom.Rectangle.ContainsPoint(this.rect5, {
+            x: vX,
+            y: vY
+        });
+        return isInsideRect1 || isInsideRect2 || isInsideRect3 || isInsideRect4 || isInsideRect5
+    }
+    initLevel() {
+        this.arTargets = [];
+        this.posCursor = {
+            x: this.midX,
+            y: this.midY
+        };
+        var skin_event = "";
+        if (MainGame.EVENT_NUM == 1 && MainGame.fireLevel > 1) skin_event = "_halloween";
+        var block1 = this.add.image(80 * 4 + 33, 226, "ss_shooter", "block1" + skin_event + "_0000");
+        var block2 = this.add.image(80 * 8 + 39, 226, "ss_shooter", "block2" + skin_event + "_0000");
+        var block3 = this.add.image(80 * 2 + 38, 456, "ss_shooter", "block3" + skin_event + "_0000");
+        var block4 = this.add.image(80 * 6 + 30, 444, "ss_shooter", "block4" + skin_event + "_0000");
+        var block5 = this.add.image(80 * 10 + 36, 451, "ss_shooter", "block5" + skin_event + "_0000");
+        this.layerEffect.add(block1);
+        this.layerEffect.add(block2);
+        this.layerEffect.add(block3);
+        this.layerEffect.add(block4);
+        this.layerEffect.add(block5);
+        var line1_Y = 300 - 60;
+        var line2_Y = 515 - 60;
+        this.rect1 = this.add.rectangle(80 * 4 - 45, line1_Y - 50, 160, 80);
+        this.rect2 = this.add.rectangle(80 * 8 - 45, line1_Y - 50, 160, 80);
+        this.rect3 = this.add.rectangle(80 * 2 - 45, line2_Y - 50, 160, 80);
+        this.rect4 = this.add.rectangle(80 * 6 - 45, line2_Y - 50, 160, 80);
+        this.rect5 = this.add.rectangle(80 * 10 - 45, line2_Y - 50, 160, 80);
+        if (MainGame.fireLevel == 1) {
+            this.doska1 = this.addDoska(6.5, line1_Y);
+            this.doska2 = this.addDoska(3, line2_Y);
+            this.doska3 = this.addDoska(10, line2_Y);
+            this.doska4 = this.addDoska(5, line1_Y);
+            this.doska5 = this.addDoska(8, line1_Y);
+            this.doska1.visible = false;
+            this.doska2.visible = false;
+            this.doska3.visible = false;
+            this.doska4.visible = false;
+            this.doska5.visible = false;
+            this.doska2.info.live = false;
+            this.doska3.info.live = false;
+            this.doska4.info.live = false;
+            this.doska5.info.live = false
+        } else {
+            this.addBot(0, 0, "stickman1", 1, 1);
+            this.addBot(0, 0, "stickman2", 2, 1);
+            if (MainGame.fireLevel >= 3) this.time.delayedCall(1e3 * 1, this.addBotStep3, [], this);
+            if (MainGame.fireLevel >= 10) this.time.delayedCall(1e3 * 2, this.addBotStep4, [], this);
+            if (MainGame.fireLevel >= 15) this.time.delayedCall(1e3 * 3, this.addBotStep5, [], this);
+            if (MainGame.fireLevel >= 20) this.time.delayedCall(1e3 * 4, this.addBotStep6, [], this);
+            if (MainGame.fireLevel >= 25) this.time.delayedCall(1e3 * 5, this.addBotStep7, [], this);
+            if (MainGame.fireLevel >= 30) this.time.delayedCall(1e3 * 6, this.addBotStep8, [], this);
+            if (MainGame.fireLevel >= 60) this.time.delayedCall(1e3 * 7, this.addBotStep9, [], this);
+            if (MainGame.fireLevel >= 90) this.time.delayedCall(1e3 * 8, this.addBotStep10, [], this)
+        }
+    }
+    addBotStep3() {
+        this.addBot(0, 0, "stickman3", 1, 0)
+    }
+    addBotStep4() {
+        this.addBot(0, 0, "stickman4", 2, 0)
+    }
+    addBotStep5() {
+        this.addBot(0, 0, null, 1, 2)
+    }
+    addBotStep6() {
+        this.addBot(0, 0, null, 2, 2)
+    }
+    addBotStep7() {
+        this.addBot(0, 0, null, 1, 3)
+    }
+    addBotStep8() {
+        this.addBot(0, 0, null, 2, 3)
+    }
+    addBotStep9() {
+        this.addBot(0, 0, null, 1, 3)
+    }
+    addBotStep10() {
+        this.addBot(0, 0, null, 2, 3)
+    }
+    addBot(vX, vY, vSkin, vLine, vBrain) {
+        if (this.countBots <= 0) return;
+        var posX = vX * 80;
+        var bot = new Bot(this, this.layerMob, posX, vY, vSkin, vLine, vBrain);
+        bot.offsetY = 50;
+        bot.radius = 3200;
+        this.arTargets.push(bot);
+        this.countEnemies = this.arTargets.length
+    }
+    initTutorial() {
+        this.isGoTutorial = true;
+        this.tutorialStep = 0;
+        this.buttonPauseHome.setEnable(false);
+        var plaha = this.add.image(this.midX, 340, "ss_shooter", "tutor_popup_0000");
+        this.layerEffect.add(plaha);
+        var tutor_mobile = this.add.image(this.midX + 360, 340, "ss_shooter", "tutor_mobile_0000");
+        this.layerEffect.add(tutor_mobile);
+        tutor_mobile.visible = false;
+        var txt = this.add.bitmapText(plaha.x, plaha.y, "Panton", "");
+        txt.setDropShadow(3, 3, 0, 1);
+        txt.setMaxWidth(400);
+        txt.setCenterAlign();
+        txt.setFontSize(34);
+        txt.setOrigin(.5);
+        txt.lineSpacing = -8;
+        this.layerEffect.add(txt);
+        this.textTutorial = txt;
+        this.plahaTutorial = plaha;
+        this.tutor_mobile = tutor_mobile;
+        this.plahaTutorial.visible = false;
+        this.textTutorial.visible = false;
+        if (!MainGame.isDesktop) {
+            this.posCursor.y += 100;
+            this.lastPos.y += 100
+        }
+        var buttonStart = new ButtonText(this.midX, this.midY + 20, "ss_ui", "btn_buy_g2_0000", this.startTutorial, this, MainGame.GAME_TEXT.start);
+        buttonStart.text.setFontSize(26);
+        this.layerEffect.add(buttonStart);
+        MainGame.updateTextWidth(buttonStart.text, 200);
+        buttonStart.text.y = -4;
+        this.buttonStart = buttonStart;
+        game.canvas.style.cursor = "default";
+        this.armReady = false;
+        this.isBeforeStart = true;
+        this.arm_weapon.visible = false;
+        this.aim_target.visible = false;
+        this.plahaTutorial.visible = true;
+        MainGame.isFromTutorial = true
+    }
+    startTutorial() {
+        this.time.delayedCall(500, this.tutorialScenario, [], this);
+        this.isBeforeStart = false;
+        this.armReady = true;
+        this.buttonStart.visible = false;
+        this.arm_weapon.visible = true;
+        this.aim_target.visible = true;
+        if (MainGame.isAPI) MainGame.API_POKI.gameplayStart()
+    }
+    checkTutorial() {
+        if (this.tutorialStep == 1) {
+            if (!this.doska1.info.live) {
+                this.time.delayedCall(500, this.tutorialScenario, [], this);
+                this.plahaTutorial.visible = false;
+                this.textTutorial.visible = false;
+                this.tutor_mobile.visible = false
+            }
+        } else if (this.tutorialStep == 2) {
+            if (!this.doska2.info.live && !this.doska3.info.live && !this.doska4.info.live && !this.doska5.info.live) {
+                this.textTutorial.visible = false;
+                this.plahaTutorial.visible = false
+            }
+        }
+    }
+    tutorialScenario() {
+        this.tutorialStep++;
+        if (this.tutorialStep == 1) {
+            this.textTutorial.setText(MainGame.GAME_TEXT.text_move_cursor);
+            this.plahaTutorial.visible = true;
+            this.textTutorial.visible = true;
+            this.doska1.visible = true;
+            if (!MainGame.isDesktop) this.tutor_mobile.visible = true
+        } else if (this.tutorialStep == 2) {
+            this.textTutorial.setText(MainGame.GAME_TEXT.text_good_job);
+            this.plahaTutorial.visible = true;
+            this.textTutorial.visible = true;
+            this.doska2.visible = true;
+            this.doska3.visible = true;
+            this.doska4.visible = true;
+            this.doska5.visible = true;
+            this.doska2.info.live = true;
+            this.doska3.info.live = true;
+            this.doska4.info.live = true;
+            this.doska5.info.live = true;
+            this.tweens.add({
+                targets: this.doska2,
+                x: this.doska2.x - 80,
+                ease: "Linear",
+                duration: 1e3,
+                yoyo: true,
+                repeat: -1
+            });
+            this.tweens.add({
+                targets: this.doska3,
+                x: this.doska3.x + 80,
+                ease: "Linear",
+                duration: 1e3,
+                yoyo: true,
+                repeat: -1
+            });
+            this.tweens.add({
+                targets: this.doska4,
+                x: this.doska4.x - 80,
+                ease: "Linear",
+                duration: 1e3,
+                yoyo: true,
+                repeat: -1
+            });
+            this.tweens.add({
+                targets: this.doska5,
+                x: this.doska5.x + 80,
+                ease: "Linear",
+                duration: 1e3,
+                yoyo: true,
+                repeat: -1
+            })
+        }
+    }
+    addDoska(vX, vY) {
+        var posX = vX * 80;
+        var obj = this.add.sprite(posX, vY - 30, "ss_shooter");
+        obj.play("target_idle");
+        obj.setOrigin(.5, .75);
+        this.layerMob.add(obj);
+        obj.offsetY = 50;
+        obj.radius = 3200;
+        obj.hero = obj;
+        obj.info = {
+            health: 2,
+            live: true
+        };
+        obj.isAlive = function() {
+            return obj.info.live
+        };
+        obj.damage = function() {
+            obj.info.health--;
+            if (obj.info.health <= 0) {
+                obj.info.live = false;
+                obj.play("target_down");
+                MainGame.state.increaseFrags();
+                MainGame.state.tweens.killTweensOf(obj)
+            }
+        };
+        this.arTargets.push(obj);
+        this.countEnemies = this.arTargets.length;
+        return obj
+    }
+    addCrow() {
+        this.crowCountLimit--;
+        if (this.crowCountLimit < 0) return;
+        var minX = 0 - 300;
+        var maxX = 1024 + 300;
+        var rdir = MyMath.getRandomBool();
+        var posListY = [390, 380, 370, 150, 160, 170, 180];
+        var posX = 0;
+        var posY = posListY[MyMath.getRandomInt(0, 6)];
+        if (rdir) {
+            posX = minX
+        } else {
+            posX = maxX
+        }
+        var obj = this.add.sprite(posX, posY, "ss_shooter");
+        obj.play("crow_fly");
+        obj.setOrigin(.5, .6);
+        this.layerMob.add(obj);
+        obj.offsetY = 0;
+        obj.radius = 1200;
+        obj.hero = obj;
+        obj.minX = minX;
+        obj.maxX = maxX;
+        obj.info = {
+            health: 1,
+            live: true
+        };
+        obj.isAlive = function() {
+            return obj.info.live
+        };
+        if (obj.x < 500) {
+            obj.direction = 1
+        } else {
+            obj.direction = -1;
+            obj.setScale(-1, 1)
+        }
+        obj.waveCount = 0;
+        obj.waveStart = 2 * Math.random();
+        obj.update = function() {
+            if (obj.info.live) {
+                if (obj.direction == 1) {
+                    obj.x -= 6;
+                    if (obj.x < obj.minX) {
+                        obj.direction = -1;
+                        obj.setScale(-1, 1)
+                    }
+                } else {
+                    obj.x += 6;
+                    if (obj.x > obj.maxX) {
+                        obj.direction = 1;
+                        obj.setScale(1, 1)
+                    }
+                }
+                obj.waveCount += .02;
+                obj.y = posY + Math.sin(obj.waveStart + obj.waveCount) * 40
+            }
+        };
+        obj.pauseAnimation = function() {
+            obj.anims.pause()
+        };
+        obj.resumeAnimation = function() {
+            obj.anims.resume()
+        };
+        obj.damage = function() {
+            obj.info.health--;
+            if (obj.info.health <= 0) {
+                obj.info.live = false;
+                obj.play("crow_dead");
+                obj.setOrigin(.48, .42);
+                MainGame.state.increaseCrow()
+            }
+        };
+        var r = MyMath.getRandomInt(1, 2);
+        MainGame.Sfx.play("sound", "crow" + r);
+        this.arTargets.push(obj);
+        this.countEnemies = this.arTargets.length
+    }
+    updateBots() {
+        var target;
+        for (var i = 0; i < this.countEnemies; i++) {
+            target = this.arTargets[i];
+            target.update()
+        }
+    }
+    pauseBots() {
+        if (this.isGoTutorial) return;
+        for (var i = 0; i < this.countEnemies; i++) {
+            this.arTargets[i].pauseAnimation()
+        }
+        this.old_timeScale = this.arm_weapon.state.timeScale;
+        this.arm_weapon.state.timeScale = 0;
+        if (this.timerReloading) this.timerReloading.paused = true
+    }
+    resumeBots() {
+        if (this.isGoTutorial) return;
+        for (var i = 0; i < this.countEnemies; i++) {
+            this.arTargets[i].resumeAnimation()
+        }
+        this.arm_weapon.state.timeScale = this.old_timeScale || 1;
+        if (this.timerReloading) this.timerReloading.paused = false
+    }
+    initQuests() {
+        if (MainGame.EVENT_NUM == 1) {
+            if (MainGame.listEvents && MainGame.listEvents[2] != 1) {
+                this.icon_crow.visible = true;
+                this.text_crow.visible = true;
+                this.crowCountLimit = 5;
+                this.time.delayedCall(1e3, this.addCrow, [], this)
+            }
+        }
+    }
+    updateQuest() {
+        if (MainGame.EVENT_NUM == 1) {
+            if (this.countCrow) {
+                MainGame.updateQuest(0, this.countCrow)
+            }
+        }
+    }
+    clickBtnPause() {
+        if (this.isLevelFinished) return;
+        MainGame.Sfx.update("music", this.buttonMuteMusic.icon, this.buttonMuteMusic.text);
+        MainGame.Sfx.update("sound", this.buttonMuteSound.icon, this.buttonMuteSound.text);
+        this.isPaused = true;
+        this.layerPauseWindowMain.visible = true;
+        this.layerPauseWindow.visible = true;
+        game.canvas.style.cursor = "default";
+        this.pauseBots();
+        if (MainGame.isAPI) MainGame.API_POKI.gameplayStop()
+    }
+    clickBtnReload() {
+        if (this.isReloading || this.isLevelFinished || this.isPaused || !this.armReady) return;
+        this.updateReloading(true)
+    }
+    showAdsForDiamondsX2() {
+        MainGame.clickReward("fire_x2");
+        this.buttonIncomeX2.setEnable(false)
+    }
+    initSystemMessage() {
+        this.textSystemContainer = this.add.container();
+        this.textSystemContainer.x = this.midX;
+        this.textSystemContainer.y = MainGame.world.centerY - 100;
+        var txt = this.add.bitmapText(0, 0, "Panton", "");
+        txt.setDropShadow(3, 3, 0, 1);
+        txt.setOrigin(.5);
+        txt.setMaxWidth(550);
+        txt.setCenterAlign();
+        txt.setFontSize(34);
+        this.textSystemContainer.add(txt);
+        this.textSystemContainer.setDepth(this.DEPTH_systemtext);
+        this.textSystemContainer.visible = false;
+        this.textSystem = txt
+    }
+    showSystemMessage(vText) {
+        this.textSystemContainer.visible = true;
+        this.textSystem.setText(vText);
+        this.textSystemContainer.alpha = .2;
+        this.textSystemContainer.y = this.midY - 20;
+        this.textSystemContainer.setScale(.8);
+        this.tweens.killTweensOf(this.textSystemContainer);
+        this.tweens.add({
+            targets: this.textSystemContainer,
+            alpha: 1,
+            ease: "Linear",
+            duration: 150
+        });
+        this.tweens.add({
+            targets: this.textSystemContainer,
+            scaleX: 1,
+            scaleY: 1,
+            ease: "Linear",
+            duration: 150
+        });
+        this.tweens.add({
+            targets: this.textSystemContainer,
+            alpha: 0,
+            ease: "Linear",
+            delay: 1500,
+            duration: 200,
+            onComplete: this.finishSystemTextTween
+        });
+        this.tweens.add({
+            targets: this.textSystemContainer,
+            y: this.textSystemContainer.y - 20,
+            ease: "Linear",
+            delay: 150,
+            duration: 1200
+        })
+    }
+    getRewards(vReward) {
+        switch (vReward) {
+            case "fire_x2":
+                MainGame.amount_diamonds += this.rewardDiamonds * 2;
+                MainGame.saveSaves();
+                this.scale.off("resize", this.updateResize, this);
+                if (MainGame.isAPI) MainGame.API_POKI.destroyAd();
+                if (MainGame.isFromTutorial) {
+                    MainGame.fadeOutScene("Preloader", this)
+                } else {
+                    MainGame.fadeOutScene("Game", this)
+                }
+                break;
+            case "revive":
+                MainGame.state.reviveLevel();
+                break
+        }
+    }
+    clickReplay() {
+        this.scale.off("resize", this.updateResize, this);
+        MainGame.fadeOutScene("Shooter", this)
+    }
+    clickRevive() {
+        if (this.timerRevive) this.timerRevive.remove();
+        MainGame.clickReward("revive");
+        this.buttonRevive.setEnable(false)
+    }
+    showGameScreen(vIsGetDiamonds) {
+        if (vIsGetDiamonds) MainGame.amount_diamonds += this.rewardDiamonds;
+        MainGame.saveSaves();
+        this.scale.off("resize", this.updateResize, this);
+        if (MainGame.isAPI) MainGame.API_POKI.destroyAd();
+        if (MainGame.isFromTutorial) {
+            MainGame.fadeOutScene("Preloader", this)
+        } else {
+            MainGame.fadeOutScene("Game", this)
+        }
+    }
+}
+class UpdateHalloween extends Phaser.Scene {
+    constructor() {
+        super({
+            key: "UpdateHalloween",
+            physics: {
+                default: "arcade",
+                arcade: {
+                    gravity: {
+                        y: 300
+                    },
+                    debug: false
+                }
+            }
+        })
+    }
+    create() {
+        MainGame.state = this;
+        MainGame.stateName = "UpdateHalloween";
+        this.initResize();
+        this.midX = this.GAME_WIDTH / 2;
+        this.midY = this.GAME_HEIGHT / 2;
+        this.initSettingsGame();
+        const back = this.add.image(this.midX, this.midY, "bg_eventH");
+        this.layerMob = this.add.container();
+        this.layerEffect = this.add.container();
+        this.layerSpineArm = this.add.container();
+        this.layerUI = this.add.container();
+        this.layerText = this.add.container();
+        this.layerMob.setDepth(this.DEPTH_layerMob);
+        this.layerEffect.setDepth(this.DEPTH_layerEffect);
+        this.layerSpineArm.setDepth(this.DEPTH_layerArm);
+        this.layerUI.setDepth(this.DEPTH_layerUI);
+        this.layerText.setDepth(this.DEPTH_layerText);
+        this.initEffects();
+        this.initSettingsHalloween();
+        this.initGUI_Halloween();
+        this.initGUI();
+        this.initComboTexts();
+        this.initLevel();
+        this.initWeapon();
+        this.initPauseWindow();
+        this.initFinishWindow2();
+        this.initRewardWindow();
+        this.initSystemMessage();
+        this.updateResize();
+        this.text_hp.setText(this.hpPlayerNow);
+        this.text_level.setText(MainGame.GAME_TEXT.day.toUpperCase() + " " + MainGame.fireLevel);
+        this.updateAmmoText();
+        this.updateFragsText();
+        this.input.keyboard.on("keydown", this.handleKey, this);
+        this.isAllowShoot = true;
+        MainGame.isFromFireMode = true;
+        if (MainGame.firstGo) {
+            this.input.once("pointerdown", this.playOnce, this)
+        } else {
+            MainGame.Sfx.play("music", "halloween")
+        }
+        this.initPiecesPumpkin();
+        if (MainGame.listEvents[0] == 0 && MainGame.isFirstChallenge) {
+            this.initTutorialPumpkin()
+        } else {
+            this.startTimerHalloween()
+        }
+        MainGame.isFirstChallenge = false;
+        if (MainGame.isAPI) MainGame.API_POKI.gameplayStart();
+        if (MainGame.isAPI) MainGame.API_POKI.displayAd()
+    }
+    playOnce() {
+        MainGame.firstGo = false;
+        MainGame.Sfx.play("music", "halloween")
+    }
+    handleKey(e) {
+        switch (e.code) {
+            case "KeyR":
+                this.clickBtnReload();
+                break
+        }
+    }
+    update() {
+        if (this.isLevelFinished || this.isPaused) return;
+        if (this.armReady && !this.isGameOver) this.updateArm();
+        if (!this.isGoTutorial) {
+            this.updateSpawnPumpkins()
+        }
+    }
+    initResize() {
+        this.GAME_WIDTH = MainGame.Config.DEFAULT_WIDTH;
+        this.GAME_HEIGHT = MainGame.Config.DEFAULT_HEIGHT;
+        var gameSize = this.scale.gameSize;
+        var width = gameSize.width;
+        var height = gameSize.height;
+        if (window.innerHeight < MainGame.Config.MAX_HEIGHT) {
+            height = window.innerHeight
+        }
+        this.parent = new Phaser.Structs.Size(width, height);
+        this.sizer = new Phaser.Structs.Size(this.GAME_WIDTH, this.GAME_HEIGHT, Phaser.Structs.Size.FIT, this.parent);
+        this.parent.setSize(width, height);
+        this.sizer.setSize(width, height);
+        this.scale.on("resize", this.updateResize, this)
+    }
+    updateResize() {
+        var gameSize = this.scale.gameSize;
+        var width = gameSize.width;
+        var height = gameSize.height;
+        if (window.innerHeight < MainGame.Config.MAX_HEIGHT) {
+            height = window.innerHeight
+        }
+        this.parent.setSize(width, height);
+        this.sizer.setSize(width, height);
+        this.updateCamera()
+    }
+    updateCamera() {
+        const camera = this.cameras.main;
+        var deltaX = Math.ceil(this.parent.width - this.sizer.width) * .5;
+        var deltaY = Math.ceil(this.parent.height - this.sizer.height) * .5;
+        var sdvigY = 0;
+        if (window.innerHeight < MainGame.Config.MAX_HEIGHT) {
+            deltaY = Math.ceil(window.innerHeight - this.sizer.height) * .5;
+            sdvigY = this.scale.gameSize.height - window.innerHeight
+        }
+        const scaleX = this.sizer.width / this.GAME_WIDTH;
+        const scaleY = this.sizer.height / this.GAME_HEIGHT;
+        const zoom = Math.max(scaleX, scaleY);
+        const offsetY = deltaY / zoom;
+        const offsetX = deltaX / zoom;
+        this.deltaScreenY = deltaY;
+        camera.setZoom(zoom);
+        camera.centerOn(this.GAME_WIDTH / 2, this.GAME_HEIGHT / 2 + sdvigY);
+        this.btnExit.x = 1024 - 64 + offsetX;
+        if (this.btnExit.x > 1024 + 100) this.btnExit.x = 1024 + 100;
+        this.text_level.x = this.btnExit.x - 60;
+        this.btnReload.x = 110 - offsetX;
+        if (this.btnReload.x < -100 + 30) this.btnReload.x = -100 + 30;
+        this.text_bullets.x = this.btnReload.x;
+        this.icon_frag.x = 80 - offsetX;
+        if (this.icon_frag.x < -100) this.icon_frag.x = -100;
+        this.text_frags.x = this.icon_frag.x + 90;
+        this.btnExit.y = 50 - offsetY;
+        if (this.btnExit.y < -100 + 50) this.btnExit.y = -100 + 50;
+        this.text_level.y = this.btnExit.y - 10;
+        this.icon_frag.y = this.btnExit.y + 5;
+        this.text_frags.y = this.icon_frag.y;
+        this.hpBarB.y = 600 + offsetY;
+        if (this.hpBarB.y > 600 + 100) this.hpBarB.y = 600 + 100;
+        this.hpBarT.y = this.hpBarB.y;
+        this.text_hp.y = this.hpBarB.y - 7;
+        this.btnReload.y = 520 + offsetY;
+        if (this.btnReload.y > 520 + 100) this.btnReload.y = 520 + 100;
+        this.text_bullets.y = this.btnReload.y + 95;
+        this.textPoints.x = this.btnReload.x;
+        this.textPointsText.x = this.btnReload.x;
+        this.textTimer.x = this.btnReload.x;
+        this.timerPlaha.x = this.btnReload.x;
+        var posIconsX = 1024 - 59 + offsetX;
+        if (posIconsX > 1024 + 100) posIconsX = 1024 + 100;
+        this.icon_x1.x = posIconsX;
+        this.icon_x2.x = posIconsX;
+        this.icon_x3.x = posIconsX;
+        var posPumpkinY = offsetY;
+        if (posPumpkinY > 100) posPumpkinY = 100;
+        this.textPointsText.y = 30 - posPumpkinY;
+        this.textPoints.y = 70 - posPumpkinY;
+        this.timerPlaha.y = 150 - posPumpkinY;
+        this.textTimer.y = 148 - posPumpkinY
+    }
+    addCanvas(vLayer, vColor, vAlpha) {
+        var canvas = this.add.image(this.midX, this.midY, "ss_shooter", "canvas_0000");
+        canvas.tint = vColor;
+        canvas.alpha = vAlpha;
+        canvas.setScale(6);
+        vLayer.add(canvas);
+        return canvas
+    }
+    initSettingsGame() {
+        MainGame.fireLevel = MainGame.fireLevel || 1;
+        this.arOffsetWeapon = [{
+            x: 140,
+            y: 320,
+            fx: 50,
+            fy: 50,
+            dmg: 30,
+            ammo: 8,
+            firerate: 500
+        }, {
+            x: 140,
+            y: 320,
+            fx: 45,
+            fy: 45,
+            dmg: 35,
+            ammo: 17,
+            firerate: 500
+        }, {
+            x: 140,
+            y: 320,
+            fx: 35,
+            fy: 30,
+            dmg: 40,
+            ammo: 15,
+            firerate: 400
+        }, {
+            x: 140,
+            y: 320,
+            fx: 20,
+            fy: 20,
+            dmg: 60,
+            ammo: 9,
+            firerate: 600
+        }, {
+            x: 140,
+            y: 320,
+            fx: -10,
+            fy: -8,
+            dmg: 80,
+            ammo: 6,
+            firerate: 700
+        }, {
+            x: 150,
+            y: 320,
+            fx: -10,
+            fy: 5,
+            dmg: 20,
+            ammo: 30,
+            firerate: 200
+        }, {
+            x: 200,
+            y: 365,
+            fx: 20,
+            fy: 20,
+            dmg: 35,
+            ammo: 18,
+            firerate: 300
+        }, {
+            x: 200,
+            y: 365,
+            fx: -10,
+            fy: 0,
+            dmg: 100,
+            ammo: 2,
+            firerate: 1e3
+        }, {
+            x: 200,
+            y: 365,
+            fx: 25,
+            fy: 35,
+            dmg: 50,
+            ammo: 25,
+            firerate: 300
+        }, {
+            x: 200,
+            y: 365,
+            fx: 20,
+            fy: 20,
+            dmg: 60,
+            ammo: 30,
+            firerate: 300
+        }, {
+            x: 200,
+            y: 365,
+            fx: -30,
+            fy: -20,
+            dmg: 150,
+            ammo: 6,
+            firerate: 600
+        }, {
+            x: 220,
+            y: 365,
+            fx: -30,
+            fy: -25,
+            dmg: 200,
+            ammo: 6,
+            firerate: 700
+        }, {
+            x: 210,
+            y: 370,
+            fx: -15,
+            fy: -5,
+            dmg: 80,
+            ammo: 30,
+            firerate: 330
+        }, {
+            x: 210,
+            y: 365,
+            fx: -5,
+            fy: 5,
+            dmg: 100,
+            ammo: 30,
+            firerate: 330
+        }, {
+            x: 210,
+            y: 370,
+            fx: -10,
+            fy: 5,
+            dmg: 80,
+            ammo: 35,
+            firerate: 330
+        }, {
+            x: 210,
+            y: 365,
+            fx: -5,
+            fy: 25,
+            dmg: 90,
+            ammo: 30,
+            firerate: 330
+        }, {
+            x: 195,
+            y: 355,
+            fx: 50,
+            fy: 65,
+            dmg: 60,
+            ammo: 50,
+            firerate: 200
+        }, {
+            x: 200,
+            y: 365,
+            fx: 15,
+            fy: -5,
+            dmg: 450,
+            ammo: 9,
+            firerate: 800
+        }, {
+            x: 200,
+            y: 365,
+            fx: -10,
+            fy: -5,
+            dmg: 500,
+            ammo: 6,
+            firerate: 800
+        }, {
+            x: 140,
+            y: 320,
+            fx: 30,
+            fy: 30,
+            dmg: 160,
+            ammo: 12,
+            firerate: 300
+        }, {
+            x: 140,
+            y: 320,
+            fx: -10,
+            fy: -10,
+            dmg: 250,
+            ammo: 8,
+            firerate: 450
+        }, {
+            x: 220,
+            y: 365,
+            fx: -25,
+            fy: -20,
+            dmg: 450,
+            ammo: 7,
+            firerate: 600
+        }, {
+            x: 210,
+            y: 365,
+            fx: -40,
+            fy: -10,
+            dmg: 200,
+            ammo: 64,
+            firerate: 400
+        }, {
+            x: 210,
+            y: 365,
+            fx: 45,
+            fy: 45,
+            dmg: 200,
+            ammo: 25,
+            firerate: 300
+        }, {
+            x: 210,
+            y: 365,
+            fx: -10,
+            fy: -10,
+            dmg: 600,
+            ammo: 6,
+            firerate: 600
+        }, {
+            x: 200,
+            y: 365,
+            fx: -40,
+            fy: -20,
+            dmg: 600,
+            ammo: 5,
+            firerate: 550
+        }, {
+            x: 220,
+            y: 365,
+            fx: -5,
+            fy: -5,
+            dmg: 100,
+            ammo: 100,
+            firerate: 150
+        }, {
+            x: 210,
+            y: 365,
+            fx: 35,
+            fy: 40,
+            dmg: 250,
+            ammo: 50,
+            firerate: 250
+        }, {
+            x: 230,
+            y: 365,
+            fx: -5,
+            fy: -5,
+            dmg: 500,
+            ammo: 7,
+            firerate: 500
+        }, {
+            x: 230,
+            y: 365,
+            fx: -40,
+            fy: -40,
+            dmg: 700,
+            ammo: 7,
+            firerate: 650
+        }, {
+            x: 230,
+            y: 365,
+            fx: 25,
+            fy: 25,
+            dmg: 450,
+            ammo: 20,
+            firerate: 500
+        }, {
+            x: 200,
+            y: 340,
+            fx: 50,
+            fy: 20,
+            dmg: 250,
+            ammo: 22,
+            firerate: 200
+        }, {
+            x: 140,
+            y: 320,
+            fx: 0,
+            fy: -5,
+            dmg: 300,
+            ammo: 12,
+            firerate: 400
+        }, {
+            x: 210,
+            y: 365,
+            fx: 35,
+            fy: 45,
+            dmg: 300,
+            ammo: 30,
+            firerate: 300
+        }, {
+            x: 210,
+            y: 365,
+            fx: 25,
+            fy: 30,
+            dmg: 300,
+            ammo: 25,
+            firerate: 300
+        }, {
+            x: 210,
+            y: 365,
+            fx: 15,
+            fy: 25,
+            dmg: 300,
+            ammo: 30,
+            firerate: 300
+        }, {
+            x: 210,
+            y: 365,
+            fx: -5,
+            fy: 10,
+            dmg: 300,
+            ammo: 30,
+            firerate: 300
+        }, {
+            x: 220,
+            y: 340,
+            fx: -35,
+            fy: -30,
+            dmg: 400,
+            ammo: 7,
+            firerate: 500
+        }, {
+            x: 220,
+            y: 340,
+            fx: -10,
+            fy: -15,
+            dmg: 650,
+            ammo: 8,
+            firerate: 500
+        }, {
+            x: 210,
+            y: 365,
+            fx: -35,
+            fy: -40,
+            dmg: 700,
+            ammo: 9,
+            firerate: 500
+        }, {
+            x: 210,
+            y: 365,
+            fx: 0,
+            fy: -5,
+            dmg: 600,
+            ammo: 30,
+            firerate: 300
+        }, {
+            x: 140,
+            y: 320,
+            fx: 25,
+            fy: 25,
+            dmg: 350,
+            ammo: 12,
+            firerate: 300
+        }, {
+            x: 140,
+            y: 320,
+            fx: 10,
+            fy: 20,
+            dmg: 500,
+            ammo: 22,
+            firerate: 350
+        }, {
+            x: 200,
+            y: 365,
+            fx: 0,
+            fy: -30,
+            dmg: 900,
+            ammo: 8,
+            firerate: 600
+        }, {
+            x: 210,
+            y: 365,
+            fx: 5,
+            fy: 15,
+            dmg: 700,
+            ammo: 30,
+            firerate: 300
+        }, {
+            x: 220,
+            y: 365,
+            fx: -20,
+            fy: -10,
+            dmg: 700,
+            ammo: 30,
+            firerate: 400
+        }, {
+            x: 220,
+            y: 365,
+            fx: 0,
+            fy: 0,
+            dmg: 700,
+            ammo: 30,
+            firerate: 400
+        }, {
+            x: 220,
+            y: 365,
+            fx: -20,
+            fy: 0,
+            dmg: 800,
+            ammo: 15,
+            firerate: 400
+        }, {
+            x: 230,
+            y: 365,
+            fx: -35,
+            fy: -30,
+            dmg: 1e3,
+            ammo: 15,
+            firerate: 400
+        }, {
+            x: 220,
+            y: 365,
+            fx: -20,
+            fy: -30,
+            dmg: 1200,
+            ammo: 20,
+            firerate: 400
+        }];
+        this.scaleWindow1 = .7;
+        this.scaleWindow2 = .85;
+        this.MAX_TOP = 50;
+        this.MAX_BOTTOM = 650;
+        this.DEPTH_layerMob = .21;
+        this.DEPTH_layerEffect = .22;
+        this.DEPTH_layerArm = .23;
+        this.DEPTH_layerUI = .24;
+        this.DEPTH_layerText = .25;
+        this.DEPTH_layerFinish = .26;
+        this.DEPTH_systemtext = .6;
+        this.aimScale = 2;
+        this.isBeforeStart = false;
+        this.suggestRevive = true;
+        this.isLevelFinished = false;
+        this.isGameOver = false;
+        this.isPaused = false;
+        this.hpPlayerMax = 100;
+        this.hpPlayerNow = this.hpPlayerMax;
+        this.countFrags = 0;
+        this.isGoTutorial = false;
+        this.armReady = false;
+        this.isInputPressed = false;
+        this.isReloading = false;
+        this.WEAPON_WEIGHT = .21;
+        this.countEnemies = 0;
+        this.arTargets = [];
+        this.posInputDown = {
+            x: this.midX,
+            y: this.midY
+        };
+        this.lastPos = {
+            x: this.midX,
+            y: this.midY
+        };
+        this.posCursor = {
+            x: this.midX,
+            y: this.midY
+        };
+        this.posWeapon = {
+            x: 0,
+            y: 0
+        };
+        this.offsetWeapon = {
+            x: 0,
+            y: 0
+        };
+        this.offsetFire = {
+            x: 0,
+            y: 0
+        };
+        this.deltaScreenY = 0;
+        this.maxPosX = 80 * 13;
+        this.minPosX = 0;
+        this.arrRespawns1 = [4, 5, 8, 9];
+        this.arrRespawns2 = [2, 3, 6, 7, 10, 11];
+        this.TIME_RELOADING = 1e3;
+        this.needToKill = 7 + Math.floor(MainGame.fireLevel / 8);
+        if (MainGame.fireLevel == 1) this.needToKill = 5;
+        var settingsWeapon = this.arOffsetWeapon[MainGame.selectedGun - 1];
+        this.FIRERATE = settingsWeapon.firerate;
+        this.damageWeapons = settingsWeapon.dmg;
+        this.maxAmmo = settingsWeapon.ammo;
+        this.countBots = this.needToKill;
+        this.amountAmmo = this.maxAmmo
+    }
+    addText(vLayer, vX, vY, vText, vSize, vIsUpperCase) {
+        vX -= 1;
+        vY -= 1;
+        vText = vText.toString();
+        if (vText && vIsUpperCase) vText = vText.toUpperCase();
+        var txt = this.add.bitmapText(vX, vY, "Panton", vText);
+        txt.setFontSize(vSize);
+        txt.setOrigin(.5);
+        if (vLayer) vLayer.add(txt);
+        return txt
+    }
+    initEffects() {
+        this.anims.create({
+            key: "flash_big",
+            frames: this.anims.generateFrameNames("ss_shooter", {
+                prefix: "flash_big_",
+                end: 5,
+                zeroPad: 4
+            }),
+            hideOnComplete: true
+        });
+        this.anims.create({
+            key: "magic_1",
+            frames: this.anims.generateFrameNames("ss_ui", {
+                prefix: "magic_1_",
+                end: 14,
+                zeroPad: 4
+            }),
+            hideOnComplete: false,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "flash",
+            frames: this.anims.generateFrameNames("ss_shooter", {
+                prefix: "flash_",
+                end: 7,
+                zeroPad: 4
+            }),
+            hideOnComplete: true
+        });
+        this.anims.create({
+            key: "effect_kick",
+            frames: this.anims.generateFrameNames("ss_shooter", {
+                prefix: "effect_kick_",
+                end: 7,
+                zeroPad: 4
+            }),
+            hideOnComplete: true
+        });
+        this.anims.create({
+            key: "explosion_pumpkin",
+            frames: this.anims.generateFrameNames("ss_halloween", {
+                prefix: "explosion_pumpkin_",
+                end: 7,
+                zeroPad: 4
+            }),
+            hideOnComplete: true
+        });
+        this.anims.create({
+            key: "explosion_bomb",
+            frames: this.anims.generateFrameNames("ss_halloween", {
+                prefix: "explosion_bomb_",
+                end: 19,
+                zeroPad: 4
+            }),
+            hideOnComplete: true
+        });
+        this.anims.create({
+            key: "bomb",
+            frames: this.anims.generateFrameNames("ss_halloween", {
+                prefix: "bomb_",
+                end: 7,
+                zeroPad: 4
+            }),
+            hideOnComplete: false,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "target_idle",
+            frames: this.anims.generateFrameNames("ss_shooter", {
+                prefix: "target_idle_",
+                end: 0,
+                zeroPad: 4
+            }),
+            hideOnComplete: false
+        });
+        this.anims.create({
+            key: "target_down",
+            frames: this.anims.generateFrameNames("ss_shooter", {
+                prefix: "target_down_",
+                end: 11,
+                zeroPad: 4
+            }),
+            hideOnComplete: false
+        })
+    }
+    initPauseWindow() {
+        this.layerPauseWindowMain = this.add.container();
+        this.layerPauseWindow = this.add.container();
+        this.layerPauseWindowMain.setDepth(this.DEPTH_layerFinish);
+        this.layerPauseWindow.setDepth(this.DEPTH_layerFinish);
+        this.layerPauseWindow.x = this.midX;
+        this.layerPauseWindow.y = this.midY;
+        var fon_merge = this.add.image(this.midX, this.midY, "ss_ui", "bg_connect2_0000");
+        fon_merge.setScale(2);
+        this.layerPauseWindowMain.add(fon_merge);
+        var popup_drop = this.add.image(0, 0, "ss_ui", "popup_drop_0000");
+        popup_drop.setScale(2);
+        this.layerPauseWindow.add(popup_drop);
+        var posX = 0;
+        var posY = -95;
+        var buttonResume = new ButtonText(0, posY, "ss_ui", "btn_buy2_0000", this.clickBtnResume, this, MainGame.GAME_TEXT.resume);
+        buttonResume.text.setFontSize(24);
+        buttonResume.text.y = -5;
+        this.layerPauseWindow.add(buttonResume);
+        MainGame.updateTextWidth(buttonResume.text, 140);
+        var buttonMuteMusic = new ButtonText(0, buttonResume.y + 85, "ss_ui", "btn_buy_0000", this.clickMuteMusic, this, MainGame.GAME_TEXT.music_on);
+        buttonMuteMusic.text.setFontSize(24);
+        buttonMuteMusic.text.x = 20;
+        buttonMuteMusic.text.y = -5;
+        this.layerPauseWindow.add(buttonMuteMusic);
+        MainGame.updateTextWidth(buttonMuteMusic.text, 140);
+        var icon_music = this.add.image(-85, -5, "ss_ui", "btn_music_0000");
+        buttonMuteMusic.add(icon_music);
+        this.buttonMuteMusic = buttonMuteMusic;
+        this.buttonMuteMusic.icon = icon_music;
+        var buttonMuteSound = new ButtonText(0, buttonMuteMusic.y + 80, "ss_ui", "btn_buy_0000", this.clickMuteSound, this, MainGame.GAME_TEXT.sound_on);
+        buttonMuteSound.text.setFontSize(24);
+        buttonMuteSound.text.x = 20;
+        buttonMuteSound.text.y = -5;
+        this.layerPauseWindow.add(buttonMuteSound);
+        MainGame.updateTextWidth(buttonMuteSound.text, 140);
+        var buttonHome = new ButtonText(0, buttonMuteSound.y + 80, "ss_ui", "btn_buy_0000", this.showGameScreen, this, MainGame.GAME_TEXT.home);
+        buttonHome.text.setFontSize(24);
+        buttonHome.text.y = -5;
+        this.layerPauseWindow.add(buttonHome);
+        MainGame.updateTextWidth(buttonHome.text, 140);
+        var icon_sound = this.add.image(-85, -5, "ss_ui", "btn_sound_0000");
+        buttonMuteSound.add(icon_sound);
+        this.buttonMuteSound = buttonMuteSound;
+        this.buttonMuteSound.icon = icon_sound;
+        var text_title = this.addText(this.layerPauseWindow, 0, -185, MainGame.GAME_TEXT.paused, 34, true);
+        MainGame.updateTextWidth(text_title, 380);
+        this.layerPauseWindow.setScale(this.scaleWindow2);
+        this.layerPauseWindowMain.visible = false;
+        this.layerPauseWindow.visible = false;
+        popup_drop.setInteractive();
+        fon_merge.setInteractive();
+        fon_merge.on("pointerup", this.clickBtnResume, this);
+        this.buttonPauseHome = buttonHome
+    }
+    clickMuteSound() {
+        MainGame.Sfx.manage("sound", "switch", this, this.buttonMuteSound.icon, this.buttonMuteSound.text)
+    }
+    clickMuteMusic() {
+        MainGame.Sfx.manage("music", "switch", this, this.buttonMuteMusic.icon, this.buttonMuteMusic.text)
+    }
+    clickBtnResume() {
+        this.isPaused = false;
+        this.physics.resume();
+        if (this.timerHalloween) this.timerHalloween.paused = false;
+        this.layerPauseWindowMain.visible = false;
+        this.layerPauseWindow.visible = false;
+        this.resumeBots();
+        if (MainGame.isAPI) MainGame.API_POKI.gameplayStart()
+    }
+    initFinishWindow2() {
+        this.layerFinishWindowMain = this.add.container();
+        this.layerFinishWindow = this.add.container();
+        this.layerFinishWindowMain.setDepth(this.DEPTH_layerFinish);
+        this.layerFinishWindow.setDepth(this.DEPTH_layerFinish);
+        this.layerFinishWindow.x = this.midX;
+        this.layerFinishWindow.y = this.midY;
+        var fon_merge = this.add.image(this.midX, this.midY, "ss_ui", "bg_connect2_0000");
+        fon_merge.setScale(2);
+        this.layerFinishWindowMain.add(fon_merge);
+        var popup_drop = this.add.image(0, 0, "ss_ui", "popup_unlocked_0000");
+        popup_drop.setScale(2);
+        this.layerFinishWindow.add(popup_drop);
+        var posX = 0;
+        var posY = 0;
+        var icon_flash = this.add.image(posX, posY + 50, "ss_ui", "flash_select_gun_0000");
+        this.layerFinishWindow.add(icon_flash);
+        var icon_pumpkin7 = this.add.image(posX - 235, posY - 215, "ss_halloween", "pumpkin7_0000");
+        icon_pumpkin7.scaleX = -1;
+        this.layerFinishWindow.add(icon_pumpkin7);
+        var icon_btn_shop1 = this.add.image(posX - 230, posY - 165, "ss_halloween", "btn_shop1_0000");
+        this.layerFinishWindow.add(icon_btn_shop1);
+        var icon_diamond = this.add.image(posX - 270, posY - 155, "ss_halloween", "icon_diamond_0000");
+        icon_diamond.angle = -15;
+        this.layerFinishWindow.add(icon_diamond);
+        this.pointsBarB = this.add.image(posX, -85, "ss_halloween", "preloader_background_0000");
+        this.pointsBarT = this.add.image(posX, -85, "ss_halloween", "preloader_bar_0000");
+        this.pointsBarT_crop = new Phaser.Geom.Rectangle(0, 0, 0, this.pointsBarT.height);
+        this.pointsBarT.setCrop(this.pointsBarT_crop);
+        this.layerFinishWindow.add(this.pointsBarB);
+        this.layerFinishWindow.add(this.pointsBarT);
+        var icon_event_halloween = this.add.image(posX + 205, -115, "ss_halloween", "icon_event_halloween_0000");
+        this.layerFinishWindow.add(icon_event_halloween);
+        var buttonReplay = new Button(0, 40, "ss_ui", "btn_replay_0000", this.clickReplay, this);
+        this.layerFinishWindow.add(buttonReplay);
+        var buttonHome = new ButtonText(0, 220, "ss_ui", "btn_buy_0000", this.closeFinishWindow, this, MainGame.GAME_TEXT.home);
+        buttonHome.text.setFontSize(26);
+        this.layerFinishWindow.add(buttonHome);
+        MainGame.updateTextWidth(buttonHome.text, 200);
+        buttonHome.text.y = -4;
+        var buttonGetReward = new ButtonText(0, 220, "ss_ui", "btn_buy_0000", this.clickGetReward, this, MainGame.GAME_TEXT.get_reward);
+        buttonGetReward.text.setFontSize(26);
+        this.layerFinishWindow.add(buttonGetReward);
+        MainGame.updateTextWidth(buttonGetReward.text, 220);
+        buttonGetReward.text.y = -4;
+        var text_earning = this.addText(this.layerFinishWindow, posX - 230, posY - 187, MainGame.GAME_TEXT.earning, 22, true);
+        var text_crystals = this.addText(this.layerFinishWindow, posX - 225, posY - 155, "15", 32, true);
+        var text_points1 = this.addText(this.layerFinishWindow, posX, posY - 187, MainGame.GAME_TEXT.points, 28, true);
+        text_points1.setTint(16773888);
+        var text_points2 = this.addText(this.layerFinishWindow, posX, posY - 145, "8025", 50, true);
+        text_points2.setTint(16773888);
+        var text_pointBegin = this.addText(this.layerFinishWindow, posX - 225, posY - 55, "0", 26, true);
+        text_pointBegin.setOrigin(0, .5);
+        var text_pointEnd = this.addText(this.layerFinishWindow, posX + 225, posY - 55, "10000", 26, true);
+        text_pointEnd.setOrigin(1, .5);
+        var text_stage1_1 = this.addText(this.layerFinishWindow, posX, posY + 125, MainGame.GAME_TEXT.no_give_up, 22, true);
+        var text_stage1_2 = this.addText(this.layerFinishWindow, posX, posY + 125 + 27, MainGame.GAME_TEXT.try_use_rifle, 22, true);
+        var text_stage2_1 = this.addText(this.layerFinishWindow, posX, posY - 5, MainGame.GAME_TEXT.congratulations, 44, true);
+        var text_stage2_2 = this.addText(this.layerFinishWindow, posX, posY + 85, MainGame.GAME_TEXT.you_passed, 30, true);
+        var text_stage2_3 = this.addText(this.layerFinishWindow, posX, posY + 85 + 34, MainGame.GAME_TEXT.halloween_ch, 30, true);
+        var text_stage3_1 = this.addText(this.layerFinishWindow, posX, posY + 125, MainGame.GAME_TEXT.try_again, 22, true);
+        this.buttonReplay = buttonReplay;
+        this.buttonHome = buttonHome;
+        this.buttonGetReward = buttonGetReward;
+        this.icon_flash = icon_flash;
+        this.text_stage1_1 = text_stage1_1;
+        this.text_stage1_2 = text_stage1_2;
+        this.text_stage2_1 = text_stage2_1;
+        this.text_stage2_2 = text_stage2_2;
+        this.text_stage2_3 = text_stage2_3;
+        this.text_stage3_1 = text_stage3_1;
+        this.text_crystals = text_crystals;
+        this.text_points2 = text_points2;
+        this.text_pointEnd = text_pointEnd;
+        this.layerFinishWindowMain.visible = false;
+        this.layerFinishWindow.visible = false
+    }
+    initRewardWindow() {
+        this.layerRewardWindowMain = this.add.container();
+        this.layerRewardWindow = this.add.container();
+        this.layerRewardWindowMain.setDepth(this.DEPTH_layerFinish);
+        this.layerRewardWindow.setDepth(this.DEPTH_layerFinish);
+        this.layerRewardWindow.x = this.midX;
+        this.layerRewardWindow.y = this.midY;
+        var fon_merge = this.add.image(this.midX, this.midY, "ss_ui", "bg_connect2_0000");
+        fon_merge.setScale(2);
+        this.layerRewardWindowMain.add(fon_merge);
+        var popup_drop = this.add.image(0, 0, "ss_ui", "popup_drop_0000");
+        popup_drop.setScale(2);
+        this.layerRewardWindow.add(popup_drop);
+        var effect = this.add.sprite(0, -10, "ss_ui");
+        effect.play("magic_1");
+        effect.setScale(2);
+        this.layerRewardWindow.add(effect);
+        var posX = 0;
+        var posY = 0;
+        var icon_hat19 = this.add.image(posX, posY - 15, "ss_halloween", "icon_hat19_0000");
+        this.layerRewardWindow.add(icon_hat19);
+        var buttonGet = new ButtonText(0, 150, "ss_ui", "btn_buy_0000", this.clickGetPumpkin, this, MainGame.GAME_TEXT.get);
+        buttonGet.text.setFontSize(26);
+        this.layerRewardWindow.add(buttonGet);
+        MainGame.updateTextWidth(buttonGet.text, 220);
+        buttonGet.text.y = -4;
+        var text1 = this.addText(this.layerRewardWindow, 0, -185, MainGame.GAME_TEXT.reward, 30, true);
+        MainGame.updateTextWidth(text1, 380);
+        this.layerRewardWindowMain.visible = false;
+        this.layerRewardWindow.visible = false
+    }
+    clickGetPumpkin() {
+        this.showGameScreen(true)
+    }
+    clickGetReward() {
+        this.layerFinishWindowMain.visible = false;
+        this.layerFinishWindow.visible = false;
+        this.layerRewardWindowMain.visible = true;
+        this.layerRewardWindow.visible = true;
+        this.layerRewardWindow.setScale(this.scaleWindow1);
+        this.tweens.add({
+            targets: this.layerRewardWindow,
+            scaleX: this.scaleWindow2,
+            scaleY: this.scaleWindow2,
+            ease: Phaser.Math.Easing.Back.Out,
+            duration: 400
+        })
+    }
+    updatePointsBar(progress) {
+        var originalWidth = this.pointsBarT.width;
+        var width = originalWidth * progress;
+        this.pointsBarT_crop.width = width;
+        this.pointsBarT.setCrop(this.pointsBarT_crop)
+    }
+    showFinishWindow2(vStage) {
+        this.isLevelFinished = true;
+        game.canvas.style.cursor = "default";
+        this.layerFinishWindowMain.visible = true;
+        this.layerFinishWindow.visible = true;
+        this.btnExit.visible = false;
+        this.layerFinishWindow.setScale(this.scaleWindow1);
+        this.tweens.add({
+            targets: this.layerFinishWindow,
+            scaleX: this.scaleWindow2,
+            scaleY: this.scaleWindow2,
+            ease: Phaser.Math.Easing.Back.Out,
+            duration: 400
+        });
+        this.buttonReplay.visible = false;
+        this.buttonHome.visible = false;
+        this.buttonGetReward.visible = false;
+        this.icon_flash.visible = false;
+        this.text_stage1_1.visible = false;
+        this.text_stage1_2.visible = false;
+        this.text_stage2_1.visible = false;
+        this.text_stage2_2.visible = false;
+        this.text_stage2_3.visible = false;
+        this.text_stage3_1.visible = false;
+        this.text_crystals.setText(this.countCrystals);
+        this.text_points2.setText(this.pointsPumpkin);
+        this.text_pointEnd.setText(this.countNeedPoints);
+        var progress = this.pointsPumpkin / this.countNeedPoints;
+        if (progress > 1) progress = 1;
+        this.updatePointsBar(progress);
+        if (vStage == 1) {
+            this.buttonReplay.visible = true;
+            this.buttonHome.visible = true;
+            this.text_stage1_1.visible = true;
+            this.text_stage1_2.visible = true
+        } else if (vStage == 2) {
+            this.icon_flash.visible = true;
+            this.buttonGetReward.visible = true;
+            this.text_stage2_1.visible = true;
+            this.text_stage2_2.visible = true;
+            this.text_stage2_3.visible = true
+        } else if (vStage == 3) {
+            this.buttonReplay.visible = true;
+            this.buttonHome.visible = true;
+            this.text_stage3_1.visible = true
+        }
+        if (MainGame.isAPI) MainGame.API_POKI.gameplayStop();
+        MainGame.api_google("EventHalloween", this.pointsPumpkin);
+        MainGame.amount_diamonds += this.countCrystals;
+        MainGame.saveSaves()
+    }
+    closeFinishWindow() {
+        this.showGameScreen(true)
+    }
+    initGUI() {
+        this.layerRed = this.addCanvas(this.layerUI, 8126464, .6);
+        this.layerRed.alpha = 0;
+        var btnExit = new Button(1024 - 64, 50, "ss_shooter", "btn_pause_0000", this.clickBtnPause, this);
+        this.layerUI.add(btnExit);
+        var btnReload = new Button(80 + 30, 520, "ss_shooter", "btn_reload_0000", this.clickBtnReload, this);
+        this.layerUI.add(btnReload);
+        var aim_target = this.add.image(this.posCursor.x, this.posCursor.y, "ss_shooter", "crosshair2_0000");
+        this.layerUI.add(aim_target);
+        var aim_reloading = this.add.image(this.posCursor.x, this.posCursor.y, "ss_shooter", "crosshair4_0000");
+        this.layerUI.add(aim_reloading);
+        aim_reloading.visible = false;
+        this.tweens.add({
+            targets: aim_reloading,
+            angle: 360,
+            ease: Phaser.Math.Easing.Linear,
+            duration: 800,
+            repeat: -1
+        });
+        var icon_frag = this.add.image(80, 55, "ss_shooter", "icon_frag_0000");
+        this.layerUI.add(icon_frag);
+        var pos = {
+            x: this.midX,
+            y: 600
+        };
+        this.hpBarB = this.add.image(pos.x, pos.y, "ss_shooter", "hp_bar1_0000");
+        this.hpBarT = this.add.image(pos.x, pos.y, "ss_shooter", "hp_bar2_0000");
+        this.hpBarT_crop = new Phaser.Geom.Rectangle(0, 0, this.hpBarT.width, this.hpBarT.height);
+        this.hpBarT.setCrop(this.hpBarT_crop);
+        this.layerUI.add(this.hpBarB);
+        this.layerUI.add(this.hpBarT);
+        var text_hp = this.addText(this.layerText, pos.x - 167, pos.y - 7, "", 30, true);
+        text_hp.setOrigin(0, .5);
+        text_hp.setTint(2286098);
+        var text_level = this.addText(this.layerText, btnExit.x - 60, 40, "", 32, true);
+        text_level.setOrigin(1, .5);
+        var text_frags = this.addText(this.layerText, icon_frag.x + 90, icon_frag.y, "10/10", 32, true);
+        var text_bullets = this.addText(this.layerText, btnReload.x, btnReload.y + 95, "", 32, true);
+        this.btnReload = btnReload;
+        this.btnExit = btnExit;
+        this.icon_frag = icon_frag;
+        this.aim_target = aim_target;
+        this.aim_reloading = aim_reloading;
+        this.text_hp = text_hp;
+        this.text_level = text_level;
+        this.text_frags = text_frags;
+        this.text_bullets = text_bullets;
+        this.icon_frag.visible = false;
+        this.text_frags.visible = false;
+        this.text_level.visible = false;
+        this.text_hp.visible = false;
+        this.hpBarB.visible = false;
+        this.hpBarT.visible = false
+    }
+    initGUI_Halloween() {
+        var posX = 1024 - 59;
+        var icon_x1 = this.add.image(posX, 150 + 75 * 0, "ss_halloween", "icon_x_0000");
+        var icon_x2 = this.add.image(posX, 150 + 75 * 1, "ss_halloween", "icon_x_0000");
+        var icon_x3 = this.add.image(posX, 150 + 75 * 2, "ss_halloween", "icon_x_0000");
+        this.layerUI.add(icon_x1);
+        this.layerUI.add(icon_x2);
+        this.layerUI.add(icon_x3);
+        var timer_plaha = this.add.image(80 + 30, 150, "ss_halloween", "timer_0000");
+        this.layerUI.add(timer_plaha);
+        var text_points1 = this.addText(this.layerText, 80 + 30, 30, MainGame.GAME_TEXT.points, 28, true);
+        var text_points2 = this.addText(this.layerText, 80 + 30, 30 + 40, "10055", 52, true);
+        var text_timer = this.addText(this.layerText, timer_plaha.x, timer_plaha.y - 2, "00:59", 46, true);
+        this.textPointsText = text_points1;
+        this.textPoints = text_points2;
+        this.textTimer = text_timer;
+        this.icon_x1 = icon_x1;
+        this.icon_x2 = icon_x2;
+        this.icon_x3 = icon_x3;
+        this.timerPlaha = timer_plaha;
+        this.textPoints.setText(this.pointsPumpkin);
+        var timeStr = MainGame.secToHHMMSS(this.timerCount);
+        this.textTimer.setText(timeStr)
+    }
+    initComboTexts() {
+        this.arComboText = [];
+        this.countCombo = 0;
+        this.poolCombo = 0;
+        this.timerCombo = 0;
+        var text_combo1 = this.addText(this.layerText, 0, 0, "", 32, true);
+        text_combo1.setTint(16776960);
+        text_combo1.setDropShadow(3, 3, 6570541, .7);
+        var text_combo2 = this.addText(this.layerText, 0, 0, "", 32, true);
+        text_combo2.setTint(16776960);
+        text_combo2.setDropShadow(3, 3, 6570541, .7);
+        var text_combo3 = this.addText(this.layerText, 0, 0, "", 32, true);
+        text_combo3.setTint(16776960);
+        text_combo3.setDropShadow(3, 3, 6570541, .7);
+        this.arComboText.push(text_combo1);
+        this.arComboText.push(text_combo2);
+        this.arComboText.push(text_combo3);
+        text_combo1.visible = false;
+        text_combo2.visible = false;
+        text_combo3.visible = false
+    }
+    updateCombo() {
+        if (this.timerCombo > 0) {
+            this.timerCombo--;
+            if (this.timerCombo == 0) this.countCombo = 0
+        }
+    }
+    checkCombo(vX, vY) {
+        this.timerCombo = 70;
+        this.countCombo++;
+        if (this.countCombo < 2) return;
+        if (this.countCombo > 10) this.countCombo = 10;
+        this.showCombo(vX, vY, this.arComboText[this.poolCombo], MainGame.GAME_TEXT["combo" + (this.countCombo - 1)]);
+        this.poolCombo++;
+        if (this.poolCombo > 2) this.poolCombo = 0
+    }
+    showCombo(vX, vY, vTextField, vValue) {
+        vTextField.x = vX;
+        vTextField.y = vY - 120;
+        vTextField.visible = true;
+        vTextField.setText(vValue.toUpperCase());
+        this.tweens.killTweensOf(vTextField);
+        vTextField.setAngle(2 * MyMath.getRandomInt(-5, 5));
+        vTextField.setScale(1);
+        this.tweens.add({
+            targets: vTextField,
+            scaleX: 1.4,
+            scaleY: 1.4,
+            ease: Phaser.Math.Easing.Linear,
+            duration: 100,
+            yoyo: true,
+            onComplete: this.hideCombo(vTextField)
+        })
+    }
+    hideCombo(vTextField) {
+        this.tweens.add({
+            targets: vTextField,
+            scaleX: .5,
+            scaleY: .5,
+            ease: Phaser.Math.Easing.Linear,
+            duration: 150,
+            delay: 500,
+            onComplete: function() {
+                vTextField.visible = false
+            }
+        })
+    }
+    updateHpBar(progress) {
+        var originalWidth = this.hpBarT.width;
+        var width = originalWidth * progress;
+        this.tweens.killTweensOf(this.hpBarT_crop);
+        this.tweens.add({
+            targets: this.hpBarT_crop,
+            width: width,
+            ease: Phaser.Math.Easing.Linear,
+            duration: 100,
+            delay: 0,
+            onUpdate: () => {
+                this.hpBarT.setCrop(this.hpBarT_crop)
+            }
+        })
+    }
+    addSmoke() {
+        var smoke = this.add.image(0, 0, "ss_shooter", "smoke_0000");
+        smoke.setOrigin(.5, .92);
+        smoke.visible = false;
+        return smoke
+    }
+    showEffectSmoke(vSmoke) {
+        vSmoke.visible = true;
+        this.tweens.killTweensOf(vSmoke);
+        vSmoke.alpha = 1;
+        vSmoke.angle = 35;
+        vSmoke.x = 0;
+        vSmoke.scaleX = 1;
+        vSmoke.scaleY = 1;
+        this.tweens.add({
+            targets: vSmoke,
+            x: 20,
+            angle: 45,
+            alpha: 0,
+            scaleX: 1.1,
+            scaleY: 1.1,
+            ease: Phaser.Math.Easing.Linear,
+            duration: 500,
+            onComplete: function() {
+                vSmoke.visible = false
+            }
+        })
+    }
+    testWeapon(vType) {
+        MainGame.selectedGun = vType;
+        var settingsWeapon = this.arOffsetWeapon[MainGame.selectedGun - 1];
+        this.FIRERATE = settingsWeapon.firerate;
+        this.damageWeapons = settingsWeapon.dmg;
+        this.maxAmmo = settingsWeapon.ammo;
+        this.offsetWeapon.x = settingsWeapon.x;
+        this.offsetWeapon.y = settingsWeapon.y;
+        this.offsetFire.x = settingsWeapon.fx;
+        this.offsetFire.y = settingsWeapon.fy;
+        var ar_pistol = [1, 2, 3, 4, 5, 6, 20, 21, 33, 42, 43];
+        var ar_rifle1 = [12, 14, 22, 25, 27, 39];
+        var ar_rifle2 = [7, 8, 10, 18, 19, 26, 44];
+        var ar_rifle3 = [9, 11, 13, 15, 23, 29, 30, 31, 36, 37, 38, 40, 41, 46, 47, 48, 49, 50];
+        var ar_rifle4 = [16, 17, 24, 28, 32, 34, 35, 45];
+        var isPistol = ar_pistol.indexOf(MainGame.selectedGun) !== -1;
+        var isRifle1 = ar_rifle1.indexOf(MainGame.selectedGun) !== -1;
+        var isRifle2 = ar_rifle2.indexOf(MainGame.selectedGun) !== -1;
+        var isRifle3 = ar_rifle3.indexOf(MainGame.selectedGun) !== -1;
+        var isRifle4 = ar_rifle4.indexOf(MainGame.selectedGun) !== -1;
+        this.weaponType = "pistol";
+        if (isRifle1) this.weaponType = "rifle1";
+        if (isRifle2) this.weaponType = "rifle2";
+        if (isRifle3) this.weaponType = "rifle3";
+        if (isRifle4) this.weaponType = "rifle4";
+        this.arm_weapon.timeScale = 1;
+        this.arm_weapon.setSkinByName("gun" + MainGame.selectedGun);
+        this.arm_weapon.play(this.weaponType + "_idle", false);
+        this.amountAmmo = this.maxAmmo;
+        this.updateAmmoText()
+    }
+    initWeapon() {
+        this.posCursor = {
+            x: this.midX,
+            y: this.midY
+        };
+        var settingsWeapon = this.arOffsetWeapon[MainGame.selectedGun - 1];
+        this.offsetWeapon.x = settingsWeapon.x;
+        this.offsetWeapon.y = settingsWeapon.y;
+        this.offsetFire.x = settingsWeapon.fx;
+        this.offsetFire.y = settingsWeapon.fy;
+        var arm_weapon = this.add.spine(0, 0, "spine_shooter", "pistol_idle", true);
+        this.layerSpineArm.add(arm_weapon);
+        arm_weapon.x = this.midX;
+        arm_weapon.y = 500;
+        arm_weapon.setSkinByName("gun" + MainGame.selectedGun);
+        arm_weapon.setScale(this.aimScale);
+        var ar_pistol = [1, 2, 3, 4, 5, 6, 20, 21, 33, 42, 43];
+        var ar_rifle1 = [12, 14, 22, 25, 27, 39];
+        var ar_rifle2 = [7, 8, 10, 18, 19, 26, 44];
+        var ar_rifle3 = [9, 11, 13, 15, 23, 29, 30, 31, 36, 37, 38, 40, 41, 46, 47, 48, 49, 50];
+        var ar_rifle4 = [16, 17, 24, 28, 32, 34, 35, 45];
+        var isPistol = ar_pistol.indexOf(MainGame.selectedGun) !== -1;
+        var isRifle1 = ar_rifle1.indexOf(MainGame.selectedGun) !== -1;
+        var isRifle2 = ar_rifle2.indexOf(MainGame.selectedGun) !== -1;
+        var isRifle3 = ar_rifle3.indexOf(MainGame.selectedGun) !== -1;
+        var isRifle4 = ar_rifle4.indexOf(MainGame.selectedGun) !== -1;
+        this.weaponType = "pistol";
+        if (isRifle1) this.weaponType = "rifle1";
+        if (isRifle2) this.weaponType = "rifle2";
+        if (isRifle3) this.weaponType = "rifle3";
+        if (isRifle4) this.weaponType = "rifle4";
+        arm_weapon.play(this.weaponType + "_idle", false);
+        this.arm_weapon = arm_weapon;
+        if (this.aim_target) {
+            this.arm_weapon.x = this.aim_target.x + this.offsetWeapon.x;
+            this.arm_weapon.y = this.aim_target.y + this.offsetWeapon.y
+        }
+        this.input.on("pointerdown", this.onInputDown, this);
+        this.input.on("pointerup", this.onInputUp, this);
+        this.input.on("pointermove", this.onInputMove, this);
+        game.canvas.style.cursor = "none";
+        this.armReady = true;
+        this.group_smoke1 = this.add.container();
+        this.layerEffect.add(this.group_smoke1);
+        this.group_smoke2 = this.add.container();
+        this.layerEffect.add(this.group_smoke2);
+        this.group_smoke3 = this.add.container();
+        this.layerEffect.add(this.group_smoke3);
+        this.effect_smoke1 = this.addSmoke();
+        this.group_smoke1.add(this.effect_smoke1);
+        this.effect_smoke2 = this.addSmoke();
+        this.group_smoke2.add(this.effect_smoke2);
+        this.effect_smoke3 = this.addSmoke();
+        this.group_smoke3.add(this.effect_smoke3);
+        var effect = this.add.sprite(this.midX, this.midY, "ss_shooter");
+        effect.play("flash_big");
+        effect.visible = false;
+        this.effect_shoot = effect;
+        this.layerEffect.add(effect)
+    }
+    getInputPosition(pointer) {
+        const deltaX = Math.ceil(this.parent.width - this.sizer.width) * .5;
+        const deltaY = Math.ceil(this.parent.height - this.sizer.height) * .5;
+        const scaleX = this.sizer.width / this.GAME_WIDTH;
+        const scaleY = this.sizer.height / this.GAME_HEIGHT;
+        const zoom = Math.max(scaleX, scaleY);
+        const offset = deltaY / zoom;
+        var pX = (pointer.x - deltaX) / zoom;
+        var pY = pointer.y / zoom - offset;
+        return {
+            x: pX,
+            y: pY
+        }
+    }
+    onInputDown(pointer) {
+        var pos = this.getInputPosition(pointer);
+        this.posInputDown = pos;
+        this.isInputPressed = true
+    }
+    onInputUp(pointer) {
+        var pos = this.getInputPosition(pointer);
+        this.lastPos = this.posCursor;
+        this.isInputPressed = false;
+        if (this.isGoTutorial) {
+            this.onTapTutorial()
+        }
+    }
+    onInputMove(pointer) {
+        if (this.isLevelFinished || this.isPaused || this.isBeforeStart) return;
+        this.posCursor = this.getInputPosition(pointer);
+        if (!MainGame.isDesktop) {
+            this.posCursor.x = this.lastPos.x + (this.posCursor.x - this.posInputDown.x) * 1.5;
+            this.posCursor.y = this.lastPos.y + (this.posCursor.y - this.posInputDown.y) * 1.2
+        }
+        var deltaX = 25;
+        if (this.posCursor.x < deltaX) this.posCursor.x = deltaX;
+        if (this.posCursor.x > 1024 - deltaX) this.posCursor.x = 1024 - deltaX;
+        if (this.posCursor.y < this.MAX_TOP) {
+            this.posCursor.y = this.MAX_TOP;
+            game.canvas.style.cursor = "default"
+        } else if (this.posCursor.y > this.MAX_BOTTOM) {
+            this.posCursor.y = this.MAX_BOTTOM;
+            game.canvas.style.cursor = "default"
+        } else {
+            game.canvas.style.cursor = "none"
+        }
+    }
+    updateReloading(vBool) {
+        this.isReloading = vBool;
+        this.aim_reloading.visible = vBool;
+        this.arm_weapon.timeScale = 1;
+        if (vBool) {
+            this.aim_target.setFrame("crosshair1_0000");
+            var animationTime = 1 * (1800 / this.TIME_RELOADING);
+            this.arm_weapon.timeScale = animationTime;
+            this.arm_weapon.play(this.weaponType + "_reload", false);
+            this.timerReloading = this.time.delayedCall(this.TIME_RELOADING, this.finishedReloading, [], this);
+            MainGame.Sfx.play("sound", "reload")
+        } else {
+            this.aim_target.setFrame("crosshair2_0000");
+            this.arm_weapon.play(this.weaponType + "_idle", false);
+            this.amountAmmo = this.maxAmmo;
+            this.updateAmmoText()
+        }
+    }
+    finishedReloading() {
+        this.updateReloading(false);
+        this.timerReloading.remove();
+        this.timerReloading = null
+    }
+    updateArm() {
+        if (this.posCursor) {
+            this.aim_target.x = this.posCursor.x;
+            this.aim_target.y = this.posCursor.y;
+            this.aim_reloading.x = this.posCursor.x - 2;
+            this.aim_reloading.y = this.posCursor.y - 2;
+            var distY = 750 - this.posCursor.y;
+            var deltaX = Math.floor(distY * .25);
+            this.posWeapon.x = this.posCursor.x + deltaX;
+            if (this.posWeapon.x > 950) this.posWeapon.x = 950;
+            var deltaY = Math.floor(distY * .2);
+            this.posWeapon.y = this.posCursor.y + deltaY;
+            if (this.posWeapon.y < 280) this.posWeapon.y = 280;
+            this.arm_weapon.x -= (this.arm_weapon.x - this.offsetWeapon.x - this.posWeapon.x) * this.WEAPON_WEIGHT;
+            this.arm_weapon.y -= (this.arm_weapon.y - this.offsetWeapon.y - this.deltaScreenY - this.posWeapon.y) * this.WEAPON_WEIGHT;
+            this.effect_shoot.x = this.arm_weapon.x - this.offsetWeapon.x + this.offsetFire.x;
+            this.effect_shoot.y = this.arm_weapon.y - this.offsetWeapon.y + this.offsetFire.y
+        }
+        if (this.isReloading || this.isLevelFinished) return;
+        var target;
+        var dist;
+        this.aim_target.setFrame("crosshair2_0000");
+        if (!this.checkBarrels(this.aim_target.x, this.aim_target.y)) {
+            for (var i = 0; i < this.countEnemies; i++) {
+                target = this.arTargets[i];
+                if (target && target.hero && target.isAlive()) {
                     dist = MyMath.distanceTwoPoints(this.aim_target.x, target.hero.x, this.aim_target.y, target.hero.y - 50);
                     if (dist < 3200) {
                         var isUnderBarrel = this.checkBarrels(target.hero.x, target.hero.y - 20);
@@ -7624,6 +10984,7 @@ class Shooter extends Phaser.Scene {
                 }
             }
         }
+        this.updatePumpkins(this.aim_target.x, this.aim_target.y)
     }
     onAnimEvent(entry) {
         if (entry.animation.name == this.weaponType + "_idle") {}
@@ -7675,18 +11036,2435 @@ class Shooter extends Phaser.Scene {
         this.layerRed.alpha = 0;
         this.tweens.killTweensOf(this.layerRed);
         this.btnExit.visible = true;
-        MainGame.api_google("Revive", MainGame.fireLevel);
+        if (MainGame.isAPI) MainGame.API_POKI.gameplayStart()
+    }
+    finishLevel(vBool) {}
+    showFinishWindowWin() {
+        MainGame.Sfx.play("sound", "win");
+        this.showFinishWindow(true)
+    }
+    showFinishWindowLose() {
+        this.showFinishWindow(false)
+    }
+    showFinishWindow(vBool) {
+        game.canvas.style.cursor = "default";
+        this.isLevelFinished = true;
+        this.aim_target.setFrame("crosshair2_0000");
+        this.layerFinishWindowMain.visible = true;
+        this.layerFinishWindow.visible = true;
+        this.buttonIncomeX2.visible = false;
+        this.buttonGet.visible = false;
+        this.reward_diamond.visible = false;
+        this.effect_diamonds.visible = false;
+        this.text_diamonds.visible = false;
+        this.buttonHome.visible = false;
+        this.buttonReplay.visible = false;
+        this.buttonRevive.visible = false;
+        this.text_no_give_up.visible = false;
+        this.text_try_merge_gun.visible = false;
+        if (vBool) {
+            this.title_finish.setText(MainGame.GAME_TEXT.victory.toUpperCase());
+            this.title_finish.setFontSize(46);
+            this.buttonIncomeX2.visible = true;
+            this.buttonGet.visible = true;
+            this.reward_diamond.visible = true;
+            this.effect_diamonds.visible = true;
+            this.text_diamonds.visible = true;
+            if (MainGame.isAPI) {
+                if (MainGame.API_POKI && MainGame.API_POKI.api_isAdblock) this.buttonIncomeX2.setEnable(false)
+            } else {
+                if (!MainGame.isDebug) this.buttonIncomeX2.setEnable(false)
+            }
+        } else {
+            this.title_finish.setText(MainGame.GAME_TEXT.try_again.toUpperCase());
+            this.title_finish.setFontSize(30);
+            if (this.suggestRevive) {
+                this.suggestRevive = false;
+                this.buttonRevive.visible = true;
+                this.countRevive = 9 + 1;
+                this.updateTimerRevive();
+                this.timerRevive = this.time.addEvent({
+                    delay: 1e3,
+                    callback: this.updateTimerRevive,
+                    callbackScope: this,
+                    loop: true
+                })
+            } else {
+                this.buttonReplay.visible = true
+            }
+            this.buttonHome.visible = true;
+            this.text_no_give_up.visible = true;
+            this.text_try_merge_gun.visible = true
+        }
+        if (MainGame.isAPI) MainGame.API_POKI.gameplayStop()
+    }
+    updateTimerRevive() {
+        this.countRevive--;
+        this.text_count_revive.setText(this.countRevive);
+        if (this.countRevive > 0) {
+            this.tweens.add({
+                targets: this.text_count_revive,
+                scaleX: 1.3,
+                scaleY: 1.3,
+                ease: "Linear",
+                duration: 250,
+                yoyo: true,
+                repeat: 0
+            })
+        } else {
+            if (this.timerRevive) this.timerRevive.remove();
+            this.buttonReplay.visible = true;
+            this.buttonRevive.visible = false;
+            this.buttonHome.setEnable(true)
+        }
+    }
+    checkFinishLevel() {
+        var isFinish = this.countFrags >= this.needToKill;
+        if (isFinish) this.finishLevel(true);
+        return isFinish
+    }
+    increaseFrags() {
+        this.countFrags++;
+        this.checkFinishLevel();
+        this.updateFragsText()
+    }
+    checkAmmoAmount() {
+        if (this.amountAmmo <= 0) {
+            this.updateReloading(true)
+        }
+        this.updateAmmoText()
+    }
+    allowShoot() {
+        this.isAllowShoot = true
+    }
+    playSfxShoot() {
+        switch (MainGame.selectedGun) {
+            case 17:
+            case 28:
+            case 35:
+                MainGame.Sfx.play("sound", "autorifle");
+                break;
+            case 6:
+            case 10:
+            case 24:
+            case 27:
+            case 34:
+                MainGame.Sfx.play("sound", "autorifle2");
+                break;
+            case 7:
+            case 9:
+            case 32:
+                MainGame.Sfx.play("sound", "autorifle3");
+                break;
+            case 1:
+            case 3:
+            case 33:
+                MainGame.Sfx.play("sound", "pistol");
+                break;
+            case 5:
+            case 21:
+            case 43:
+                MainGame.Sfx.play("sound", "pistol2");
+                break;
+            case 2:
+            case 20:
+                MainGame.Sfx.play("sound", "pistol3");
+                break;
+            case 4:
+            case 42:
+                MainGame.Sfx.play("sound", "pistol4");
+                break;
+            case 38:
+            case 46:
+                MainGame.Sfx.play("sound", "rifle");
+                break;
+            case 14:
+            case 36:
+            case 41:
+                MainGame.Sfx.play("sound", "rifle2");
+                break;
+            case 15:
+            case 23:
+            case 47:
+                MainGame.Sfx.play("sound", "rifle3");
+                break;
+            case 13:
+            case 37:
+                MainGame.Sfx.play("sound", "rifle4");
+                break;
+            case 16:
+            case 45:
+                MainGame.Sfx.play("sound", "rifle5");
+                break;
+            case 19:
+            case 26:
+                MainGame.Sfx.play("sound", "shotgun");
+                break;
+            case 18:
+            case 44:
+                MainGame.Sfx.play("sound", "shotgun2");
+                break;
+            case 8:
+            case 25:
+                MainGame.Sfx.play("sound", "shotgun3");
+                break;
+            case 22:
+            case 30:
+            case 40:
+                MainGame.Sfx.play("sound", "sniper");
+                break;
+            case 39:
+            case 49:
+                MainGame.Sfx.play("sound", "sniper2");
+                break;
+            case 48:
+            case 50:
+                MainGame.Sfx.play("sound", "sniper3");
+                break;
+            case 12:
+            case 29:
+                MainGame.Sfx.play("sound", "sniper4");
+                break;
+            case 11:
+            case 31:
+                MainGame.Sfx.play("sound", "sniper5");
+                break
+        }
+    }
+    makeShoot2(vX, vY) {
+        var animName = this.arm_weapon.getCurrentAnimation().name;
+        if (this.isAllowShoot) {
+            this.isAllowShoot = false;
+            this.time.delayedCall(this.FIRERATE, this.allowShoot, [], this);
+            var animationTime = 1 * (330 / this.FIRERATE);
+            this.arm_weapon.timeScale = animationTime;
+            this.arm_weapon.setAnimation(0, this.weaponType + "_shoot", false);
+            this.arm_weapon.addAnimation(0, this.weaponType + "_idle", false);
+            this.showEffectFire(this.effect_shoot.x, this.effect_shoot.y);
+            this.amountAmmo--;
+            this.checkAmmoAmount();
+            this.playSfxShoot()
+        }
+    }
+    makeShoot(vTarget, vX, vY) {
+        var animName = this.arm_weapon.getCurrentAnimation().name;
+        if (this.isAllowShoot) {
+            this.isAllowShoot = false;
+            this.time.delayedCall(this.FIRERATE, this.allowShoot, [], this);
+            var animationTime = 1 * (330 / this.FIRERATE);
+            this.arm_weapon.timeScale = animationTime;
+            this.arm_weapon.setAnimation(0, this.weaponType + "_shoot", false);
+            this.arm_weapon.addAnimation(0, this.weaponType + "_idle", false);
+            vTarget.damage(this.damageWeapons);
+            var posKickX = (vTarget.hero.x + vX) * .5;
+            this.addBotKick(posKickX, vY);
+            this.showEffectFire(this.effect_shoot.x, this.effect_shoot.y);
+            this.amountAmmo--;
+            this.checkAmmoAmount();
+            if (this.isGoTutorial) this.checkTutorial();
+            this.playSfxShoot()
+        }
+    }
+    addBotFlash(vX, vY) {
+        var effect = this.add.sprite(vX, vY, "ss_shooter");
+        effect.play("flash");
+        this.layerEffect.add(effect)
+    }
+    addBotKick(vX, vY) {
+        var effect = this.add.sprite(vX, vY, "ss_shooter");
+        effect.play("effect_kick");
+        this.layerEffect.add(effect)
+    }
+    addExplosionPumpkin(vX, vY, vType) {
+        var effect = this.add.sprite(vX, vY, "ss_halloween");
+        if (vType == 10) {
+            effect.play("explosion_bomb");
+            MainGame.Sfx.play("sound", "explosion")
+        } else {
+            effect.play("explosion_pumpkin");
+            var r = MyMath.getRandomInt(1, 3);
+            MainGame.Sfx.play("sound", "splash" + r)
+        }
+        effect.setScale(2);
+        this.layerEffect.add(effect)
+    }
+    underAttack(vIsYoyo) {
+        this.layerRed.alpha = 0;
+        this.tweens.killTweensOf(this.layerRed);
+        this.tweens.add({
+            targets: this.layerRed,
+            alpha: .6,
+            ease: "Linear",
+            duration: 150,
+            yoyo: vIsYoyo
+        })
+    }
+    botShoot(vType, vLevel, vX, vY) {
+        if (this.isLevelFinished) return;
+        this.addBotFlash(vX, vY);
+        if (this.isGameOver) return;
+        this.hpPlayerNow -= 5;
+        if (this.hpPlayerNow <= 0) {
+            this.hpPlayerNow = 0;
+            this.finishLevel(false);
+            this.underAttack(false)
+        } else {
+            this.underAttack(true)
+        }
+        this.text_hp.setText(this.hpPlayerNow);
+        this.updateHpBar(this.hpPlayerNow / this.hpPlayerMax);
+        if (vType == "stickman1") MainGame.Sfx.play("sound", "enemy4");
+        if (vType == "stickman2") MainGame.Sfx.play("sound", "enemy3");
+        if (vType == "stickman3") MainGame.Sfx.play("sound", "enemy");
+        if (vType == "stickman4") MainGame.Sfx.play("sound", "enemy2")
+    }
+    checkBarrels(vX, vY) {
+        var isInsideRect1 = Phaser.Geom.Rectangle.ContainsPoint(this.rect1, {
+            x: vX,
+            y: vY
+        });
+        var isInsideRect2 = Phaser.Geom.Rectangle.ContainsPoint(this.rect2, {
+            x: vX,
+            y: vY
+        });
+        var isInsideRect3 = Phaser.Geom.Rectangle.ContainsPoint(this.rect3, {
+            x: vX,
+            y: vY
+        });
+        var isInsideRect4 = Phaser.Geom.Rectangle.ContainsPoint(this.rect4, {
+            x: vX,
+            y: vY
+        });
+        var isInsideRect5 = Phaser.Geom.Rectangle.ContainsPoint(this.rect5, {
+            x: vX,
+            y: vY
+        });
+        return isInsideRect1 || isInsideRect2 || isInsideRect3 || isInsideRect4 || isInsideRect5
+    }
+    initLevel() {
+        this.arTargets = [];
+        this.posCursor = {
+            x: this.midX,
+            y: this.midY
+        };
+        var line1_Y = 300 - 60;
+        var line2_Y = 515 - 60;
+        this.rect1 = this.add.rectangle(80 * 4 - 45, line1_Y - 50, 160, 80);
+        this.rect2 = this.add.rectangle(80 * 8 - 45, line1_Y - 50, 160, 80);
+        this.rect3 = this.add.rectangle(80 * 2 - 45, line2_Y - 50, 160, 80);
+        this.rect4 = this.add.rectangle(80 * 6 - 45, line2_Y - 50, 160, 80);
+        this.rect5 = this.add.rectangle(80 * 10 - 45, line2_Y - 50, 160, 80)
+    }
+    addBotStep3() {
+        this.addBot(0, 0, "stickman3", 1, 0)
+    }
+    addBotStep4() {
+        this.addBot(0, 0, "stickman4", 2, 0)
+    }
+    addBotStep5() {
+        this.addBot(0, 0, null, 1, 2)
+    }
+    addBotStep6() {
+        this.addBot(0, 0, null, 2, 2)
+    }
+    addBotStep7() {
+        this.addBot(0, 0, null, 1, 3)
+    }
+    addBotStep8() {
+        this.addBot(0, 0, null, 2, 3)
+    }
+    addBotStep9() {
+        this.addBot(0, 0, null, 1, 3)
+    }
+    addBotStep10() {
+        this.addBot(0, 0, null, 2, 3)
+    }
+    addBot(vX, vY, vSkin, vLine, vBrain) {
+        if (this.countBots <= 0) return;
+        var posX = vX * 80;
+        var bot = new Bot(this, this.layerMob, posX, vY, vSkin, vLine, vBrain);
+        this.arTargets.push(bot);
+        this.countEnemies = this.arTargets.length
+    }
+    updateSpawnPumpkins() {
+        if (this.isLevelFinished) return;
+        this.counterPumpkin++;
+        if (this.counterPumpkin > 120) {
+            if (this.isSpawnEnd) {
+                this.addPumpkin(1)
+            } else {
+                var list = this.arSpawnSquad[this.stepPumpkin];
+                for (var i = 0; i < list.length; i++) {
+                    this.addPumpkin(list[i])
+                }
+            }
+            this.counterPumpkin = MyMath.getRandomInt(0, 5) * 10;
+            this.stepPumpkin++;
+            if (this.stepPumpkin >= this.arSpawnSquad.length) this.isSpawnEnd = true
+        }
+    }
+    addPumpkin(vType) {
+        var posX = this.midX + Phaser.Math.Between(-20, 20) * 10;
+        var posY = 800;
+        var type = vType;
+        if (type == 1) type = Phaser.Math.Between(1, 6);
+        this.pumpkins.firePumpkin(posX, posY, type)
+    }
+    updatePumpkins(vX, vY) {
+        var dist = 0;
+        var isFoundEnemy = false;
+        if (!this.isAllowShoot) return;
+        this.pumpkins.children.each((function(pumpkin) {
+            if (pumpkin.active) {
+                dist = MyMath.distanceTwoPoints(vX, pumpkin.x, vY, pumpkin.y);
+                if (dist < 1600) {
+                    this.aim_target.setFrame("crosshair3_0000");
+                    this.makeShoot2(this.aim_target.x, this.aim_target.y);
+                    pumpkin.hide();
+                    this.addPiecesPumpkin(pumpkin.x, pumpkin.y, pumpkin.type);
+                    this.addExplosionPumpkin(pumpkin.x, pumpkin.y, pumpkin.type);
+                    if (pumpkin.type == 10) {
+                        this.exploseAllPumkins();
+                        return false
+                    } else if (pumpkin.type == 7) {
+                        this.addPumpkinCrystals();
+                        this.crystalsPartices.emitParticleAt(pumpkin.x, pumpkin.y)
+                    }
+                    if (pumpkin.type < 10) this.addPumpkinPoints()
+                }
+            }
+        }), this)
+    }
+    exploseAllPumkins() {
+        this.cameras.main.shake(400, .01);
+        this.cameras.main.flash();
+        this.pumpkins.children.each((function(pumpkin) {
+            if (pumpkin.active) {
+                pumpkin.hide();
+                this.addPiecesPumpkin(pumpkin.x, pumpkin.y, pumpkin.type);
+                this.addExplosionPumpkin(pumpkin.x, pumpkin.y, pumpkin.type)
+            }
+        }), this)
+    }
+    initSettingsHalloween() {
+        this.POINTS_PER_PUMPKIN = 25;
+        this.CRYSTALS_PER_PUMPKIN = 3;
+        this.timerCount = 60;
+        this.countNeedPoints = 2e3;
+        this.countCrystals = 0;
+        this.pointsPumpkin = 0;
+        this.attemptsPumpkin = 3;
+        this.counterPumpkin = 100;
+        this.isSpawnEnd = false;
+        this.arSpawnSquad = [];
+        this.stepPumpkin = 0;
+        for (var i = 0; i < 5; i++) {
+            this.arSpawnSquad.push([7])
+        }
+        for (var i = 0; i < 10; i++) {
+            this.arSpawnSquad.push([10])
+        }
+        for (var i = 0; i < 15; i++) {
+            this.arSpawnSquad.push([1])
+        }
+        var r = 0;
+        var reservedPumpkins = 60;
+        for (var i = 0; i < 30; i++) {
+            if (reservedPumpkins > 0) {
+                r = MyMath.getRandomInt(0, 4);
+                if (r > reservedPumpkins) r = reservedPumpkins;
+                reservedPumpkins -= r;
+                for (var j = 0; j < r; j++) {
+                    this.arSpawnSquad[i].push([1])
+                }
+            }
+        }
+        if (reservedPumpkins > 1) {
+            var halfReserv = Math.floor(reservedPumpkins * .5);
+            for (var j = 0; j < halfReserv; j++) {
+                this.arSpawnSquad[0].push([1])
+            }
+            for (var j = 0; j < halfReserv; j++) {
+                this.arSpawnSquad[1].push([1])
+            }
+        }
+        MyMath.shuffleArr(this.arSpawnSquad);
+        this.arSpawnSquad.unshift([1]);
+        this.arSpawnSquad.unshift([1])
+    }
+    startTimerHalloween() {
+        this.timerHalloween = this.time.addEvent({
+            delay: 1e3,
+            callback: this.updateTimerHalloween,
+            callbackScope: this,
+            loop: true
+        })
+    }
+    checkFinishGame() {
+        if (this.timerHalloween) this.timerHalloween.remove();
+        if (MainGame.listEvents[0] == 0) {
+            if (this.pointsPumpkin < this.countNeedPoints) {
+                this.showFinishWindow2(1)
+            } else {
+                this.showFinishWindow2(2);
+                MainGame.completedEvent("pumpkin")
+            }
+        } else {
+            this.showFinishWindow2(3)
+        }
+    }
+    testFinishGame() {
+        this.pointsPumpkin = this.countNeedPoints;
+        this.checkFinishGame()
+    }
+    addPumpkinPoints() {
+        this.pointsPumpkin += this.POINTS_PER_PUMPKIN;
+        this.textPoints.setText(this.pointsPumpkin)
+    }
+    updateTimerHalloween() {
+        this.timerCount--;
+        var timeStr = MainGame.secToHHMMSS(this.timerCount);
+        this.textTimer.setText(timeStr);
+        if (this.timerCount == 0) {
+            this.checkFinishGame()
+        }
+    }
+    updateAttemptsPumpkin() {
+        if (this.isLevelFinished) return;
+        if (this.attemptsPumpkin == 3) {
+            this.icon_x1.setFrame("icon_x2_0000");
+            MainGame.jelly(this, this.icon_x1, .3, null, null, 100, 600);
+            MainGame.Sfx.play("sound", "miss")
+        }
+        if (this.attemptsPumpkin == 2) {
+            this.icon_x2.setFrame("icon_x2_0000");
+            MainGame.jelly(this, this.icon_x2, .3, null, null, 100, 600);
+            MainGame.Sfx.play("sound", "miss")
+        }
+        if (this.attemptsPumpkin == 1) {
+            this.icon_x3.setFrame("icon_x2_0000");
+            MainGame.jelly(this, this.icon_x3, .3, null, null, 100, 600);
+            MainGame.Sfx.play("sound", "miss")
+        }
+        this.attemptsPumpkin--;
+        if (this.attemptsPumpkin == 0) {
+            this.checkFinishGame()
+        }
+    }
+    addPumpkinCrystals() {
+        this.countCrystals += this.CRYSTALS_PER_PUMPKIN
+    }
+    initPiecesPumpkin() {
+        this.pumpkins = new Pumpkins(this);
+        var particles1 = this.add.particles("ss_halloween");
+        var particles2 = this.add.particles("ss_halloween");
+        var particles3 = this.add.particles("ss_halloween");
+        particles1.createEmitter({
+            frame: ["pumpkin_part1_0000", "pumpkin_part2_0000", "pumpkin_part3_0000", "pumpkin_part4_0000", "pumpkin_part5_0000"],
+            angle: {
+                min: 240,
+                max: 300
+            },
+            speed: {
+                min: 300,
+                max: 500
+            },
+            quantity: {
+                min: 3,
+                max: 6
+            },
+            lifespan: 4e3,
+            scale: {
+                min: .8,
+                max: 1.2
+            },
+            rotate: {
+                start: 0,
+                end: 360,
+                ease: "Back.easeOut"
+            },
+            gravityY: 800,
+            on: false
+        });
+        particles2.createEmitter({
+            frame: ["splash1_0000", "splash2_0000"],
+            rotate: {
+                min: 0,
+                max: 90
+            },
+            quantity: 1,
+            lifespan: 1e3,
+            delay: 2500,
+            alpha: {
+                start: 1,
+                end: 0
+            },
+            scaleY: {
+                start: 1,
+                end: 1.1
+            },
+            gravityY: 10,
+            on: false
+        });
+        particles3.createEmitter({
+            frame: ["icon_diamond_0000"],
+            angle: {
+                min: 240,
+                max: 300
+            },
+            speed: {
+                min: 300,
+                max: 500
+            },
+            quantity: 3,
+            lifespan: 4e3,
+            scale: {
+                min: .8,
+                max: 1.2
+            },
+            rotate: {
+                start: 0,
+                end: 360,
+                ease: "Back.easeOut"
+            },
+            gravityY: 800,
+            on: false
+        });
+        this.piecesPartices = particles1;
+        this.splashPartices = particles2;
+        this.crystalsPartices = particles3;
+        this.splashPartices.setDepth(this.DEPTH_layerMob + .001);
+        this.piecesPartices.setDepth(this.DEPTH_layerMob + .002);
+        this.crystalsPartices.setDepth(this.DEPTH_layerMob + .003);
+        this.pumpkins.setDepth(this.DEPTH_layerMob + .004)
+    }
+    addPiecesPumpkin(vX, vY, vType) {
+        if (vType == 10) return;
+        this.piecesPartices.emitParticleAt(vX, vY);
+        this.splashPartices.emitParticleAt(vX, vY)
+    }
+    initTutorialPumpkin() {
+        this.isGoTutorial = true;
+        this.tutorialStep = 0;
+        var offsetY = -60;
+        var plaha = this.add.image(this.midX, 250 + offsetY, "ss_halloween", "tutor_popup_0000");
+        this.layerEffect.add(plaha);
+        var tutor_image1 = this.add.image(this.midX + 25, 250 + 140 + offsetY, "ss_halloween", "tutor_pumpkins_0000");
+        this.layerEffect.add(tutor_image1);
+        var tutor_image2 = this.add.image(this.midX - 125, 250 + 110 + offsetY, "ss_halloween", "tutor_bomb_0000");
+        this.layerEffect.add(tutor_image2);
+        var tutor_image3 = this.add.image(this.midX + 125, 250 + 120 + offsetY, "ss_halloween", "tutor_miss_0000");
+        this.layerEffect.add(tutor_image3);
+        var txt = this.add.bitmapText(plaha.x, plaha.y, "Panton", "");
+        txt.setMaxWidth(400);
+        txt.setCenterAlign();
+        txt.setFontSize(28);
+        txt.setOrigin(.5);
+        this.layerEffect.add(txt);
+        var txt2 = this.add.bitmapText(plaha.x, 510 + offsetY, "Panton", "");
+        txt2.setCenterAlign();
+        txt2.setFontSize(24);
+        txt2.setOrigin(.5);
+        this.layerEffect.add(txt2);
+        var txt3 = this.add.bitmapText(plaha.x, 150 + offsetY, "Panton", "");
+        txt3.setCenterAlign();
+        txt3.setFontSize(32);
+        txt3.setOrigin(.5);
+        this.layerEffect.add(txt3);
+        this.textTutorial = txt;
+        this.textContinue = txt2;
+        this.textTutorStep = txt3;
+        this.textTutorial.setText(MainGame.GAME_TEXT.shoot_pumpkins.toUpperCase());
+        this.textContinue.setText(MainGame.GAME_TEXT.tap_continue.toUpperCase());
+        this.textTutorStep.setText("1/2");
+        this.tutor_image1 = tutor_image1;
+        this.tutor_image2 = tutor_image2;
+        this.tutor_image3 = tutor_image3;
+        this.plaha = plaha;
+        this.tutor_image2.visible = false;
+        this.tutor_image3.visible = false
+    }
+    onTapTutorial() {
+        if (this.isPaused) return;
+        if (this.tutorialStep == 0) {
+            this.textTutorStep.setText("2/2");
+            this.textTutorial.setText(MainGame.GAME_TEXT.tutorial_pumpkin.toUpperCase());
+            this.tutor_image1.visible = false;
+            this.tutor_image2.visible = true;
+            this.tutor_image3.visible = true;
+            this.tutorialStep = 1
+        } else if (this.tutorialStep == 1) {
+            this.isGoTutorial = false;
+            this.tutor_image1.destroy();
+            this.tutor_image2.destroy();
+            this.tutor_image3.destroy();
+            this.textTutorial.destroy();
+            this.textContinue.destroy();
+            this.textTutorStep.destroy();
+            this.plaha.destroy();
+            this.startTimerHalloween()
+        }
+    }
+    startTutorial() {
+        this.time.delayedCall(500, this.tutorialScenario, [], this);
+        this.isBeforeStart = false;
+        this.armReady = true;
+        this.buttonStart.visible = false;
+        this.arm_weapon.visible = true;
+        this.aim_target.visible = true;
+        if (MainGame.isAPI) MainGame.API_POKI.gameplayStart()
+    }
+    checkTutorial() {
+        if (this.tutorialStep == 1) {
+            if (!this.doska1.info.live) {
+                this.time.delayedCall(500, this.tutorialScenario, [], this);
+                this.plahaTutorial.visible = false;
+                this.textTutorial.visible = false;
+                this.tutor_mobile.visible = false
+            }
+        } else if (this.tutorialStep == 2) {
+            if (!this.doska2.info.live && !this.doska3.info.live && !this.doska4.info.live && !this.doska5.info.live) {
+                this.textTutorial.visible = false;
+                this.plahaTutorial.visible = false
+            }
+        }
+    }
+    tutorialScenario() {
+        this.tutorialStep++;
+        if (this.tutorialStep == 1) {
+            this.textTutorial.setText(MainGame.GAME_TEXT.text_move_cursor);
+            this.plahaTutorial.visible = true;
+            this.textTutorial.visible = true;
+            this.doska1.visible = true;
+            if (!MainGame.isDesktop) this.tutor_mobile.visible = true
+        } else if (this.tutorialStep == 2) {
+            this.textTutorial.setText(MainGame.GAME_TEXT.text_good_job);
+            this.plahaTutorial.visible = true;
+            this.textTutorial.visible = true;
+            this.doska2.visible = true;
+            this.doska3.visible = true;
+            this.doska4.visible = true;
+            this.doska5.visible = true;
+            this.doska2.info.live = true;
+            this.doska3.info.live = true;
+            this.doska4.info.live = true;
+            this.doska5.info.live = true;
+            this.tweens.add({
+                targets: this.doska2,
+                x: this.doska2.x - 80,
+                ease: "Linear",
+                duration: 1e3,
+                yoyo: true,
+                repeat: -1
+            });
+            this.tweens.add({
+                targets: this.doska3,
+                x: this.doska3.x + 80,
+                ease: "Linear",
+                duration: 1e3,
+                yoyo: true,
+                repeat: -1
+            });
+            this.tweens.add({
+                targets: this.doska4,
+                x: this.doska4.x - 80,
+                ease: "Linear",
+                duration: 1e3,
+                yoyo: true,
+                repeat: -1
+            });
+            this.tweens.add({
+                targets: this.doska5,
+                x: this.doska5.x + 80,
+                ease: "Linear",
+                duration: 1e3,
+                yoyo: true,
+                repeat: -1
+            })
+        }
+    }
+    addDoska(vX, vY) {
+        var posX = vX * 80;
+        var obj = this.add.sprite(posX, vY - 30, "ss_shooter");
+        obj.play("target_idle");
+        obj.setOrigin(.5, .75);
+        this.layerMob.add(obj);
+        obj.hero = obj;
+        obj.info = {
+            health: 2,
+            live: true
+        };
+        obj.isAlive = function() {
+            return obj.info.live
+        };
+        obj.damage = function() {
+            obj.info.health--;
+            if (obj.info.health <= 0) {
+                obj.info.live = false;
+                obj.play("target_down");
+                MainGame.state.increaseFrags();
+                MainGame.state.tweens.killTweensOf(obj)
+            }
+        };
+        this.arTargets.push(obj);
+        this.countEnemies = this.arTargets.length;
+        return obj
+    }
+    updateBots() {
+        var target;
+        for (var i = 0; i < this.countEnemies; i++) {
+            target = this.arTargets[i];
+            target.update()
+        }
+    }
+    pauseBots() {
+        if (this.isGoTutorial) return;
+        for (var i = 0; i < this.countEnemies; i++) {
+            this.arTargets[i].pauseAnimation()
+        }
+        this.old_timeScale = this.arm_weapon.state.timeScale;
+        this.arm_weapon.state.timeScale = 0;
+        if (this.timerReloading) this.timerReloading.paused = true
+    }
+    resumeBots() {
+        if (this.isGoTutorial) return;
+        for (var i = 0; i < this.countEnemies; i++) {
+            this.arTargets[i].resumeAnimation()
+        }
+        this.arm_weapon.state.timeScale = this.old_timeScale || 1;
+        if (this.timerReloading) this.timerReloading.paused = false
+    }
+    clickBtnPause() {
+        if (this.isLevelFinished) return;
+        MainGame.Sfx.update("music", this.buttonMuteMusic.icon, this.buttonMuteMusic.text);
+        MainGame.Sfx.update("sound", this.buttonMuteSound.icon, this.buttonMuteSound.text);
+        this.isPaused = true;
+        this.layerPauseWindowMain.visible = true;
+        this.layerPauseWindow.visible = true;
+        game.canvas.style.cursor = "default";
+        this.physics.pause();
+        if (this.timerHalloween) this.timerHalloween.paused = true;
+        this.pauseBots();
+        if (MainGame.isAPI) MainGame.API_POKI.gameplayStop()
+    }
+    clickBtnReload() {
+        if (this.isReloading || this.isLevelFinished || this.isPaused || !this.armReady) return;
+        this.updateReloading(true)
+    }
+    showAdsForDiamondsX2() {
+        MainGame.clickReward("fire_x2");
+        this.buttonIncomeX2.setEnable(false)
+    }
+    initSystemMessage() {
+        this.textSystemContainer = this.add.container();
+        this.textSystemContainer.x = this.midX;
+        this.textSystemContainer.y = MainGame.world.centerY - 100;
+        var txt = this.add.bitmapText(0, 0, "Panton", "");
+        txt.setDropShadow(3, 3, 0, 1);
+        txt.setOrigin(.5);
+        txt.setMaxWidth(550);
+        txt.setCenterAlign();
+        txt.setFontSize(34);
+        this.textSystemContainer.add(txt);
+        this.textSystemContainer.setDepth(this.DEPTH_systemtext);
+        this.textSystemContainer.visible = false;
+        this.textSystem = txt
+    }
+    showSystemMessage(vText) {
+        this.textSystemContainer.visible = true;
+        this.textSystem.setText(vText);
+        this.textSystemContainer.alpha = .2;
+        this.textSystemContainer.y = this.midY - 20;
+        this.textSystemContainer.setScale(.8);
+        this.tweens.killTweensOf(this.textSystemContainer);
+        this.tweens.add({
+            targets: this.textSystemContainer,
+            alpha: 1,
+            ease: "Linear",
+            duration: 150
+        });
+        this.tweens.add({
+            targets: this.textSystemContainer,
+            scaleX: 1,
+            scaleY: 1,
+            ease: "Linear",
+            duration: 150
+        });
+        this.tweens.add({
+            targets: this.textSystemContainer,
+            alpha: 0,
+            ease: "Linear",
+            delay: 1500,
+            duration: 200,
+            onComplete: this.finishSystemTextTween
+        });
+        this.tweens.add({
+            targets: this.textSystemContainer,
+            y: this.textSystemContainer.y - 20,
+            ease: "Linear",
+            delay: 150,
+            duration: 1200
+        })
+    }
+    clickReplay() {
+        this.scale.off("resize", this.updateResize, this);
+        MainGame.fadeOutScene("UpdateHalloween", this)
+    }
+    clickRevive() {
+        if (this.timerRevive) this.timerRevive.remove();
+        this.reviveLevel()
+    }
+    showGameScreen() {
+        MainGame.saveSaves();
+        this.scale.off("resize", this.updateResize, this);
+        if (MainGame.isAPI) MainGame.API_POKI.destroyAd();
+        MainGame.fadeOutScene("Game", this)
+    }
+}
+class Pumpkin extends Phaser.Physics.Arcade.Sprite {
+    constructor(scene, x, y) {
+        super(scene, x, y, "ss_halloween", "pumpkin1_0000");
+        this.type = 1;
+        this.scene = scene
+    }
+    fire(x, y, vType) {
+        this.body.reset(x, y);
+        var type = vType || Phaser.Math.Between(1, 6);
+        if (type <= 7) {
+            this.stop();
+            this.setFrame("pumpkin" + type + "_0000");
+            this.setOrigin(.5, .5)
+        } else {
+            this.play("bomb");
+            this.setOrigin(.5, .65)
+        }
+        this.setActive(true);
+        this.setVisible(true);
+        this.setVelocity(Phaser.Math.Between(-20, 20) * 5, -550 - Phaser.Math.Between(1, 7) * 20);
+        this.setAngularVelocity(Phaser.Math.Between(-20, 20) * 15);
+        this.type = type
+    }
+    hide() {
+        this.setActive(false);
+        this.setVisible(false)
+    }
+    preUpdate(time, delta) {
+        super.preUpdate(time, delta);
+        if (this.y > 900) {
+            if (this.type < 10) this.scene.updateAttemptsPumpkin();
+            this.setActive(false);
+            this.setVisible(false)
+        }
+    }
+}
+class Pumpkins extends Phaser.Physics.Arcade.Group {
+    constructor(scene) {
+        super(scene.physics.world, scene);
+        this.createMultiple({
+            quantity: 20,
+            key: "ss_halloween",
+            randomFrame: true,
+            active: false,
+            visible: false,
+            classType: Pumpkin
+        })
+    }
+    firePumpkin(x, y, type) {
+        let bullet = this.getFirstDead(false);
+        if (bullet) {
+            bullet.fire(x, y, type)
+        }
+    }
+}
+class UpdateChristmas extends Phaser.Scene {
+    constructor() {
+        super({
+            key: "UpdateChristmas",
+            physics: {
+                default: "arcade",
+                arcade: {
+                    gravity: {
+                        y: 0
+                    },
+                    debug: false
+                }
+            }
+        })
+    }
+    create() {
+        MainGame.state = this;
+        MainGame.stateName = "UpdateChristmas";
+        this.initResize();
+        this.midX = this.GAME_WIDTH / 2;
+        this.midY = this.GAME_HEIGHT / 2;
+        this.initSettingsGame();
+        const back = this.add.image(this.midX, this.midY, "bg_eventC");
+        this.layerRoads = this.add.container();
+        this.layerMob = this.add.container();
+        this.layerEffect = this.add.container();
+        this.layerSpineArm = this.add.container();
+        this.layerUI = this.add.container();
+        this.layerText = this.add.container();
+        this.layerMob.setDepth(this.DEPTH_layerMob);
+        this.layerEffect.setDepth(this.DEPTH_layerEffect);
+        this.layerSpineArm.setDepth(this.DEPTH_layerArm);
+        this.layerUI.setDepth(this.DEPTH_layerUI);
+        this.layerText.setDepth(this.DEPTH_layerText);
+        this.initEffects();
+        this.initSettingsEvent();
+        this.initGUI_Event();
+        this.initGUI();
+        this.initComboTexts();
+        this.initLevel();
+        this.initWeapon();
+        this.initPauseWindow();
+        this.initFinishWindow2();
+        this.initRewardWindow();
+        this.initSystemMessage();
+        this.updateResize();
+        this.text_hp.setText(this.hpPlayerNow);
+        this.text_level.setText(MainGame.GAME_TEXT.day.toUpperCase() + " " + MainGame.fireLevel);
+        this.updateAmmoText();
+        this.updateFragsText();
+        this.input.keyboard.on("keydown", this.handleKey, this);
+        this.isAllowShoot = true;
+        MainGame.isFromFireMode = true;
+        if (MainGame.firstGo) {
+            this.input.once("pointerdown", this.playOnce, this)
+        } else {
+            MainGame.Sfx.play("music", "christmas")
+        }
+        this.initPiecesPumpkin();
+        this.setLineDirection(1, true);
+        this.setLineDirection(2, false);
+        this.setLineDirection(3, true);
+        if (MainGame.listEvents[1] == 0 && MainGame.isFirstChallenge) {
+            this.initTutorialChristmas()
+        } else {
+            this.startTimerEvent()
+        }
+        MainGame.isFirstChallenge = false;
+        if (MainGame.isAPI) MainGame.API_POKI.gameplayStart();
+        if (MainGame.isAPI) MainGame.API_POKI.displayAd()
+    }
+    playOnce() {
+        MainGame.firstGo = false;
+        MainGame.Sfx.play("music", "shoot")
+    }
+    handleKey(e) {
+        switch (e.code) {
+            case "KeyR":
+                this.clickBtnReload();
+                break
+        }
+    }
+    update() {
+        if (this.isLevelFinished || this.isPaused) return;
+        if (this.armReady && !this.isGameOver) this.updateArm();
+        if (!this.isGoTutorial) {
+            this.updateSpawnPumpkins()
+        }
+    }
+    initResize() {
+        this.GAME_WIDTH = MainGame.Config.DEFAULT_WIDTH;
+        this.GAME_HEIGHT = MainGame.Config.DEFAULT_HEIGHT;
+        var gameSize = this.scale.gameSize;
+        var width = gameSize.width;
+        var height = gameSize.height;
+        if (window.innerHeight < MainGame.Config.MAX_HEIGHT) {
+            height = window.innerHeight
+        }
+        this.parent = new Phaser.Structs.Size(width, height);
+        this.sizer = new Phaser.Structs.Size(this.GAME_WIDTH, this.GAME_HEIGHT, Phaser.Structs.Size.FIT, this.parent);
+        this.parent.setSize(width, height);
+        this.sizer.setSize(width, height);
+        this.scale.on("resize", this.updateResize, this)
+    }
+    updateResize() {
+        var gameSize = this.scale.gameSize;
+        var width = gameSize.width;
+        var height = gameSize.height;
+        if (window.innerHeight < MainGame.Config.MAX_HEIGHT) {
+            height = window.innerHeight
+        }
+        this.parent.setSize(width, height);
+        this.sizer.setSize(width, height);
+        this.updateCamera()
+    }
+    updateCamera() {
+        const camera = this.cameras.main;
+        var deltaX = Math.ceil(this.parent.width - this.sizer.width) * .5;
+        var deltaY = Math.ceil(this.parent.height - this.sizer.height) * .5;
+        var sdvigY = 0;
+        if (window.innerHeight < MainGame.Config.MAX_HEIGHT) {
+            deltaY = Math.ceil(window.innerHeight - this.sizer.height) * .5;
+            sdvigY = this.scale.gameSize.height - window.innerHeight
+        }
+        const scaleX = this.sizer.width / this.GAME_WIDTH;
+        const scaleY = this.sizer.height / this.GAME_HEIGHT;
+        const zoom = Math.max(scaleX, scaleY);
+        const offsetY = deltaY / zoom;
+        const offsetX = deltaX / zoom;
+        this.deltaScreenY = deltaY;
+        camera.setZoom(zoom);
+        camera.centerOn(this.GAME_WIDTH / 2, this.GAME_HEIGHT / 2 + sdvigY);
+        this.btnExit.x = 1024 - 64 + offsetX;
+        if (this.btnExit.x > 1024 + 100) this.btnExit.x = 1024 + 100;
+        this.text_level.x = this.btnExit.x - 60;
+        this.btnReload.x = 110 - offsetX;
+        if (this.btnReload.x < -100 + 30) this.btnReload.x = -100 + 30;
+        this.text_bullets.x = this.btnReload.x;
+        this.icon_frag.x = 80 - offsetX;
+        if (this.icon_frag.x < -100) this.icon_frag.x = -100;
+        this.text_frags.x = this.icon_frag.x + 90;
+        this.btnExit.y = 50 - offsetY;
+        if (this.btnExit.y < -100 + 50) this.btnExit.y = -100 + 50;
+        this.text_level.y = this.btnExit.y - 10;
+        this.icon_frag.y = this.btnExit.y + 5;
+        this.text_frags.y = this.icon_frag.y;
+        this.hpBarB.y = 600 + offsetY;
+        if (this.hpBarB.y > 600 + 100) this.hpBarB.y = 600 + 100;
+        this.hpBarT.y = this.hpBarB.y;
+        this.text_hp.y = this.hpBarB.y - 7;
+        this.btnReload.y = 520 + offsetY;
+        if (this.btnReload.y > 520 + 100) this.btnReload.y = 520 + 100;
+        this.text_bullets.y = this.btnReload.y + 95;
+        this.textPoints.x = this.btnReload.x;
+        this.textPointsText.x = this.btnReload.x;
+        this.textTimer.x = this.btnReload.x;
+        this.timerPlaha.x = this.btnReload.x;
+        var posIconsX = 1024 - 59 + offsetX;
+        if (posIconsX > 1024 + 100) posIconsX = 1024 + 100;
+        this.icon_x1.x = posIconsX;
+        this.icon_x2.x = posIconsX;
+        this.icon_x3.x = posIconsX;
+        var posPumpkinY = offsetY;
+        if (posPumpkinY > 100) posPumpkinY = 100;
+        this.textPointsText.y = 30 - posPumpkinY;
+        this.textPoints.y = 70 - posPumpkinY;
+        this.timerPlaha.y = 150 - posPumpkinY;
+        this.textTimer.y = 148 - posPumpkinY
+    }
+    addCanvas(vLayer, vColor, vAlpha) {
+        var canvas = this.add.image(this.midX, this.midY, "ss_shooter", "canvas_0000");
+        canvas.tint = vColor;
+        canvas.alpha = vAlpha;
+        canvas.setScale(6);
+        vLayer.add(canvas);
+        return canvas
+    }
+    initSettingsGame() {
+        MainGame.fireLevel = MainGame.fireLevel || 1;
+        this.arOffsetWeapon = [{
+            x: 140,
+            y: 320,
+            fx: 50,
+            fy: 50,
+            dmg: 30,
+            ammo: 8,
+            firerate: 500
+        }, {
+            x: 140,
+            y: 320,
+            fx: 45,
+            fy: 45,
+            dmg: 35,
+            ammo: 17,
+            firerate: 500
+        }, {
+            x: 140,
+            y: 320,
+            fx: 35,
+            fy: 30,
+            dmg: 40,
+            ammo: 15,
+            firerate: 400
+        }, {
+            x: 140,
+            y: 320,
+            fx: 20,
+            fy: 20,
+            dmg: 60,
+            ammo: 9,
+            firerate: 600
+        }, {
+            x: 140,
+            y: 320,
+            fx: -10,
+            fy: -8,
+            dmg: 80,
+            ammo: 6,
+            firerate: 700
+        }, {
+            x: 150,
+            y: 320,
+            fx: -10,
+            fy: 5,
+            dmg: 20,
+            ammo: 30,
+            firerate: 200
+        }, {
+            x: 200,
+            y: 365,
+            fx: 20,
+            fy: 20,
+            dmg: 35,
+            ammo: 18,
+            firerate: 300
+        }, {
+            x: 200,
+            y: 365,
+            fx: -10,
+            fy: 0,
+            dmg: 100,
+            ammo: 2,
+            firerate: 1e3
+        }, {
+            x: 200,
+            y: 365,
+            fx: 25,
+            fy: 35,
+            dmg: 50,
+            ammo: 25,
+            firerate: 300
+        }, {
+            x: 200,
+            y: 365,
+            fx: 20,
+            fy: 20,
+            dmg: 60,
+            ammo: 30,
+            firerate: 300
+        }, {
+            x: 200,
+            y: 365,
+            fx: -30,
+            fy: -20,
+            dmg: 150,
+            ammo: 6,
+            firerate: 600
+        }, {
+            x: 220,
+            y: 365,
+            fx: -30,
+            fy: -25,
+            dmg: 200,
+            ammo: 6,
+            firerate: 700
+        }, {
+            x: 210,
+            y: 370,
+            fx: -15,
+            fy: -5,
+            dmg: 80,
+            ammo: 30,
+            firerate: 330
+        }, {
+            x: 210,
+            y: 365,
+            fx: -5,
+            fy: 5,
+            dmg: 100,
+            ammo: 30,
+            firerate: 330
+        }, {
+            x: 210,
+            y: 370,
+            fx: -10,
+            fy: 5,
+            dmg: 80,
+            ammo: 35,
+            firerate: 330
+        }, {
+            x: 210,
+            y: 365,
+            fx: -5,
+            fy: 25,
+            dmg: 90,
+            ammo: 30,
+            firerate: 330
+        }, {
+            x: 195,
+            y: 355,
+            fx: 50,
+            fy: 65,
+            dmg: 60,
+            ammo: 50,
+            firerate: 200
+        }, {
+            x: 200,
+            y: 365,
+            fx: 15,
+            fy: -5,
+            dmg: 450,
+            ammo: 9,
+            firerate: 800
+        }, {
+            x: 200,
+            y: 365,
+            fx: -10,
+            fy: -5,
+            dmg: 500,
+            ammo: 6,
+            firerate: 800
+        }, {
+            x: 140,
+            y: 320,
+            fx: 30,
+            fy: 30,
+            dmg: 160,
+            ammo: 12,
+            firerate: 300
+        }, {
+            x: 140,
+            y: 320,
+            fx: -10,
+            fy: -10,
+            dmg: 250,
+            ammo: 8,
+            firerate: 450
+        }, {
+            x: 220,
+            y: 365,
+            fx: -25,
+            fy: -20,
+            dmg: 450,
+            ammo: 7,
+            firerate: 600
+        }, {
+            x: 210,
+            y: 365,
+            fx: -40,
+            fy: -10,
+            dmg: 200,
+            ammo: 64,
+            firerate: 400
+        }, {
+            x: 210,
+            y: 365,
+            fx: 45,
+            fy: 45,
+            dmg: 200,
+            ammo: 25,
+            firerate: 300
+        }, {
+            x: 210,
+            y: 365,
+            fx: -10,
+            fy: -10,
+            dmg: 600,
+            ammo: 6,
+            firerate: 600
+        }, {
+            x: 200,
+            y: 365,
+            fx: -40,
+            fy: -20,
+            dmg: 600,
+            ammo: 5,
+            firerate: 550
+        }, {
+            x: 220,
+            y: 365,
+            fx: -5,
+            fy: -5,
+            dmg: 100,
+            ammo: 100,
+            firerate: 150
+        }, {
+            x: 210,
+            y: 365,
+            fx: 35,
+            fy: 40,
+            dmg: 250,
+            ammo: 50,
+            firerate: 250
+        }, {
+            x: 230,
+            y: 365,
+            fx: -5,
+            fy: -5,
+            dmg: 500,
+            ammo: 7,
+            firerate: 500
+        }, {
+            x: 230,
+            y: 365,
+            fx: -40,
+            fy: -40,
+            dmg: 700,
+            ammo: 7,
+            firerate: 650
+        }, {
+            x: 230,
+            y: 365,
+            fx: 25,
+            fy: 25,
+            dmg: 450,
+            ammo: 20,
+            firerate: 500
+        }, {
+            x: 200,
+            y: 340,
+            fx: 50,
+            fy: 20,
+            dmg: 250,
+            ammo: 22,
+            firerate: 200
+        }, {
+            x: 140,
+            y: 320,
+            fx: 0,
+            fy: -5,
+            dmg: 300,
+            ammo: 12,
+            firerate: 400
+        }, {
+            x: 210,
+            y: 365,
+            fx: 35,
+            fy: 45,
+            dmg: 300,
+            ammo: 30,
+            firerate: 300
+        }, {
+            x: 210,
+            y: 365,
+            fx: 25,
+            fy: 30,
+            dmg: 300,
+            ammo: 25,
+            firerate: 300
+        }, {
+            x: 210,
+            y: 365,
+            fx: 15,
+            fy: 25,
+            dmg: 300,
+            ammo: 30,
+            firerate: 300
+        }, {
+            x: 210,
+            y: 365,
+            fx: -5,
+            fy: 10,
+            dmg: 300,
+            ammo: 30,
+            firerate: 300
+        }, {
+            x: 220,
+            y: 340,
+            fx: -35,
+            fy: -30,
+            dmg: 400,
+            ammo: 7,
+            firerate: 500
+        }, {
+            x: 220,
+            y: 340,
+            fx: -10,
+            fy: -15,
+            dmg: 650,
+            ammo: 8,
+            firerate: 500
+        }, {
+            x: 210,
+            y: 365,
+            fx: -35,
+            fy: -40,
+            dmg: 700,
+            ammo: 9,
+            firerate: 500
+        }, {
+            x: 210,
+            y: 365,
+            fx: 0,
+            fy: -5,
+            dmg: 600,
+            ammo: 30,
+            firerate: 300
+        }, {
+            x: 140,
+            y: 320,
+            fx: 25,
+            fy: 25,
+            dmg: 350,
+            ammo: 12,
+            firerate: 300
+        }, {
+            x: 140,
+            y: 320,
+            fx: 10,
+            fy: 20,
+            dmg: 500,
+            ammo: 22,
+            firerate: 350
+        }, {
+            x: 200,
+            y: 365,
+            fx: 0,
+            fy: -30,
+            dmg: 900,
+            ammo: 8,
+            firerate: 600
+        }, {
+            x: 210,
+            y: 365,
+            fx: 5,
+            fy: 15,
+            dmg: 700,
+            ammo: 30,
+            firerate: 300
+        }, {
+            x: 220,
+            y: 365,
+            fx: -20,
+            fy: -10,
+            dmg: 700,
+            ammo: 30,
+            firerate: 400
+        }, {
+            x: 220,
+            y: 365,
+            fx: 0,
+            fy: 0,
+            dmg: 700,
+            ammo: 30,
+            firerate: 400
+        }, {
+            x: 220,
+            y: 365,
+            fx: -20,
+            fy: 0,
+            dmg: 800,
+            ammo: 15,
+            firerate: 400
+        }, {
+            x: 230,
+            y: 365,
+            fx: -35,
+            fy: -30,
+            dmg: 1e3,
+            ammo: 15,
+            firerate: 400
+        }, {
+            x: 220,
+            y: 365,
+            fx: -20,
+            fy: -30,
+            dmg: 1200,
+            ammo: 20,
+            firerate: 400
+        }];
+        this.scaleWindow1 = .7;
+        this.scaleWindow2 = .85;
+        this.MAX_TOP = 50;
+        this.MAX_BOTTOM = 650;
+        this.DEPTH_layerMob = .21;
+        this.DEPTH_layerEffect = .22;
+        this.DEPTH_layerArm = .23;
+        this.DEPTH_layerUI = .24;
+        this.DEPTH_layerText = .25;
+        this.DEPTH_layerFinish = .26;
+        this.DEPTH_systemtext = .6;
+        this.aimScale = 2;
+        this.isBeforeStart = false;
+        this.suggestRevive = true;
+        this.isLevelFinished = false;
+        this.isGameOver = false;
+        this.isPaused = false;
+        this.hpPlayerMax = 100;
+        this.hpPlayerNow = this.hpPlayerMax;
+        this.countFrags = 0;
+        this.isGoTutorial = false;
+        this.armReady = false;
+        this.isInputPressed = false;
+        this.isReloading = false;
+        this.WEAPON_WEIGHT = .21;
+        this.countEnemies = 0;
+        this.arTargets = [];
+        this.posInputDown = {
+            x: this.midX,
+            y: this.midY
+        };
+        this.lastPos = {
+            x: this.midX,
+            y: this.midY
+        };
+        this.posCursor = {
+            x: this.midX,
+            y: this.midY
+        };
+        this.posWeapon = {
+            x: 0,
+            y: 0
+        };
+        this.offsetWeapon = {
+            x: 0,
+            y: 0
+        };
+        this.offsetFire = {
+            x: 0,
+            y: 0
+        };
+        this.deltaScreenY = 0;
+        this.maxPosX = 80 * 13;
+        this.minPosX = 0;
+        this.arrRespawns1 = [4, 5, 8, 9];
+        this.arrRespawns2 = [2, 3, 6, 7, 10, 11];
+        this.TIME_RELOADING = 1800;
+        this.needToKill = 7 + Math.floor(MainGame.fireLevel / 8);
+        if (MainGame.fireLevel == 1) this.needToKill = 5;
+        var settingsWeapon = this.arOffsetWeapon[MainGame.selectedGun - 1];
+        this.FIRERATE = settingsWeapon.firerate;
+        this.damageWeapons = settingsWeapon.dmg;
+        this.maxAmmo = settingsWeapon.ammo;
+        this.countBots = this.needToKill;
+        this.amountAmmo = this.maxAmmo
+    }
+    addText(vLayer, vX, vY, vText, vSize, vIsUpperCase) {
+        vX -= 1;
+        vY -= 1;
+        try {
+            vText = vText.toString()
+        } catch (e) {
+            console.log(e)
+        }
+        if (vText && vIsUpperCase) vText = vText.toUpperCase();
+        var txt = this.add.bitmapText(vX, vY, "Panton", vText);
+        txt.setFontSize(vSize);
+        txt.setOrigin(.5);
+        if (vLayer) vLayer.add(txt);
+        return txt
+    }
+    initEffects() {
+        this.anims.create({
+            key: "flash_big",
+            frames: this.anims.generateFrameNames("ss_shooter", {
+                prefix: "flash_big_",
+                end: 5,
+                zeroPad: 4
+            }),
+            hideOnComplete: true
+        });
+        this.anims.create({
+            key: "magic_1",
+            frames: this.anims.generateFrameNames("ss_ui", {
+                prefix: "magic_1_",
+                end: 14,
+                zeroPad: 4
+            }),
+            hideOnComplete: false,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "flash",
+            frames: this.anims.generateFrameNames("ss_shooter", {
+                prefix: "flash_",
+                end: 7,
+                zeroPad: 4
+            }),
+            hideOnComplete: true
+        });
+        this.anims.create({
+            key: "effect_kick",
+            frames: this.anims.generateFrameNames("ss_shooter", {
+                prefix: "effect_kick_",
+                end: 7,
+                zeroPad: 4
+            }),
+            hideOnComplete: true
+        });
+        this.anims.create({
+            key: "explosion_snowman",
+            frames: this.anims.generateFrameNames("ss_christmas", {
+                prefix: "explosion_snowman_",
+                end: 7,
+                zeroPad: 4
+            }),
+            hideOnComplete: true
+        });
+        this.anims.create({
+            key: "explosion_bomb",
+            frames: this.anims.generateFrameNames("ss_christmas", {
+                prefix: "explosion_bomb_",
+                end: 19,
+                zeroPad: 4
+            }),
+            hideOnComplete: true
+        });
+        this.anims.create({
+            key: "bomb",
+            frames: this.anims.generateFrameNames("ss_christmas", {
+                prefix: "bomb_",
+                end: 7,
+                zeroPad: 4
+            }),
+            hideOnComplete: false,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "target_idle",
+            frames: this.anims.generateFrameNames("ss_shooter", {
+                prefix: "target_idle_",
+                end: 0,
+                zeroPad: 4
+            }),
+            hideOnComplete: false
+        });
+        this.anims.create({
+            key: "target_down",
+            frames: this.anims.generateFrameNames("ss_shooter", {
+                prefix: "target_down_",
+                end: 11,
+                zeroPad: 4
+            }),
+            hideOnComplete: false
+        })
+    }
+    initPauseWindow() {
+        this.layerPauseWindowMain = this.add.container();
+        this.layerPauseWindow = this.add.container();
+        this.layerPauseWindowMain.setDepth(this.DEPTH_layerFinish);
+        this.layerPauseWindow.setDepth(this.DEPTH_layerFinish);
+        this.layerPauseWindow.x = this.midX;
+        this.layerPauseWindow.y = this.midY;
+        var fon_merge = this.add.image(this.midX, this.midY, "ss_ui", "bg_connect2_0000");
+        fon_merge.setScale(2);
+        this.layerPauseWindowMain.add(fon_merge);
+        var popup_drop = this.add.image(0, 0, "ss_ui", "popup_drop_0000");
+        popup_drop.setScale(2);
+        this.layerPauseWindow.add(popup_drop);
+        var posX = 0;
+        var posY = -95;
+        var buttonResume = new ButtonText(0, posY, "ss_ui", "btn_buy2_0000", this.clickBtnResume, this, MainGame.GAME_TEXT.resume);
+        buttonResume.text.setFontSize(24);
+        buttonResume.text.y = -5;
+        this.layerPauseWindow.add(buttonResume);
+        MainGame.updateTextWidth(buttonResume.text, 140);
+        var buttonMuteMusic = new ButtonText(0, buttonResume.y + 85, "ss_ui", "btn_buy_0000", this.clickMuteMusic, this, MainGame.GAME_TEXT.music_on);
+        buttonMuteMusic.text.setFontSize(24);
+        buttonMuteMusic.text.x = 20;
+        buttonMuteMusic.text.y = -5;
+        this.layerPauseWindow.add(buttonMuteMusic);
+        MainGame.updateTextWidth(buttonMuteMusic.text, 140);
+        var icon_music = this.add.image(-85, -5, "ss_ui", "btn_music_0000");
+        buttonMuteMusic.add(icon_music);
+        this.buttonMuteMusic = buttonMuteMusic;
+        this.buttonMuteMusic.icon = icon_music;
+        var buttonMuteSound = new ButtonText(0, buttonMuteMusic.y + 80, "ss_ui", "btn_buy_0000", this.clickMuteSound, this, MainGame.GAME_TEXT.sound_on);
+        buttonMuteSound.text.setFontSize(24);
+        buttonMuteSound.text.x = 20;
+        buttonMuteSound.text.y = -5;
+        this.layerPauseWindow.add(buttonMuteSound);
+        MainGame.updateTextWidth(buttonMuteSound.text, 140);
+        var buttonHome = new ButtonText(0, buttonMuteSound.y + 80, "ss_ui", "btn_buy_0000", this.showGameScreen, this, MainGame.GAME_TEXT.home);
+        buttonHome.text.setFontSize(24);
+        buttonHome.text.y = -5;
+        this.layerPauseWindow.add(buttonHome);
+        MainGame.updateTextWidth(buttonHome.text, 140);
+        var icon_sound = this.add.image(-85, -5, "ss_ui", "btn_sound_0000");
+        buttonMuteSound.add(icon_sound);
+        this.buttonMuteSound = buttonMuteSound;
+        this.buttonMuteSound.icon = icon_sound;
+        var text_title = this.addText(this.layerPauseWindow, 0, -185, MainGame.GAME_TEXT.paused, 34, true);
+        MainGame.updateTextWidth(text_title, 380);
+        this.layerPauseWindow.setScale(this.scaleWindow2);
+        this.layerPauseWindowMain.visible = false;
+        this.layerPauseWindow.visible = false;
+        popup_drop.setInteractive();
+        fon_merge.setInteractive();
+        fon_merge.on("pointerup", this.clickBtnResume, this);
+        this.buttonPauseHome = buttonHome
+    }
+    clickMuteSound() {
+        MainGame.Sfx.manage("sound", "switch", this, this.buttonMuteSound.icon, this.buttonMuteSound.text)
+    }
+    clickMuteMusic() {
+        MainGame.Sfx.manage("music", "switch", this, this.buttonMuteMusic.icon, this.buttonMuteMusic.text)
+    }
+    clickBtnResume() {
+        this.isPaused = false;
+        this.physics.resume();
+        if (this.timerHalloween) this.timerHalloween.paused = false;
+        this.layerPauseWindowMain.visible = false;
+        this.layerPauseWindow.visible = false;
+        this.resumeBots();
+        if (MainGame.isAPI) MainGame.API_POKI.gameplayStart()
+    }
+    initFinishWindow2() {
+        this.layerFinishWindowMain = this.add.container();
+        this.layerFinishWindow = this.add.container();
+        this.layerFinishWindowMain.setDepth(this.DEPTH_layerFinish);
+        this.layerFinishWindow.setDepth(this.DEPTH_layerFinish);
+        this.layerFinishWindow.x = this.midX;
+        this.layerFinishWindow.y = this.midY;
+        var fon_merge = this.add.image(this.midX, this.midY, "ss_ui", "bg_connect2_0000");
+        fon_merge.setScale(2);
+        this.layerFinishWindowMain.add(fon_merge);
+        var popup_drop = this.add.image(0, 0, "ss_ui", "popup_unlocked_0000");
+        popup_drop.setScale(2);
+        this.layerFinishWindow.add(popup_drop);
+        var posX = 0;
+        var posY = 0;
+        var icon_flash = this.add.image(posX, posY + 50, "ss_ui", "flash_select_gun_0000");
+        this.layerFinishWindow.add(icon_flash);
+        var icon_pumpkin7 = this.add.image(posX - 240, posY - 230, "ss_christmas", "snowman7_0000");
+        this.layerFinishWindow.add(icon_pumpkin7);
+        var icon_btn_shop1 = this.add.image(posX - 230, posY - 165, "ss_christmas", "btn_shop1_0000");
+        this.layerFinishWindow.add(icon_btn_shop1);
+        var icon_diamond = this.add.image(posX - 270, posY - 155, "ss_christmas", "icon_diamond_0000");
+        icon_diamond.angle = -15;
+        this.layerFinishWindow.add(icon_diamond);
+        this.pointsBarB = this.add.image(posX, -85, "ss_christmas", "preloader_background_0000");
+        this.pointsBarT = this.add.image(posX, -85, "ss_christmas", "preloader_bar_0000");
+        this.pointsBarT_crop = new Phaser.Geom.Rectangle(0, 0, 0, this.pointsBarT.height);
+        this.pointsBarT.setCrop(this.pointsBarT_crop);
+        this.layerFinishWindow.add(this.pointsBarB);
+        this.layerFinishWindow.add(this.pointsBarT);
+        var icon_event = this.add.image(posX + 205, -115, "ss_christmas", "icon_event_christmas2_0000");
+        this.layerFinishWindow.add(icon_event);
+        var buttonReplay = new Button(0, 40, "ss_ui", "btn_replay_0000", this.clickReplay, this);
+        this.layerFinishWindow.add(buttonReplay);
+        var buttonHome = new ButtonText(0, 220, "ss_ui", "btn_buy_0000", this.closeFinishWindow, this, MainGame.GAME_TEXT.home);
+        buttonHome.text.setFontSize(26);
+        this.layerFinishWindow.add(buttonHome);
+        MainGame.updateTextWidth(buttonHome.text, 200);
+        buttonHome.text.y = -4;
+        var buttonGetReward = new ButtonText(0, 220, "ss_ui", "btn_buy_0000", this.clickGetReward, this, MainGame.GAME_TEXT.get_reward);
+        buttonGetReward.text.setFontSize(26);
+        this.layerFinishWindow.add(buttonGetReward);
+        MainGame.updateTextWidth(buttonGetReward.text, 220);
+        buttonGetReward.text.y = -4;
+        var text_earning = this.addText(this.layerFinishWindow, posX - 230, posY - 187, MainGame.GAME_TEXT.earning, 22, true);
+        var text_crystals = this.addText(this.layerFinishWindow, posX - 225, posY - 155, "15", 32, true);
+        var text_points1 = this.addText(this.layerFinishWindow, posX, posY - 187, MainGame.GAME_TEXT.points, 28, true);
+        text_points1.setTint(16773888);
+        var text_points2 = this.addText(this.layerFinishWindow, posX, posY - 145, "8025", 50, true);
+        text_points2.setTint(16773888);
+        var text_pointBegin = this.addText(this.layerFinishWindow, posX - 225, posY - 55, "0", 26, true);
+        text_pointBegin.setOrigin(0, .5);
+        var text_pointEnd = this.addText(this.layerFinishWindow, posX + 225, posY - 55, "10000", 26, true);
+        text_pointEnd.setOrigin(1, .5);
+        var text_stage1_1 = this.addText(this.layerFinishWindow, posX, posY + 125, MainGame.GAME_TEXT.no_give_up, 22, true);
+        var text_stage1_2 = this.addText(this.layerFinishWindow, posX, posY + 125 + 27, MainGame.GAME_TEXT.try_again, 22, true);
+        var text_stage2_1 = this.addText(this.layerFinishWindow, posX, posY - 5, MainGame.GAME_TEXT.congratulations, 44, true);
+        var text_stage2_2 = this.addText(this.layerFinishWindow, posX, posY + 85, MainGame.GAME_TEXT.you_passed, 30, true);
+        var text_stage2_3 = this.addText(this.layerFinishWindow, posX, posY + 85 + 34, MainGame.GAME_TEXT.christmas_ch, 30, true);
+        var text_stage3_1 = this.addText(this.layerFinishWindow, posX, posY + 125, MainGame.GAME_TEXT.try_again, 22, true);
+        this.buttonReplay = buttonReplay;
+        this.buttonHome = buttonHome;
+        this.buttonGetReward = buttonGetReward;
+        this.icon_flash = icon_flash;
+        this.text_stage1_1 = text_stage1_1;
+        this.text_stage1_2 = text_stage1_2;
+        this.text_stage2_1 = text_stage2_1;
+        this.text_stage2_2 = text_stage2_2;
+        this.text_stage2_3 = text_stage2_3;
+        this.text_stage3_1 = text_stage3_1;
+        this.text_crystals = text_crystals;
+        this.text_points2 = text_points2;
+        this.text_pointEnd = text_pointEnd;
+        this.layerFinishWindowMain.visible = false;
+        this.layerFinishWindow.visible = false
+    }
+    initRewardWindow() {
+        this.layerRewardWindowMain = this.add.container();
+        this.layerRewardWindow = this.add.container();
+        this.layerRewardWindowMain.setDepth(this.DEPTH_layerFinish);
+        this.layerRewardWindow.setDepth(this.DEPTH_layerFinish);
+        this.layerRewardWindow.x = this.midX;
+        this.layerRewardWindow.y = this.midY;
+        var fon_merge = this.add.image(this.midX, this.midY, "ss_ui", "bg_connect2_0000");
+        fon_merge.setScale(2);
+        this.layerRewardWindowMain.add(fon_merge);
+        var popup_drop = this.add.image(0, 0, "ss_ui", "popup_drop_0000");
+        popup_drop.setScale(2);
+        this.layerRewardWindow.add(popup_drop);
+        var effect = this.add.sprite(0, -10, "ss_ui");
+        effect.play("magic_1");
+        effect.setScale(2);
+        this.layerRewardWindow.add(effect);
+        var posX = 0;
+        var posY = 0;
+        var icon_hatEvent = this.add.image(posX, posY - 15, "ss_christmas", "icon_hat20_0000");
+        this.layerRewardWindow.add(icon_hatEvent);
+        var buttonGet = new ButtonText(0, 150, "ss_ui", "btn_buy_0000", this.clickGetPumpkin, this, MainGame.GAME_TEXT.get);
+        buttonGet.text.setFontSize(26);
+        this.layerRewardWindow.add(buttonGet);
+        MainGame.updateTextWidth(buttonGet.text, 220);
+        buttonGet.text.y = -4;
+        var text1 = this.addText(this.layerRewardWindow, 0, -185, MainGame.GAME_TEXT.reward, 30, true);
+        MainGame.updateTextWidth(text1, 380);
+        this.layerRewardWindowMain.visible = false;
+        this.layerRewardWindow.visible = false
+    }
+    clickGetPumpkin() {
+        this.showGameScreen(true)
+    }
+    clickGetReward() {
+        this.layerFinishWindowMain.visible = false;
+        this.layerFinishWindow.visible = false;
+        this.layerRewardWindowMain.visible = true;
+        this.layerRewardWindow.visible = true;
+        this.layerRewardWindow.setScale(this.scaleWindow1);
+        this.tweens.add({
+            targets: this.layerRewardWindow,
+            scaleX: this.scaleWindow2,
+            scaleY: this.scaleWindow2,
+            ease: Phaser.Math.Easing.Back.Out,
+            duration: 400
+        })
+    }
+    updatePointsBar(progress) {
+        var originalWidth = this.pointsBarT.width;
+        var width = originalWidth * progress;
+        this.pointsBarT_crop.width = width;
+        this.pointsBarT.setCrop(this.pointsBarT_crop)
+    }
+    showFinishWindow2(vStage) {
+        this.isLevelFinished = true;
+        game.canvas.style.cursor = "default";
+        this.layerFinishWindowMain.visible = true;
+        this.layerFinishWindow.visible = true;
+        this.btnExit.visible = false;
+        this.layerFinishWindow.setScale(this.scaleWindow1);
+        this.tweens.add({
+            targets: this.layerFinishWindow,
+            scaleX: this.scaleWindow2,
+            scaleY: this.scaleWindow2,
+            ease: Phaser.Math.Easing.Back.Out,
+            duration: 400
+        });
+        this.buttonReplay.visible = false;
+        this.buttonHome.visible = false;
+        this.buttonGetReward.visible = false;
+        this.icon_flash.visible = false;
+        this.text_stage1_1.visible = false;
+        this.text_stage1_2.visible = false;
+        this.text_stage2_1.visible = false;
+        this.text_stage2_2.visible = false;
+        this.text_stage2_3.visible = false;
+        this.text_stage3_1.visible = false;
+        this.text_crystals.setText(this.countCrystals);
+        this.text_points2.setText(this.pointsPumpkin);
+        this.text_pointEnd.setText(this.countNeedPoints);
+        var progress = this.pointsPumpkin / this.countNeedPoints;
+        if (progress > 1) progress = 1;
+        this.updatePointsBar(progress);
+        if (vStage == 1) {
+            this.buttonReplay.visible = true;
+            this.buttonHome.visible = true;
+            this.text_stage1_1.visible = true;
+            this.text_stage1_2.visible = true
+        } else if (vStage == 2) {
+            this.icon_flash.visible = true;
+            this.buttonGetReward.visible = true;
+            this.text_stage2_1.visible = true;
+            this.text_stage2_2.visible = true;
+            this.text_stage2_3.visible = true
+        } else if (vStage == 3) {
+            this.buttonReplay.visible = true;
+            this.buttonHome.visible = true;
+            this.text_stage3_1.visible = true
+        }
+        if (MainGame.isAPI) MainGame.API_POKI.gameplayStop();
+        MainGame.api_google("EventChristmas", this.pointsPumpkin);
+        MainGame.amount_diamonds += this.countCrystals;
+        MainGame.saveSaves()
+    }
+    initFinishWindow() {
+        var reward_diamond = this.add.image(posX, posY, "ss_ui", "reward_diamond_0000");
+        this.layerFinishWindow.add(reward_diamond);
+        var buttonIncomeX2 = new ButtonText(0, 90, "ss_ui", "btn_buy2_0000", this.showAdsForDiamondsX2, this, MainGame.GAME_TEXT.income_x2);
+        buttonIncomeX2.text.setFontSize(26);
+        buttonIncomeX2.text.x = -30;
+        buttonIncomeX2.text.y = -4;
+        this.layerFinishWindow.add(buttonIncomeX2);
+        MainGame.updateTextWidth(buttonIncomeX2.text, 200);
+        var icon_reward = this.add.image(75, -2, "ss_ui", "icon_reward_0000");
+        buttonIncomeX2.add(icon_reward);
+        var buttonGet = new ButtonText(0, 170, "ss_ui", "btn_buy_g2_0000", this.closeFinishWindow, this, MainGame.GAME_TEXT.get);
+        buttonGet.text.setFontSize(26);
+        this.layerFinishWindow.add(buttonGet);
+        MainGame.updateTextWidth(buttonGet.text, 200);
+        buttonGet.text.y = -4;
+        this.rewardDiamonds = 10 + Math.floor(MainGame.fireLevel / 5);
+        var text_diamonds = this.addText(this.layerFinishWindow, posX + 30, posY + 30, this.rewardDiamonds, 60, true);
+        text_diamonds.setDropShadow(3, 3, 0, 1);
+        var buttonHome = new ButtonText(0, 170, "ss_ui", "btn_buy_g2_0000", this.closeFinishWindow, this, MainGame.GAME_TEXT.home);
+        buttonHome.text.setFontSize(26);
+        this.layerFinishWindow.add(buttonHome);
+        MainGame.updateTextWidth(buttonHome.text, 200);
+        buttonHome.text.y = -4;
+        buttonHome.setEnable(false);
+        var buttonRevive = new ButtonText(0, -22, "ss_ui", "btn_revive_0000", this.clickRevive, this, MainGame.GAME_TEXT.revive);
+        buttonRevive.text.setFontSize(30);
+        buttonRevive.text.x = 0;
+        buttonRevive.text.y = -10;
+        this.layerFinishWindow.add(buttonRevive);
+        MainGame.updateTextWidth(buttonRevive.text, 200);
+        var buttonReplay = new Button(0, -22, "ss_ui", "btn_replay_0000", this.clickReplay, this);
+        this.layerFinishWindow.add(buttonReplay);
+        var icon_reward = this.add.image(0, 35, "ss_ui", "icon_reward_0000");
+        buttonRevive.add(icon_reward);
+        var text_no_give_up = this.addText(this.layerFinishWindow, 0, 85, MainGame.GAME_TEXT.no_give_up, 22, true);
+        var text_try_merge_gun = this.addText(this.layerFinishWindow, 0, 115, MainGame.GAME_TEXT.try_merge_gun, 22, true);
+        var text_count_revive = this.addText(buttonRevive, 0, -47, "", 40, true);
+        var text_title = this.addText(this.layerFinishWindow, 0, -185, "", 34, true);
+        MainGame.updateTextWidth(text_title, 380);
+        var text_day = this.addText(this.layerFinishWindow, 0, -130, "", 30, true);
+        text_day.setTint(16773888);
+        text_day.setText(MainGame.GAME_TEXT.day.toUpperCase() + " " + MainGame.fireLevel);
+        this.layerFinishWindow.setScale(this.scaleWindow2);
+        this.layerFinishWindowMain.visible = false;
+        this.layerFinishWindow.visible = false;
+        this.buttonIncomeX2 = buttonIncomeX2;
+        this.buttonGet = buttonGet;
+        this.effect_diamonds = effect;
+        this.reward_diamond = reward_diamond;
+        this.text_diamonds = text_diamonds;
+        this.title_finish = text_title;
+        this.buttonHome = buttonHome;
+        this.buttonRevive = buttonRevive;
+        this.buttonReplay = buttonReplay;
+        this.text_count_revive = text_count_revive;
+        this.text_no_give_up = text_no_give_up;
+        this.text_try_merge_gun = text_try_merge_gun
+    }
+    closeFinishWindow() {
+        this.showGameScreen(true)
+    }
+    initGUI() {
+        this.layerRed = this.addCanvas(this.layerUI, 8126464, .6);
+        this.layerRed.alpha = 0;
+        var btnExit = new Button(1024 - 64, 50, "ss_shooter", "btn_pause_0000", this.clickBtnPause, this);
+        this.layerUI.add(btnExit);
+        var btnReload = new Button(80 + 30, 520, "ss_shooter", "btn_reload_0000", this.clickBtnReload, this);
+        this.layerUI.add(btnReload);
+        var aim_target = this.add.image(this.posCursor.x, this.posCursor.y, "ss_shooter", "crosshair2_0000");
+        this.layerUI.add(aim_target);
+        var aim_reloading = this.add.image(this.posCursor.x, this.posCursor.y, "ss_shooter", "crosshair4_0000");
+        this.layerUI.add(aim_reloading);
+        aim_reloading.visible = false;
+        this.tweens.add({
+            targets: aim_reloading,
+            angle: 360,
+            ease: Phaser.Math.Easing.Linear,
+            duration: 800,
+            repeat: -1
+        });
+        var icon_frag = this.add.image(80, 55, "ss_shooter", "icon_frag_0000");
+        this.layerUI.add(icon_frag);
+        var pos = {
+            x: this.midX,
+            y: 600
+        };
+        this.hpBarB = this.add.image(pos.x, pos.y, "ss_shooter", "hp_bar1_0000");
+        this.hpBarT = this.add.image(pos.x, pos.y, "ss_shooter", "hp_bar2_0000");
+        this.hpBarT_crop = new Phaser.Geom.Rectangle(0, 0, this.hpBarT.width, this.hpBarT.height);
+        this.hpBarT.setCrop(this.hpBarT_crop);
+        this.layerUI.add(this.hpBarB);
+        this.layerUI.add(this.hpBarT);
+        var text_hp = this.addText(this.layerText, pos.x - 167, pos.y - 7, "", 30, true);
+        text_hp.setOrigin(0, .5);
+        text_hp.setTint(2286098);
+        var text_level = this.addText(this.layerText, btnExit.x - 60, 40, "", 32, true);
+        text_level.setOrigin(1, .5);
+        var text_frags = this.addText(this.layerText, icon_frag.x + 90, icon_frag.y, "10/10", 32, true);
+        var text_bullets = this.addText(this.layerText, btnReload.x, btnReload.y + 95, "", 32, true);
+        this.btnReload = btnReload;
+        this.btnExit = btnExit;
+        this.icon_frag = icon_frag;
+        this.aim_target = aim_target;
+        this.aim_reloading = aim_reloading;
+        this.text_hp = text_hp;
+        this.text_level = text_level;
+        this.text_frags = text_frags;
+        this.text_bullets = text_bullets;
+        this.icon_frag.visible = false;
+        this.text_frags.visible = false;
+        this.text_level.visible = false;
+        this.text_hp.visible = false;
+        this.hpBarB.visible = false;
+        this.hpBarT.visible = false
+    }
+    initGUI_Event() {
+        var posX = 1024 - 59;
+        var icon_x1 = this.add.image(posX, 150 + 75 * 0, "ss_christmas", "icon_x_0000");
+        var icon_x2 = this.add.image(posX, 150 + 75 * 1, "ss_christmas", "icon_x_0000");
+        var icon_x3 = this.add.image(posX, 150 + 75 * 2, "ss_christmas", "icon_x_0000");
+        this.layerUI.add(icon_x1);
+        this.layerUI.add(icon_x2);
+        this.layerUI.add(icon_x3);
+        var timer_plaha = this.add.image(80 + 30, 150, "ss_christmas", "timer_0000");
+        this.layerUI.add(timer_plaha);
+        var text_points1 = this.addText(this.layerText, 80 + 30, 30, MainGame.GAME_TEXT.points, 28, true);
+        var text_points2 = this.addText(this.layerText, 80 + 30, 30 + 40, "10055", 52, true);
+        var text_timer = this.addText(this.layerText, timer_plaha.x, timer_plaha.y - 2, "00:59", 46, true);
+        this.textPointsText = text_points1;
+        this.textPoints = text_points2;
+        this.textTimer = text_timer;
+        this.icon_x1 = icon_x1;
+        this.icon_x2 = icon_x2;
+        this.icon_x3 = icon_x3;
+        this.timerPlaha = timer_plaha;
+        this.textPoints.setText(this.pointsPumpkin);
+        var timeStr = MainGame.secToHHMMSS(this.timerCount);
+        this.textTimer.setText(timeStr)
+    }
+    initComboTexts() {
+        this.arComboText = [];
+        this.countCombo = 0;
+        this.poolCombo = 0;
+        this.timerCombo = 0;
+        var text_combo1 = this.addText(this.layerText, 0, 0, "", 32, true);
+        text_combo1.setTint(16776960);
+        text_combo1.setDropShadow(3, 3, 6570541, .7);
+        var text_combo2 = this.addText(this.layerText, 0, 0, "", 32, true);
+        text_combo2.setTint(16776960);
+        text_combo2.setDropShadow(3, 3, 6570541, .7);
+        var text_combo3 = this.addText(this.layerText, 0, 0, "", 32, true);
+        text_combo3.setTint(16776960);
+        text_combo3.setDropShadow(3, 3, 6570541, .7);
+        this.arComboText.push(text_combo1);
+        this.arComboText.push(text_combo2);
+        this.arComboText.push(text_combo3);
+        text_combo1.visible = false;
+        text_combo2.visible = false;
+        text_combo3.visible = false
+    }
+    updateCombo() {
+        if (this.timerCombo > 0) {
+            this.timerCombo--;
+            if (this.timerCombo == 0) this.countCombo = 0
+        }
+    }
+    checkCombo(vX, vY) {
+        this.timerCombo = 70;
+        this.countCombo++;
+        if (this.countCombo < 2) return;
+        if (this.countCombo > 10) this.countCombo = 10;
+        this.showCombo(vX, vY, this.arComboText[this.poolCombo], MainGame.GAME_TEXT["combo" + (this.countCombo - 1)]);
+        this.poolCombo++;
+        if (this.poolCombo > 2) this.poolCombo = 0
+    }
+    showCombo(vX, vY, vTextField, vValue) {
+        vTextField.x = vX;
+        vTextField.y = vY - 120;
+        vTextField.visible = true;
+        vTextField.setText(vValue.toUpperCase());
+        this.tweens.killTweensOf(vTextField);
+        vTextField.setAngle(2 * MyMath.getRandomInt(-5, 5));
+        vTextField.setScale(1);
+        this.tweens.add({
+            targets: vTextField,
+            scaleX: 1.4,
+            scaleY: 1.4,
+            ease: Phaser.Math.Easing.Linear,
+            duration: 100,
+            yoyo: true,
+            onComplete: this.hideCombo(vTextField)
+        })
+    }
+    hideCombo(vTextField) {
+        this.tweens.add({
+            targets: vTextField,
+            scaleX: .5,
+            scaleY: .5,
+            ease: Phaser.Math.Easing.Linear,
+            duration: 150,
+            delay: 500,
+            onComplete: function() {
+                vTextField.visible = false
+            }
+        })
+    }
+    updateHpBar(progress) {
+        var originalWidth = this.hpBarT.width;
+        var width = originalWidth * progress;
+        this.tweens.killTweensOf(this.hpBarT_crop);
+        this.tweens.add({
+            targets: this.hpBarT_crop,
+            width: width,
+            ease: Phaser.Math.Easing.Linear,
+            duration: 100,
+            delay: 0,
+            onUpdate: () => {
+                this.hpBarT.setCrop(this.hpBarT_crop)
+            }
+        })
+    }
+    addSmoke() {
+        var smoke = this.add.image(0, 0, "ss_shooter", "smoke_0000");
+        smoke.setOrigin(.5, .92);
+        smoke.visible = false;
+        return smoke
+    }
+    showEffectSmoke(vSmoke) {
+        vSmoke.visible = true;
+        this.tweens.killTweensOf(vSmoke);
+        vSmoke.alpha = 1;
+        vSmoke.angle = 35;
+        vSmoke.x = 0;
+        vSmoke.scaleX = 1;
+        vSmoke.scaleY = 1;
+        this.tweens.add({
+            targets: vSmoke,
+            x: 20,
+            angle: 45,
+            alpha: 0,
+            scaleX: 1.1,
+            scaleY: 1.1,
+            ease: Phaser.Math.Easing.Linear,
+            duration: 500,
+            onComplete: function() {
+                vSmoke.visible = false
+            }
+        })
+    }
+    testWeapon(vType) {
+        MainGame.selectedGun = vType;
+        var settingsWeapon = this.arOffsetWeapon[MainGame.selectedGun - 1];
+        this.FIRERATE = settingsWeapon.firerate;
+        this.damageWeapons = settingsWeapon.dmg;
+        this.maxAmmo = settingsWeapon.ammo;
+        this.offsetWeapon.x = settingsWeapon.x;
+        this.offsetWeapon.y = settingsWeapon.y;
+        this.offsetFire.x = settingsWeapon.fx;
+        this.offsetFire.y = settingsWeapon.fy;
+        var ar_pistol = [1, 2, 3, 4, 5, 6, 20, 21, 33, 42, 43];
+        var ar_rifle1 = [12, 14, 22, 25, 27, 39];
+        var ar_rifle2 = [7, 8, 10, 18, 19, 26, 44];
+        var ar_rifle3 = [9, 11, 13, 15, 23, 29, 30, 31, 36, 37, 38, 40, 41, 46, 47, 48, 49, 50];
+        var ar_rifle4 = [16, 17, 24, 28, 32, 34, 35, 45];
+        var isPistol = ar_pistol.indexOf(MainGame.selectedGun) !== -1;
+        var isRifle1 = ar_rifle1.indexOf(MainGame.selectedGun) !== -1;
+        var isRifle2 = ar_rifle2.indexOf(MainGame.selectedGun) !== -1;
+        var isRifle3 = ar_rifle3.indexOf(MainGame.selectedGun) !== -1;
+        var isRifle4 = ar_rifle4.indexOf(MainGame.selectedGun) !== -1;
+        this.weaponType = "pistol";
+        if (isRifle1) this.weaponType = "rifle1";
+        if (isRifle2) this.weaponType = "rifle2";
+        if (isRifle3) this.weaponType = "rifle3";
+        if (isRifle4) this.weaponType = "rifle4";
+        this.arm_weapon.timeScale = 1;
+        this.arm_weapon.setSkinByName("gun" + MainGame.selectedGun);
+        this.arm_weapon.play(this.weaponType + "_idle", false);
+        this.amountAmmo = this.maxAmmo;
+        this.updateAmmoText()
+    }
+    initWeapon() {
+        this.posCursor = {
+            x: this.midX,
+            y: this.midY
+        };
+        var settingsWeapon = this.arOffsetWeapon[MainGame.selectedGun - 1];
+        this.offsetWeapon.x = settingsWeapon.x;
+        this.offsetWeapon.y = settingsWeapon.y;
+        this.offsetFire.x = settingsWeapon.fx;
+        this.offsetFire.y = settingsWeapon.fy;
+        var arm_weapon = this.add.spine(0, 0, "spine_shooter", "pistol_idle", true);
+        this.layerSpineArm.add(arm_weapon);
+        arm_weapon.x = this.midX;
+        arm_weapon.y = 500;
+        arm_weapon.setSkinByName("gun" + MainGame.selectedGun);
+        arm_weapon.setScale(this.aimScale);
+        var ar_pistol = [1, 2, 3, 4, 5, 6, 20, 21, 33, 42, 43];
+        var ar_rifle1 = [12, 14, 22, 25, 27, 39];
+        var ar_rifle2 = [7, 8, 10, 18, 19, 26, 44];
+        var ar_rifle3 = [9, 11, 13, 15, 23, 29, 30, 31, 36, 37, 38, 40, 41, 46, 47, 48, 49, 50];
+        var ar_rifle4 = [16, 17, 24, 28, 32, 34, 35, 45];
+        var isPistol = ar_pistol.indexOf(MainGame.selectedGun) !== -1;
+        var isRifle1 = ar_rifle1.indexOf(MainGame.selectedGun) !== -1;
+        var isRifle2 = ar_rifle2.indexOf(MainGame.selectedGun) !== -1;
+        var isRifle3 = ar_rifle3.indexOf(MainGame.selectedGun) !== -1;
+        var isRifle4 = ar_rifle4.indexOf(MainGame.selectedGun) !== -1;
+        this.weaponType = "pistol";
+        if (isRifle1) this.weaponType = "rifle1";
+        if (isRifle2) this.weaponType = "rifle2";
+        if (isRifle3) this.weaponType = "rifle3";
+        if (isRifle4) this.weaponType = "rifle4";
+        arm_weapon.play(this.weaponType + "_idle", false);
+        this.arm_weapon = arm_weapon;
+        if (this.aim_target) {
+            this.arm_weapon.x = this.aim_target.x + this.offsetWeapon.x;
+            this.arm_weapon.y = this.aim_target.y + this.offsetWeapon.y
+        }
+        this.input.on("pointerdown", this.onInputDown, this);
+        this.input.on("pointerup", this.onInputUp, this);
+        this.input.on("pointermove", this.onInputMove, this);
+        game.canvas.style.cursor = "none";
+        this.armReady = true;
+        this.group_smoke1 = this.add.container();
+        this.layerEffect.add(this.group_smoke1);
+        this.group_smoke2 = this.add.container();
+        this.layerEffect.add(this.group_smoke2);
+        this.group_smoke3 = this.add.container();
+        this.layerEffect.add(this.group_smoke3);
+        this.effect_smoke1 = this.addSmoke();
+        this.group_smoke1.add(this.effect_smoke1);
+        this.effect_smoke2 = this.addSmoke();
+        this.group_smoke2.add(this.effect_smoke2);
+        this.effect_smoke3 = this.addSmoke();
+        this.group_smoke3.add(this.effect_smoke3);
+        var effect = this.add.sprite(this.midX, this.midY, "ss_shooter");
+        effect.play("flash_big");
+        effect.visible = false;
+        this.effect_shoot = effect;
+        this.layerEffect.add(effect)
+    }
+    getInputPosition(pointer) {
+        const deltaX = Math.ceil(this.parent.width - this.sizer.width) * .5;
+        const deltaY = Math.ceil(this.parent.height - this.sizer.height) * .5;
+        const scaleX = this.sizer.width / this.GAME_WIDTH;
+        const scaleY = this.sizer.height / this.GAME_HEIGHT;
+        const zoom = Math.max(scaleX, scaleY);
+        const offset = deltaY / zoom;
+        var pX = (pointer.x - deltaX) / zoom;
+        var pY = pointer.y / zoom - offset;
+        return {
+            x: pX,
+            y: pY
+        }
+    }
+    onInputDown(pointer) {
+        var pos = this.getInputPosition(pointer);
+        this.posInputDown = pos;
+        this.isInputPressed = true
+    }
+    onInputUp(pointer) {
+        var pos = this.getInputPosition(pointer);
+        this.lastPos = this.posCursor;
+        this.isInputPressed = false;
+        if (this.isGoTutorial) {
+            this.onTapTutorial()
+        }
+    }
+    onInputMove(pointer) {
+        if (this.isLevelFinished || this.isPaused || this.isBeforeStart) return;
+        this.posCursor = this.getInputPosition(pointer);
+        if (!MainGame.isDesktop) {
+            this.posCursor.x = this.lastPos.x + (this.posCursor.x - this.posInputDown.x) * 1.5;
+            this.posCursor.y = this.lastPos.y + (this.posCursor.y - this.posInputDown.y) * 1.2
+        }
+        var deltaX = 25;
+        if (this.posCursor.x < deltaX) this.posCursor.x = deltaX;
+        if (this.posCursor.x > 1024 - deltaX) this.posCursor.x = 1024 - deltaX;
+        if (this.posCursor.y < this.MAX_TOP) {
+            this.posCursor.y = this.MAX_TOP;
+            game.canvas.style.cursor = "default"
+        } else if (this.posCursor.y > this.MAX_BOTTOM) {
+            this.posCursor.y = this.MAX_BOTTOM;
+            game.canvas.style.cursor = "default"
+        } else {
+            game.canvas.style.cursor = "none"
+        }
+    }
+    updateReloading(vBool) {
+        this.isReloading = vBool;
+        this.aim_reloading.visible = vBool;
+        this.arm_weapon.timeScale = 1;
+        if (vBool) {
+            this.aim_target.setFrame("crosshair1_0000");
+            this.arm_weapon.play(this.weaponType + "_reload", false);
+            this.timerReloading = this.time.delayedCall(this.TIME_RELOADING, this.finishedReloading, [], this);
+            MainGame.Sfx.play("sound", "reload")
+        } else {
+            this.aim_target.setFrame("crosshair2_0000");
+            this.arm_weapon.play(this.weaponType + "_idle", false);
+            this.amountAmmo = this.maxAmmo;
+            this.updateAmmoText()
+        }
+    }
+    finishedReloading() {
+        this.updateReloading(false);
+        this.timerReloading.remove();
+        this.timerReloading = null
+    }
+    updateArm() {
+        if (this.posCursor) {
+            this.aim_target.x = this.posCursor.x;
+            this.aim_target.y = this.posCursor.y;
+            this.aim_reloading.x = this.posCursor.x - 2;
+            this.aim_reloading.y = this.posCursor.y - 2;
+            var distY = 750 - this.posCursor.y;
+            var deltaX = Math.floor(distY * .25);
+            this.posWeapon.x = this.posCursor.x + deltaX;
+            if (this.posWeapon.x > 950) this.posWeapon.x = 950;
+            var deltaY = Math.floor(distY * .2);
+            this.posWeapon.y = this.posCursor.y + deltaY;
+            if (this.posWeapon.y < 280) this.posWeapon.y = 280;
+            this.arm_weapon.x -= (this.arm_weapon.x - this.offsetWeapon.x - this.posWeapon.x) * this.WEAPON_WEIGHT;
+            this.arm_weapon.y -= (this.arm_weapon.y - this.offsetWeapon.y - this.deltaScreenY - this.posWeapon.y) * this.WEAPON_WEIGHT;
+            this.effect_shoot.x = this.arm_weapon.x - this.offsetWeapon.x + this.offsetFire.x;
+            this.effect_shoot.y = this.arm_weapon.y - this.offsetWeapon.y + this.offsetFire.y
+        }
+        if (this.isReloading || this.isLevelFinished) return;
+        var target;
+        var dist;
+        this.aim_target.setFrame("crosshair2_0000");
+        this.updatePumpkins(this.aim_target.x, this.aim_target.y)
+    }
+    onAnimEvent(entry) {
+        if (entry.animation.name == this.weaponType + "_idle") {}
+        console.log(entry.animation.name)
+    }
+    showEffectFire(vX, vY) {
+        this.effect_shoot.play("flash_big");
+        this.effect_shoot.visible = true;
+        if (!this.effect_smoke1.visible) {
+            this.showEffectSmoke(this.effect_smoke1);
+            this.group_smoke1.x = vX;
+            this.group_smoke1.y = vY
+        } else {
+            if (!this.effect_smoke2.visible) {
+                this.showEffectSmoke(this.effect_smoke2);
+                this.group_smoke2.x = vX;
+                this.group_smoke2.y = vY
+            } else {
+                if (!this.effect_smoke3.visible) {
+                    this.showEffectSmoke(this.effect_smoke3);
+                    this.group_smoke3.x = vX;
+                    this.group_smoke3.y = vY
+                } else {
+                    this.showEffectSmoke(this.effect_smoke1);
+                    this.group_smoke1.x = vX;
+                    this.group_smoke1.y = vY
+                }
+            }
+        }
+    }
+    updateAmmoText() {
+        this.text_bullets.setText(this.amountAmmo + "/" + this.maxAmmo)
+    }
+    updateFragsText() {
+        this.text_frags.setText(this.countFrags + "/" + this.needToKill)
+    }
+    getCountBots() {
+        this.countBots--;
+        return this.countBots >= 0
+    }
+    reviveLevel() {
+        this.isLevelFinished = false;
+        this.isGameOver = false;
+        this.hpPlayerNow = this.hpPlayerMax;
+        this.text_hp.setText(this.hpPlayerNow);
+        this.updateHpBar(this.hpPlayerNow / this.hpPlayerMax);
+        this.layerFinishWindowMain.visible = false;
+        this.layerFinishWindow.visible = false;
+        this.layerRed.alpha = 0;
+        this.tweens.killTweensOf(this.layerRed);
+        this.btnExit.visible = true;
         if (MainGame.isAPI) MainGame.API_POKI.gameplayStart()
     }
     finishLevel(vBool) {
         this.btnExit.visible = false;
         if (vBool) {
-            MainGame.api_google("CompletedDay", MainGame.fireLevel);
             this.time.delayedCall(1200, this.showFinishWindowWin, [], this);
             MainGame.fireLevel++;
             MainGame.saveSaves()
         } else {
-            MainGame.api_google("DefeatDay", MainGame.fireLevel);
             this.isGameOver = true;
             this.time.delayedCall(1200, this.showFinishWindowLose, [], this)
         }
@@ -7883,6 +13661,21 @@ class Shooter extends Phaser.Scene {
                 break
         }
     }
+    makeShoot2(vX, vY) {
+        var animName = this.arm_weapon.getCurrentAnimation().name;
+        if (this.isAllowShoot) {
+            this.isAllowShoot = false;
+            this.time.delayedCall(this.FIRERATE, this.allowShoot, [], this);
+            var animationTime = 1 * (330 / this.FIRERATE);
+            this.arm_weapon.timeScale = animationTime;
+            this.arm_weapon.setAnimation(0, this.weaponType + "_shoot", false);
+            this.arm_weapon.addAnimation(0, this.weaponType + "_idle", false);
+            this.showEffectFire(this.effect_shoot.x, this.effect_shoot.y);
+            this.amountAmmo--;
+            this.checkAmmoAmount();
+            this.playSfxShoot()
+        }
+    }
     makeShoot(vTarget, vX, vY) {
         var animName = this.arm_weapon.getCurrentAnimation().name;
         if (this.isAllowShoot) {
@@ -7910,6 +13703,22 @@ class Shooter extends Phaser.Scene {
     addBotKick(vX, vY) {
         var effect = this.add.sprite(vX, vY, "ss_shooter");
         effect.play("effect_kick");
+        this.layerEffect.add(effect)
+    }
+    addExplosionPumpkin(vX, vY, vType, vZoom) {
+        var effect = this.add.sprite(vX, vY, "ss_christmas");
+        if (vType == 10) {
+            effect.play("explosion_bomb");
+            MainGame.Sfx.play("sound", "explosion")
+        } else {
+            effect.play("explosion_snowman");
+            MainGame.Sfx.play("sound", "snowsplash")
+        }
+        if (vZoom) {
+            effect.setScale(1)
+        } else {
+            effect.setScale(2)
+        }
         this.layerEffect.add(effect)
     }
     underAttack(vIsYoyo) {
@@ -7942,79 +13751,91 @@ class Shooter extends Phaser.Scene {
         if (vType == "stickman3") MainGame.Sfx.play("sound", "enemy");
         if (vType == "stickman4") MainGame.Sfx.play("sound", "enemy2")
     }
-    checkBarrels(vX, vY) {
-        var isInsideRect1 = Phaser.Geom.Rectangle.ContainsPoint(this.rect1, {
-            x: vX,
-            y: vY
-        });
-        var isInsideRect2 = Phaser.Geom.Rectangle.ContainsPoint(this.rect2, {
-            x: vX,
-            y: vY
-        });
-        var isInsideRect3 = Phaser.Geom.Rectangle.ContainsPoint(this.rect3, {
-            x: vX,
-            y: vY
-        });
-        var isInsideRect4 = Phaser.Geom.Rectangle.ContainsPoint(this.rect4, {
-            x: vX,
-            y: vY
-        });
-        var isInsideRect5 = Phaser.Geom.Rectangle.ContainsPoint(this.rect5, {
-            x: vX,
-            y: vY
-        });
-        return isInsideRect1 || isInsideRect2 || isInsideRect3 || isInsideRect4 || isInsideRect5
-    }
     initLevel() {
         this.arTargets = [];
         this.posCursor = {
             x: this.midX,
             y: this.midY
         };
-        var block1 = this.add.image(80 * 4 + 33, 226, "ss_shooter", "block1_0000");
-        var block2 = this.add.image(80 * 8 + 39, 226, "ss_shooter", "block2_0000");
-        var block3 = this.add.image(80 * 2 + 38, 456, "ss_shooter", "block3_0000");
-        var block4 = this.add.image(80 * 6 + 30, 444, "ss_shooter", "block4_0000");
-        var block5 = this.add.image(80 * 10 + 36, 451, "ss_shooter", "block5_0000");
-        this.layerEffect.add(block1);
-        this.layerEffect.add(block2);
-        this.layerEffect.add(block3);
-        this.layerEffect.add(block4);
-        this.layerEffect.add(block5);
-        var line1_Y = 300 - 60;
-        var line2_Y = 515 - 60;
-        this.rect1 = this.add.rectangle(80 * 4 - 45, line1_Y - 50, 160, 80);
-        this.rect2 = this.add.rectangle(80 * 8 - 45, line1_Y - 50, 160, 80);
-        this.rect3 = this.add.rectangle(80 * 2 - 45, line2_Y - 50, 160, 80);
-        this.rect4 = this.add.rectangle(80 * 6 - 45, line2_Y - 50, 160, 80);
-        this.rect5 = this.add.rectangle(80 * 10 - 45, line2_Y - 50, 160, 80);
-        if (MainGame.fireLevel == 1) {
-            this.doska1 = this.addDoska(6.5, line1_Y);
-            this.doska2 = this.addDoska(3, line2_Y);
-            this.doska3 = this.addDoska(10, line2_Y);
-            this.doska4 = this.addDoska(5, line1_Y);
-            this.doska5 = this.addDoska(8, line1_Y);
-            this.doska1.visible = false;
-            this.doska2.visible = false;
-            this.doska3.visible = false;
-            this.doska4.visible = false;
-            this.doska5.visible = false;
-            this.doska2.info.live = false;
-            this.doska3.info.live = false;
-            this.doska4.info.live = false;
-            this.doska5.info.live = false
-        } else {
-            this.addBot(0, 0, "stickman1", 1, 1);
-            this.addBot(0, 0, "stickman2", 2, 1);
-            if (MainGame.fireLevel >= 3) this.time.delayedCall(1e3 * 1, this.addBotStep3, [], this);
-            if (MainGame.fireLevel >= 10) this.time.delayedCall(1e3 * 2, this.addBotStep4, [], this);
-            if (MainGame.fireLevel >= 15) this.time.delayedCall(1e3 * 3, this.addBotStep5, [], this);
-            if (MainGame.fireLevel >= 20) this.time.delayedCall(1e3 * 4, this.addBotStep6, [], this);
-            if (MainGame.fireLevel >= 25) this.time.delayedCall(1e3 * 5, this.addBotStep7, [], this);
-            if (MainGame.fireLevel >= 30) this.time.delayedCall(1e3 * 6, this.addBotStep8, [], this);
-            if (MainGame.fireLevel >= 60) this.time.delayedCall(1e3 * 7, this.addBotStep9, [], this);
-            if (MainGame.fireLevel >= 90) this.time.delayedCall(1e3 * 8, this.addBotStep10, [], this)
+        this.line1_posY = 230 + 140 * 0;
+        this.line2_posY = 230 + 140 * 1;
+        this.line3_posY = 230 + 140 * 2;
+        var road1 = this.add.image(this.midX, this.line1_posY, "ss_christmas", "road_0000");
+        road1.displayWidth = 1400;
+        this.layerRoads.add(road1);
+        var road2 = this.add.image(this.midX, this.line2_posY, "ss_christmas", "road_0000");
+        road2.displayWidth = 1400;
+        this.layerRoads.add(road2);
+        var road3 = this.add.image(this.midX, this.line3_posY, "ss_christmas", "road_0000");
+        road3.displayWidth = 1400;
+        this.layerRoads.add(road3);
+        this.road1 = road1;
+        this.road2 = road2;
+        this.road3 = road3;
+        this.directionLine1 = true;
+        this.directionLine2 = true;
+        this.directionLine3 = true;
+        this.scaleLine1 = false;
+        this.scaleLine2 = false;
+        this.scaleLine3 = false;
+        this.speedLine1 = false;
+        this.speedLine2 = false;
+        this.speedLine3 = false
+    }
+    setLineScale(vNumLine, vIsScale, vIsTimerBack) {
+        if (vNumLine == 1) {
+            this.scaleLine1 = vIsScale
+        } else if (vNumLine == 2) {
+            this.scaleLine2 = vIsScale
+        } else if (vNumLine == 3) {
+            this.scaleLine3 = vIsScale
         }
+        this.updateScaleMob(vNumLine, vIsScale);
+        if (vIsTimerBack) {
+            this.time.delayedCall(this.TIME_BACK, this.setLineScale, [vNumLine, false], this)
+        }
+    }
+    setLineSpeed(vNumLine, vIsFaster, vIsTimerBack) {
+        if (vNumLine == 1) {
+            this.speedLine1 = vIsFaster
+        } else if (vNumLine == 2) {
+            this.speedLine2 = vIsFaster
+        } else if (vNumLine == 3) {
+            this.speedLine3 = vIsFaster
+        }
+        this.updateSpeedMob(vNumLine, vIsFaster);
+        if (vIsTimerBack) {
+            this.time.delayedCall(this.TIME_BACK, this.setLineSpeed, [vNumLine, false], this)
+        }
+    }
+    setLineDirection(vNumLine, vDirection) {
+        var line = null;
+        if (vNumLine == 1) {
+            line = this.road1;
+            if (vDirection != null) {
+                this.directionLine1 = vDirection
+            } else {
+                this.directionLine1 = !this.directionLine1
+            }
+            vDirection = this.directionLine1
+        } else if (vNumLine == 2) {
+            line = this.road2;
+            if (vDirection != null) {
+                this.directionLine2 = vDirection
+            } else {
+                this.directionLine2 = !this.directionLine2
+            }
+            vDirection = this.directionLine2
+        } else if (vNumLine == 3) {
+            line = this.road3;
+            if (vDirection != null) {
+                this.directionLine3 = vDirection
+            } else {
+                this.directionLine3 = !this.directionLine3
+            }
+            vDirection = this.directionLine3
+        }
+        this.changeDirectionMob(vNumLine, vDirection)
     }
     addBotStep3() {
         this.addBot(0, 0, "stickman3", 1, 0)
@@ -8046,6 +13867,387 @@ class Shooter extends Phaser.Scene {
         var bot = new Bot(this, this.layerMob, posX, vY, vSkin, vLine, vBrain);
         this.arTargets.push(bot);
         this.countEnemies = this.arTargets.length
+    }
+    updateSpawnPumpkins() {
+        if (this.isLevelFinished) return;
+        this.counterPumpkin++;
+        if (this.counterPumpkin > 55) {
+            if (this.isSpawnEnd) {
+                this.addPumpkin(0, 1)
+            } else {
+                var list = this.arSpawnSquad[this.stepPumpkin];
+                if (list[1] > 0) this.addPumpkin(list[0], list[1])
+            }
+            this.counterPumpkin = MyMath.getRandomInt(0, 3) * 10;
+            this.counterPumpkin = 30;
+            this.stepPumpkin++;
+            if (this.stepPumpkin >= this.arSpawnSquad.length) this.isSpawnEnd = true
+        }
+    }
+    addPumpkin(vLine, vType) {
+        var line = vLine || Phaser.Math.Between(1, 3);
+        var posX = -200;
+        var isFaster = false;
+        if (line == 1) {
+            if (this.directionLine1) {
+                posX = -200
+            } else {
+                posX = 1024 + 200
+            }
+            isFaster = this.speedLine1
+        }
+        if (line == 2) {
+            if (this.directionLine2) {
+                posX = -200
+            } else {
+                posX = 1024 + 200
+            }
+            isFaster = this.speedLine2
+        }
+        if (line == 3) {
+            if (this.directionLine3) {
+                posX = -200
+            } else {
+                posX = 1024 + 200
+            }
+            isFaster = this.speedLine3
+        }
+        var posY = this.line1_posY - 60;
+        if (line == 2) posY = this.line2_posY - 60;
+        if (line == 3) posY = this.line3_posY - 60;
+        var type = vType;
+        if (type == 1) type = Phaser.Math.Between(1, 6);
+        if (type == 10) posY += 12;
+        this.snowmans.fireSnowman(posX, posY, type, line, isFaster)
+    }
+    updatePumpkins(vX, vY) {
+        var dist = 0;
+        var isFoundEnemy = false;
+        var dist_check = 1600;
+        if (!this.isAllowShoot) return;
+        this.snowmans.children.each((function(pumpkin) {
+            if (pumpkin.active) {
+                dist = MyMath.distanceTwoPoints(vX, pumpkin.x, vY, pumpkin.y);
+                dist_check = 1600;
+                if (pumpkin.zoom) dist_check = 400;
+                if (dist < dist_check) {
+                    this.aim_target.setFrame("crosshair3_0000");
+                    this.makeShoot2(this.aim_target.x, this.aim_target.y);
+                    pumpkin.hide();
+                    this.addPiecesPumpkin(pumpkin.x, pumpkin.y, pumpkin.type);
+                    this.addExplosionPumpkin(pumpkin.x, pumpkin.y, pumpkin.type, pumpkin.zoom);
+                    if (pumpkin.type == 10) {
+                        this.updateAttemptsPumpkin();
+                        this.exploseAllPumkins();
+                        return false
+                    } else if (pumpkin.type == 7) {
+                        this.addPumpkinCrystals();
+                        this.crystalsPartices.emitParticleAt(pumpkin.x, pumpkin.y)
+                    }
+                    if (pumpkin.type < 10) this.addPumpkinPoints()
+                }
+            }
+        }), this)
+    }
+    changeDirectionMob(vLineNum, vDirection) {
+        this.snowmans.children.each((function(pumpkin) {
+            if (pumpkin.active) {
+                pumpkin.changeDirection(vLineNum, vDirection)
+            }
+        }), this)
+    }
+    updateSpeedMob(vLineNum, vIsFaster) {
+        this.snowmans.children.each((function(pumpkin) {
+            if (pumpkin.active) {
+                pumpkin.changeSpeed(vLineNum, vIsFaster)
+            }
+        }), this)
+    }
+    updateScaleMob(vNumLine, vIsScale) {
+        this.snowmans.children.each((function(pumpkin) {
+            if (pumpkin.active) {
+                pumpkin.changeScale(vNumLine, vIsScale)
+            }
+        }), this)
+    }
+    exploseAllPumkins() {
+        this.cameras.main.shake(400, .01);
+        this.cameras.main.flash()
+    }
+    initSettingsEvent() {
+        this.POINTS_PER_PUMPKIN = 25;
+        this.CRYSTALS_PER_PUMPKIN = 3;
+        this.timerCount = 60;
+        this.countNeedPoints = 1500;
+        this.countCrystals = 0;
+        this.pointsPumpkin = 0;
+        this.attemptsPumpkin = 3;
+        this.counterPumpkin = 100;
+        this.TIME_BACK = 3e3;
+        this.isSpawnEnd = false;
+        this.arSpawnSquad = [];
+        this.stepPumpkin = 0;
+        this.addNormalSquad();
+        this.addBombTime(1, 2, 3);
+        this.addNormalSquad();
+        this.addBombTime(2, 1, 3);
+        this.addNormalSquad();
+        this.addBombTime(3, 2, 1);
+        this.scenarioLines = [1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 1, 1];
+        this.numLines = [1, 1, 2, 2, 3, 3, 1, 1, 2, 2, 3, 3];
+        this.timerScenario = 0;
+        this.stepScenario = 0;
+        MyMath.shuffleArr(this.scenarioLines);
+        MyMath.shuffleArr(this.numLines)
+    }
+    updateTimerScenario() {
+        this.timerScenario++;
+        if (this.timerScenario >= 4) {
+            var scenarioType = 1;
+            var lineNum = 1;
+            if (this.stepScenario >= this.scenarioLines.length) {
+                scenarioType = Phaser.Math.Between(1, 3);
+                lineNum = Phaser.Math.Between(1, 3)
+            } else {
+                scenarioType = this.scenarioLines[this.stepScenario];
+                lineNum = this.numLines[this.stepScenario]
+            }
+            if (scenarioType == 1) {
+                this.setLineDirection(lineNum)
+            } else if (scenarioType == 2) {
+                this.setLineSpeed(lineNum, true, true)
+            } else if (scenarioType == 3) {
+                this.setLineScale(lineNum, true, true)
+            }
+            this.timerScenario = 0;
+            this.stepScenario++
+        }
+    }
+    addNormalSquad() {
+        var new_squad = [];
+        for (var i = 0; i < 5; i++) new_squad.push([0, 7]);
+        for (var i = 0; i < 10; i++) new_squad.push([0, 10]);
+        for (var i = 0; i < 15; i++) new_squad.push([0, 1]);
+        MyMath.shuffleArr(new_squad);
+        this.arSpawnSquad = this.arSpawnSquad.concat(new_squad)
+    }
+    addBombTime(vNum1, vNum2, vNum3) {
+        var arrayBomb1 = [
+            [vNum1, 10],
+            [vNum1, 10],
+            [vNum1, 10],
+            [vNum1, 10],
+            [vNum1, 7]
+        ];
+        var arrayBomb2 = [
+            [vNum2, 10],
+            [vNum2, 10],
+            [vNum2, 10],
+            [vNum2, 10],
+            [vNum2, 7]
+        ];
+        var arrayBomb3 = [
+            [vNum3, 10],
+            [vNum3, 10],
+            [vNum3, 10],
+            [vNum3, 10],
+            [vNum3, 7]
+        ];
+        this.arSpawnSquad.push([0, 0]);
+        MyMath.shuffleArr(arrayBomb1);
+        for (var i = 0; i < arrayBomb1.length; i++) {
+            this.arSpawnSquad.push(arrayBomb1[i])
+        }
+        this.arSpawnSquad.push([0, 0]);
+        MyMath.shuffleArr(arrayBomb2);
+        for (var i = 0; i < arrayBomb2.length; i++) {
+            this.arSpawnSquad.push(arrayBomb2[i])
+        }
+        this.arSpawnSquad.push([0, 0]);
+        MyMath.shuffleArr(arrayBomb3);
+        for (var i = 0; i < arrayBomb3.length; i++) {
+            this.arSpawnSquad.push(arrayBomb3[i])
+        }
+        this.arSpawnSquad.push([0, 0])
+    }
+    startTimerEvent() {
+        this.timerHalloween = this.time.addEvent({
+            delay: 1e3,
+            callback: this.updateTimerHalloween,
+            callbackScope: this,
+            loop: true
+        })
+    }
+    checkFinishGame() {
+        if (this.timerHalloween) this.timerHalloween.remove();
+        if (MainGame.listEvents[1] == 0) {
+            if (this.pointsPumpkin < this.countNeedPoints) {
+                this.showFinishWindow2(1)
+            } else {
+                this.showFinishWindow2(2);
+                MainGame.completedEvent("snowman")
+            }
+        } else {
+            this.showFinishWindow2(3)
+        }
+    }
+    testFinishGame() {
+        this.pointsPumpkin = this.countNeedPoints;
+        this.checkFinishGame()
+    }
+    addPumpkinPoints() {
+        this.pointsPumpkin += this.POINTS_PER_PUMPKIN;
+        this.textPoints.setText(this.pointsPumpkin)
+    }
+    updateTimerHalloween() {
+        this.timerCount--;
+        var timeStr = MainGame.secToHHMMSS(this.timerCount);
+        this.textTimer.setText(timeStr);
+        if (this.timerCount == 0) {
+            this.checkFinishGame()
+        }
+        this.updateTimerScenario()
+    }
+    updateAttemptsPumpkin() {
+        if (this.isLevelFinished) return;
+        if (this.attemptsPumpkin == 3) {
+            this.icon_x1.setFrame("icon_x2_0000");
+            MainGame.jelly(this, this.icon_x1, .3, null, null, 100, 600)
+        }
+        if (this.attemptsPumpkin == 2) {
+            this.icon_x2.setFrame("icon_x2_0000");
+            MainGame.jelly(this, this.icon_x2, .3, null, null, 100, 600)
+        }
+        if (this.attemptsPumpkin == 1) {
+            this.icon_x3.setFrame("icon_x2_0000");
+            MainGame.jelly(this, this.icon_x3, .3, null, null, 100, 600)
+        }
+        this.attemptsPumpkin--;
+        if (this.attemptsPumpkin == 0) {
+            this.checkFinishGame()
+        }
+    }
+    addPumpkinCrystals() {
+        this.countCrystals += this.CRYSTALS_PER_PUMPKIN
+    }
+    initPiecesPumpkin() {
+        this.snowmans = new Snowmans(this);
+        var particles1 = this.add.particles("ss_christmas");
+        var particles3 = this.add.particles("ss_christmas");
+        particles1.createEmitter({
+            frame: ["snowman_part1_0000", "snowman_part2_0000", "snowman_part3_0000", "snowman_part4_0000", "snowman_part5_0000"],
+            angle: {
+                min: 240,
+                max: 300
+            },
+            speed: {
+                min: 300,
+                max: 500
+            },
+            quantity: {
+                min: 3,
+                max: 6
+            },
+            lifespan: 4e3,
+            scale: {
+                min: .8,
+                max: 1.2
+            },
+            rotate: {
+                start: 0,
+                end: 360,
+                ease: "Back.easeOut"
+            },
+            gravityY: 800,
+            on: false
+        });
+        particles3.createEmitter({
+            frame: ["icon_diamond_0000"],
+            angle: {
+                min: 240,
+                max: 300
+            },
+            speed: {
+                min: 300,
+                max: 500
+            },
+            quantity: 3,
+            lifespan: 4e3,
+            scale: {
+                min: .8,
+                max: 1.2
+            },
+            rotate: {
+                start: 0,
+                end: 360,
+                ease: "Back.easeOut"
+            },
+            gravityY: 800,
+            on: false
+        });
+        this.piecesPartices = particles1;
+        this.crystalsPartices = particles3;
+        this.snowmans.setDepth(this.DEPTH_layerMob + .002);
+        this.piecesPartices.setDepth(this.DEPTH_layerMob + .003);
+        this.crystalsPartices.setDepth(this.DEPTH_layerMob + .004)
+    }
+    addPiecesPumpkin(vX, vY, vType) {
+        if (vType == 10) return;
+        this.piecesPartices.emitParticleAt(vX, vY)
+    }
+    initTutorialChristmas() {
+        this.isGoTutorial = true;
+        this.tutorialStep = 0;
+        var plaha = this.add.image(this.midX, 250, "ss_christmas", "tutor_popup_0000");
+        this.layerEffect.add(plaha);
+        var tutor_image1 = this.add.image(this.midX, 250 + 130, "ss_christmas", "tutor_snowmans_0000");
+        this.layerEffect.add(tutor_image1);
+        var tutor_image2 = this.add.image(this.midX, 250 + 100, "ss_christmas", "tutor_bomb2_0000");
+        this.layerEffect.add(tutor_image2);
+        var txt = this.add.bitmapText(plaha.x, plaha.y, "Panton", "");
+        txt.setMaxWidth(400);
+        txt.setCenterAlign();
+        txt.setFontSize(28);
+        txt.setOrigin(.5);
+        this.layerEffect.add(txt);
+        var txt2 = this.add.bitmapText(plaha.x, 510 + 70, "Panton", "");
+        txt2.setCenterAlign();
+        txt2.setFontSize(24);
+        txt2.setOrigin(.5);
+        this.layerEffect.add(txt2);
+        var txt3 = this.add.bitmapText(plaha.x, 150, "Panton", "");
+        txt3.setCenterAlign();
+        txt3.setFontSize(32);
+        txt3.setOrigin(.5);
+        this.layerEffect.add(txt3);
+        this.textTutorial = txt;
+        this.textContinue = txt2;
+        this.textTutorStep = txt3;
+        this.textTutorial.setText(MainGame.GAME_TEXT.tutorial_snowman1.toUpperCase());
+        this.textContinue.setText(MainGame.GAME_TEXT.tap_continue.toUpperCase());
+        this.textTutorStep.setText("1/2");
+        this.tutor_image1 = tutor_image1;
+        this.tutor_image2 = tutor_image2;
+        this.plaha = plaha;
+        this.tutor_image2.visible = false
+    }
+    onTapTutorial() {
+        if (this.tutorialStep == 0) {
+            this.textTutorStep.setText("2/2");
+            this.textTutorial.setText(MainGame.GAME_TEXT.tutorial_snowman2.toUpperCase());
+            this.tutor_image1.visible = false;
+            this.tutor_image2.visible = true;
+            this.tutorialStep = 1
+        } else if (this.tutorialStep == 1) {
+            this.isGoTutorial = false;
+            this.tutor_image1.destroy();
+            this.tutor_image2.destroy();
+            this.textTutorial.destroy();
+            this.textContinue.destroy();
+            this.textTutorStep.destroy();
+            this.plaha.destroy();
+            this.startTimerEvent()
+        }
     }
     initTutorial() {
         this.isGoTutorial = true;
@@ -8224,6 +14426,8 @@ class Shooter extends Phaser.Scene {
         this.layerPauseWindowMain.visible = true;
         this.layerPauseWindow.visible = true;
         game.canvas.style.cursor = "default";
+        this.physics.pause();
+        if (this.timerHalloween) this.timerHalloween.paused = true;
         this.pauseBots();
         if (MainGame.isAPI) MainGame.API_POKI.gameplayStop()
     }
@@ -8286,38 +14490,151 @@ class Shooter extends Phaser.Scene {
             duration: 1200
         })
     }
-    getRewards(vReward) {
-        switch (vReward) {
-            case "fire_x2":
-                MainGame.amount_diamonds += this.rewardDiamonds * 2;
-                MainGame.saveSaves();
-                this.scale.off("resize", this.updateResize, this);
-                if (MainGame.isAPI) MainGame.API_POKI.destroyAd();
-                if (MainGame.isFromTutorial) {
-                    MainGame.fadeOutScene("Preloader", this)
-                } else {
-                    MainGame.fadeOutScene("Game", this)
-                }
-                break
-        }
-    }
     clickReplay() {
         this.scale.off("resize", this.updateResize, this);
-        MainGame.fadeOutScene("Shooter", this)
+        MainGame.fadeOutScene("UpdateChristmas", this)
     }
     clickRevive() {
         if (this.timerRevive) this.timerRevive.remove();
         this.reviveLevel()
     }
-    showGameScreen(vIsGetDiamonds) {
-        if (vIsGetDiamonds) MainGame.amount_diamonds += this.rewardDiamonds;
+    showGameScreen() {
         MainGame.saveSaves();
         this.scale.off("resize", this.updateResize, this);
         if (MainGame.isAPI) MainGame.API_POKI.destroyAd();
-        if (MainGame.isFromTutorial) {
-            MainGame.fadeOutScene("Preloader", this)
+        MainGame.fadeOutScene("Game", this)
+    }
+}
+class Snowman extends Phaser.Physics.Arcade.Sprite {
+    constructor(scene, x, y) {
+        super(scene, x, y, "ss_christmas", "snowman1_0000");
+        this.type = 1;
+        this.scene = scene;
+        this.zoom = false;
+        this.speed = 240
+    }
+    fire(x, y, vType, vLineNum, vIsFaster) {
+        this.body.reset(x, y);
+        this.lineNum = vLineNum;
+        this.direction = true;
+        if (x > 500) this.direction = false;
+        var type = vType || Phaser.Math.Between(1, 6);
+        if (type <= 7) {
+            this.stop();
+            this.setFrame("snowman" + type + "_0000");
+            this.setOrigin(.5, .5);
+            switch (type) {
+                case 1:
+                    this.setOrigin(.5, .5);
+                    break;
+                case 2:
+                    this.setOrigin(.5, .59);
+                    break;
+                case 3:
+                    this.setOrigin(.5, .58);
+                    break;
+                case 4:
+                    this.setOrigin(.5, .5);
+                    break;
+                case 5:
+                    this.setOrigin(.5, .59);
+                    break;
+                case 6:
+                    this.setOrigin(.5, .58);
+                    break;
+                case 7:
+                    this.setOrigin(.5, .58);
+                    break
+            }
         } else {
-            MainGame.fadeOutScene("Game", this)
+            this.play("bomb");
+            this.setOrigin(.5, .65)
+        }
+        this.setActive(true);
+        this.setVisible(true);
+        this.type = type;
+        this.changeSpeed(this.lineNum, vIsFaster);
+        this.changeScale(this.lineNum)
+    }
+    changeScale(vLineNum) {
+        if (this.lineNum != vLineNum) return;
+        var isScale = false;
+        if (this.lineNum == 1) isScale = this.scene.scaleLine1;
+        if (this.lineNum == 2) isScale = this.scene.scaleLine2;
+        if (this.lineNum == 3) isScale = this.scene.scaleLine3;
+        if (isScale) {
+            if (this.direction) {
+                this.scaleX = .6
+            } else {
+                this.scaleX = -.6
+            }
+            this.scaleY = .6;
+            if (this.lineNum == 1) this.y = this.scene.line1_posY - 40;
+            if (this.lineNum == 2) this.y = this.scene.line2_posY - 40;
+            if (this.lineNum == 3) this.y = this.scene.line3_posY - 40;
+            if (this.type == 10) this.y += 7
+        } else {
+            if (this.direction) {
+                this.scaleX = 1
+            } else {
+                this.scaleX = -1
+            }
+            this.scaleY = 1;
+            if (this.lineNum == 1) this.y = this.scene.line1_posY - 60;
+            if (this.lineNum == 2) this.y = this.scene.line2_posY - 60;
+            if (this.lineNum == 3) this.y = this.scene.line3_posY - 60;
+            if (this.type == 10) this.y += 12
+        }
+        this.zoom = isScale
+    }
+    changeDirection(vLineNum, vDirection) {
+        if (this.lineNum != vLineNum) return;
+        this.direction = vDirection;
+        this.changeScale(this.lineNum);
+        var isFaster = false;
+        if (this.lineNum == 1) isFaster = this.scene.speedLine1;
+        if (this.lineNum == 2) isFaster = this.scene.speedLine2;
+        if (this.lineNum == 3) isFaster = this.scene.speedLine3;
+        this.changeSpeed(vLineNum, isFaster)
+    }
+    changeSpeed(vLineNum, vIsFaster) {
+        if (this.lineNum != vLineNum) return;
+        this.speed = 240;
+        if (vIsFaster) this.speed = 240 * 2;
+        if (this.direction) {
+            this.setVelocity(this.speed, 0)
+        } else {
+            this.setVelocity(-this.speed, 0)
+        }
+    }
+    hide() {
+        this.setActive(false);
+        this.setVisible(false)
+    }
+    preUpdate(time, delta) {
+        super.preUpdate(time, delta);
+        if (this.direction && this.x > 1224 || !this.direction && this.x < -200) {
+            this.setActive(false);
+            this.setVisible(false)
+        }
+    }
+}
+class Snowmans extends Phaser.Physics.Arcade.Group {
+    constructor(scene) {
+        super(scene.physics.world, scene);
+        this.createMultiple({
+            quantity: 20,
+            key: "ss_christmas",
+            randomFrame: true,
+            active: false,
+            visible: false,
+            classType: Snowman
+        })
+    }
+    fireSnowman(x, y, type, vLineNum, vIsFaster) {
+        let bullet = this.getFirstDead(false);
+        if (bullet) {
+            bullet.fire(x, y, type, vLineNum, vIsFaster)
         }
     }
 }
@@ -8382,7 +14699,7 @@ var config = {
             sceneKey: "spine"
         }]
     },
-    scene: [Boot, Preloader, Game, Shooter]
+    scene: [Boot, Preloader, Game, Shooter, UpdateHalloween, UpdateChristmas]
 };
 const game = new Phaser.Game(config);
 window.focus();

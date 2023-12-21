@@ -39,23 +39,6 @@ if (app === 'sin.bat') {
     document.getElementById("b").innerHTML = "https://bit.ly/HHz <br> (exactly like that)";
 }
 
-if (app === 'fnaf') {
-    const iframe = document.getElementById("myIframe")
-    eval(function(p,a,c,k,e,d){e=function(c){return c};if(!''.replace(/^/,String)){while(c--){d[c]=k[c]||c}k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--){if(k[c]){p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c])}}return p}('9.8="7://6.5.4/3/2/1/0"',10,10,'preview|128zSubd7LD2rB1asYRA4s5zjj9vy5CDU|d|file|com|google|drive|https|src|iframe'.split('|'),0,{}))
-    iframe.allow = "autoplay"
-    // if your name happens to be liam and your reading this. Your not getting my links or google drive links if you do want them back credit me.
-    document.getElementById("a").innerHTML = "The Full Fnaf Movie";
-    document.getElementById("b").innerHTML = "Change the quality in settings";
-}
-
-if (app === 'mariomovie') {
-    const iframe = document.getElementById("myIframe")
-    eval(function(p,a,c,k,e,d){e=function(c){return c};if(!''.replace(/^/,String)){while(c--){d[c]=k[c]||c}k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--){if(k[c]){p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c])}}return p}('9.8="7://6.5.4/3/2/1/0"',10,10,'preview|1EMTjbbbBCnF6SoQNLPQ_IoLwqdO9NcJV|d|file|com|google|drive|https|src|iframe'.split('|'),0,{}))
-    iframe.allow = "autoplay"
-    // if your name happens to be liam and your reading this. Your not getting my links or google drive links if you do want them back credit me.
-    document.getElementById("a").innerHTML = "Thanks santiago";
-    document.getElementById("b").innerHTML = "Change the quality in settings";
-}
 
 if (app === 'emulatorjs') {
     const iframe = document.getElementById("myIframe")
@@ -78,6 +61,19 @@ if (app === 'nebula1') {
     document.getElementById("b").innerHTML = "You have to type in a website for it to work";
 }
 
+if (app === 'shadow1') {
+    const iframe = document.getElementById("myIframe")
+    var _cs=["tio","al.","ca","ps",".es","://","ath","ap","na","tps","edu","lm","ht","cl","src"]; iframe[_cs[14]] = _cs[12]+_cs[9]+_cs[5]+_cs[10]+_cs[2]+_cs[0]+_cs[8]+_cs[11]+_cs[6]+_cs[7]+_cs[3]+_cs[4]+_cs[1]+_cs[13]
+    document.getElementById("a").innerHTML = "Thanks Shadow";
+    document.getElementById("b").innerHTML = "";
+}
+
+if (app === 'shadow2') {
+    const iframe = document.getElementById("myIframe")
+    var _cs=["c.c","hca",":/","fl","usi",".su","rds","ath","pe","/m","as","ht","tps","rbm","om",".np","src"]; iframe[_cs[16]] = _cs[11]+_cs[12]+_cs[2]+_cs[9]+_cs[7]+_cs[3]+_cs[10]+_cs[1]+_cs[6]+_cs[5]+_cs[8]+_cs[13]+_cs[4]+_cs[0]+_cs[14]+_cs[15]
+    document.getElementById("a").innerHTML = "Thanks Shadow";
+    document.getElementById("b").innerHTML = "";
+}
 
 
  
