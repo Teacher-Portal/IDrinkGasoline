@@ -690,6 +690,14 @@ if (game === 'doom') {
     document.getElementById("a").innerHTML = "Make sure to download a save state";
     document.getElementById("b").innerHTML = "Controls <br> Press the controls button on the bottom";
 }
+
+if (game === 'grandbattle') {
+    const iframe = document.getElementById("myIframe")
+    iframe.src = "games/grandbattle/index.html"
+    iframe.style ="background-color: white;"
+    document.getElementById("a").innerHTML = "Make sure to download a save state 3d one piece games r fun";
+    document.getElementById("b").innerHTML = "Controls <br> Press the controls button on the bottom";
+}
  
  
  
