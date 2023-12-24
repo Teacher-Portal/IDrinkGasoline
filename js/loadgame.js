@@ -698,6 +698,48 @@ if (game === 'grandbattle') {
     document.getElementById("a").innerHTML = "Make sure to download a save state 3d one piece games r fun";
     document.getElementById("b").innerHTML = "Controls <br> Press the controls button on the bottom";
 }
+
+if (game === 'learntofly1') {
+    const iframe = document.getElementById("myIframe")
+    iframe.src = "games/learntofly/index.html"
+    iframe.style ="background-color: white;"
+    document.getElementById("a").innerHTML = "Learn to fly as a penguin";
+    document.getElementById("b").innerHTML = "I forgor 💀";
+}
+
+if (game === 'learntofly2') {
+    const iframe = document.getElementById("myIframe")
+    iframe.src = "games/learntofly2/index.html"
+    iframe.style ="background-color: white;"
+    document.getElementById("a").innerHTML = "the second learn to fly game";
+    document.getElementById("b").innerHTML = "I forgor 💀";
+}
+
+if (game === 'learntofly3') {
+    const iframe = document.getElementById("myIframe")
+    iframe.src = "games/learntofly3/index.html"
+    iframe.style ="background-color: white;"
+    document.getElementById("a").innerHTML = "The third learn to fly game";
+    document.getElementById("b").innerHTML = "I forgor 💀";
+}
+
+if (game === 'stickdefenders') {
+    const iframe = document.getElementById("myIframe")
+    iframe.src = "games/stickdefenders/index.html"
+    iframe.style ="background-color: white;"
+    document.getElementById("a").innerHTML = "Defend your base with little stickmen";
+    document.getElementById("b").innerHTML = "I forgor 💀";
+    
+}
+
+if (game === 'stickmanhook') {
+    const iframe = document.getElementById("myIframe")
+    iframe.src = "games/stickmanhook/index.html"
+    iframe.style ="background-color: white;"
+    document.getElementById("a").innerHTML = "Why is this game so popular lol";
+    document.getElementById("b").innerHTML = "I forgor 💀";
+    
+}
  
  
  
