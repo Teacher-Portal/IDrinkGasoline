@@ -451,13 +451,6 @@ if (game === 'chefsshift') {
     document.getElementById("b").innerHTML = "Controls: <br> Too many keys lol";
 }
 
-if (game === 'links') {
-    const iframe = document.getElementById("myIframe")
-    iframe.src = "https://docs.google.com/document/d/1Sszv7iYclfzTVSDDOqCTnQFHZAaSxGEM908yG-IHMs4/edit?usp=sharing"
-    iframe.style ="background-color: white;"
-    document.getElementById("a").innerHTML = "All of our links (some may be blocked if so try next link)";
-    document.getElementById("b").innerHTML = "Grin was here!!!";
-}
 
 if (game === '10minutestilldawn') {
     const iframe = document.getElementById("myIframe")
@@ -740,7 +733,69 @@ if (game === 'stickmanhook') {
     document.getElementById("b").innerHTML = "I forgor 💀";
     
 }
+
+if (game === 'tac1') {
+    const iframe = document.getElementById("myIframe")
+    iframe.src = "games/tacticalassassin1/index.html"
+    iframe.style ="background-color: white;"
+    document.getElementById("a").innerHTML = "Im tried";
+    document.getElementById("b").innerHTML = "I forgor 💀";
+    
+}
+
+if (game === 'tac2') {
+    const iframe = document.getElementById("myIframe")
+    iframe.src = "games/tacticalassasin2/index.html"
+    iframe.style ="background-color: white;"
+    document.getElementById("a").innerHTML = "Im tired";
+    document.getElementById("b").innerHTML = "I forgor 💀";
+    
+}
+
+if (game === 'sniper1') {
+    const iframe = document.getElementById("myIframe")
+    iframe.src = "games/sniper1/index.html"
+    iframe.style ="background-color: white;"
+    document.getElementById("a").innerHTML = "Long series lol";
+    document.getElementById("b").innerHTML = "Click n point";
+    
+}
  
+if (game === 'sniper2') {
+    const iframe = document.getElementById("myIframe")
+    iframe.src = "games/sniper2/index.html"
+    iframe.style ="background-color: white;"
+    document.getElementById("a").innerHTML = "Long series lol (2)";
+    document.getElementById("b").innerHTML = "Click n point";
+    
+}
+
+if (game === 'sniper3') {
+    const iframe = document.getElementById("myIframe")
+    iframe.src = "games/sniper3/index.html"
+    iframe.style ="background-color: white;"
+    document.getElementById("a").innerHTML = "Long series lol (3)";
+    document.getElementById("b").innerHTML = "Click n point";
+    
+}
+
+if (game === 'sniper4') {
+    const iframe = document.getElementById("myIframe")
+    iframe.src = "games/sniper4/index.html"
+    iframe.style ="background-color: white;"
+    document.getElementById("a").innerHTML = "Long series lol (4)";
+    document.getElementById("b").innerHTML = "Click n point";
+    
+}
+
+if (game === 'sniper5') {
+    const iframe = document.getElementById("myIframe")
+    iframe.src = "games/sniper1/index.html"
+    iframe.style ="background-color: white;"
+    document.getElementById("a").innerHTML = "Long series lol (5)";
+    document.getElementById("b").innerHTML = "Click n point";
+    
+}
  
  
  
