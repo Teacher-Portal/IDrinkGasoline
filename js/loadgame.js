@@ -796,6 +796,145 @@ if (game === 'sniper5') {
     document.getElementById("b").innerHTML = "Click n point";
     
 }
+
+if (game === 'cutrope1') {
+    const iframe = document.getElementById("myIframe")
+    iframe.src = "games/cuttherope1/index.html"
+    iframe.style ="background-color: white;"
+    document.getElementById("a").innerHTML = "Childhoodgame";
+    document.getElementById("b").innerHTML = "Click n point/drag";
+    
+}
+
+if (game === 'cutrope2') {
+    const iframe = document.getElementById("myIframe")
+    iframe.src = "games/cuttherope2/index.html"
+    iframe.style ="background-color: white;"
+    document.getElementById("a").innerHTML = "Child hood game";
+    document.getElementById("b").innerHTML = "Click n point/drag";
+    
+}
+
+if (game === 'cell') {
+    const iframe = document.getElementById("myIframe")
+    iframe.src = "games/cell-machine/index.html"
+    iframe.style ="background-color: white;"
+    document.getElementById("a").innerHTML = "This game was part of a 2020 game jam";
+    document.getElementById("b").innerHTML = "Click n point";
+    
+}
+
+if (game === 'issac') {
+    const iframe = document.getElementById("myIframe")
+    iframe.src = "games/binding-of-isaac/index.html"
+    iframe.style ="background-color: white;"
+    document.getElementById("a").innerHTML = "idk what to say about this";
+    document.getElementById("b").innerHTML = "Controls: <br> Move: WASD <br> Shoot: arrows";
+    
+}
+
+if (game === 'fancypants') {
+    const iframe = document.getElementById("myIframe")
+    iframe.src = "games/fancypantsadventures/index.html"
+    iframe.style ="background-color: white;"
+    document.getElementById("a").innerHTML = "I played this alot";
+    document.getElementById("b").innerHTML = "Controls: <br> Move: WASD <br> Jump: Space";
+    
+}
+
+if (game === 'defendthetank') {
+    const iframe = document.getElementById("myIframe")
+    iframe.src = "games/defend-the-tank/index.html"
+    iframe.style ="background-color: white;"
+    document.getElementById("a").innerHTML = "havent seen this game yet";
+    document.getElementById("b").innerHTML = "Controls: click/drag";
+
+}
+
+if (game === 'doge miner') {
+    const iframe = document.getElementById("myIframe")
+    iframe.src = "games/doge-mining-simulator/index.html"
+    iframe.style ="background-color: white;"
+    document.getElementById("a").innerHTML = "this is pretty new";
+    document.getElementById("b").innerHTML = "Controls: cick clack";
+    
+}
+
+if (game === 'billards') {
+    const iframe = document.getElementById("myIframe")
+    iframe.src = "games/8ball-billards-classic/index.html"
+    iframe.style ="background-color: white;"
+    document.getElementById("a").innerHTML = "is this game good lmk";
+    document.getElementById("b").innerHTML = "Controls: cick/drag";
+    
+}
+
+if (game === 'chess') {
+    const iframe = document.getElementById("myIframe")
+    iframe.src = "games/chess/index.html"
+    iframe.style ="background-color: white;"
+    document.getElementById("a").innerHTML = "chess becomes popular once every year for some odd reason";
+    document.getElementById("b").innerHTML = "Controls: cick/drag";
+    
+}
+
+if (game === '2048') {
+    const iframe = document.getElementById("myIframe")
+    iframe.src = "games/2048-multitask/index.html"
+    iframe.style ="background-color: white;"
+    document.getElementById("a").innerHTML = "who even plays this??";
+    document.getElementById("b").innerHTML = "Controls: Arrows";
+    
+}
+
+if (game === 'Wingeria') {
+    const iframe = document.getElementById("myIframe")
+    iframe.src = "games/Papas-wingeria/index.html"
+    iframe.style ="background-color: white;"
+    document.getElementById("a").innerHTML = "Just found this game";
+    document.getElementById("b").innerHTML = "Controls: click/drag";
+    
+}
+
+if (game === 'meatboy') {
+    const iframe = document.getElementById("myIframe")
+    iframe.src = "games/meat-boy/index.html"
+    iframe.style ="background-color: white;"
+    document.getElementById("a").innerHTML = "I heard this game was pretty good";
+    document.getElementById("b").innerHTML = "Controls: <br> Move: Left or right arrow <br> Jump: Space or a";
+    
+}
+
+if (game === 'fruitninja') {
+    const iframe = document.getElementById("myIframe")
+    iframe.src = "games/fruitninja/index.html"
+    iframe.style ="background-color: white;"
+    document.getElementById("a").innerHTML = "I remember playing this a long time ago";
+    document.getElementById("b").innerHTML = "Controls: Click/Drag";
+    
+}
+
+if (game === 'fakevirus') {
+    const iframe = document.getElementById("myIframe")
+    iframe.src = "games/fake-virus/index.html"
+    iframe.style ="background-color: white;"
+    document.getElementById("a").innerHTML = "who even belives this anymore";
+    document.getElementById("b").innerHTML = "this aint even a game 💀";
+    
+}
+
+if (game === 'myfriendpedro') {
+    const iframe = document.getElementById("myIframe")
+    iframe.src = "games/my-friend-pedro/index.html"
+    iframe.style ="background-color: white;"
+    document.getElementById("a").innerHTML = "Adult swim games r pretty fun";
+    document.getElementById("b").innerHTML = "They tell u bro";
+    
+}
+
+
+
+
  
  
  
